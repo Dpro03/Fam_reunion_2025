@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Family Reunion</title>
     <link rel="stylesheet" href="../dist/output.css" />
-
     <link
       href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap"
       rel="stylesheet"
@@ -26,28 +25,38 @@
       Click on the links below to get started!
     </h3>
 
-    <div class="flex justify-center mt-12 gap-4">
-      <a
-        href="./2025_reunion.html"
-        class="bg-pink-700 hover:bg-pink-800 text-slate-950 font-bold py-4 px-6 rounded border-slate-900 border-2 text-lg"
-        >Reunion 2025</a
-      >
+    <div class="flex justify-center mt-12 gap-6 w-4/5 mx-auto">
       <a
         href="./logIn.html"
-        class="bg-pink-700 hover:bg-pink-800 text-slate-950 font-bold py-4 px-6 rounded border-slate-900 border-2 text-lg"
-        >Log&nbsp;&nbsp;&nbsp;In</a
+        class="bg-pink-700 hover:bg-pink-800 text-white font-bold py-4 px-8 rounded border-slate-900 border-2 text-lg w-48 text-center"
       >
+        Log In
+      </a>
       <a
         href="./signUp.html"
-        class="bg-pink-700 hover:bg-pink-800 text-slate-950 font-bold py-4 px-6 rounded border-slate-900 border-2 text-lg"
-        >Sign&nbsp;&nbsp;&nbsp;Up</a
+        class="bg-pink-700 hover:bg-pink-800 text-white font-bold py-4 px-8 rounded border-slate-900 border-2 text-lg w-48 text-center"
       >
+        Sign Up
+      </a>
     </div>
     
+
+
+    <!-- Logout Button -->
+    <div class="flex justify-center mt-12">
+      <button
+        id="logoutButton"
+        class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-4 px-6 rounded border-red-900 border-2 text-lg w-48"
+      >
+        Log Out
+      </button>
+    </div>
+
     <div class="mt-8 w-4/5 h-auto mx-auto flex justify-center pb-20">
       <img src="./img/stickfigures.jpg" alt="stick figures" />
     </div>
     <script src="./script.js"></script>
     <script src="./dist/bundle.js"></script>
+    <script type="module" src="./firebase.js"></script>
   </body>
 </html>
