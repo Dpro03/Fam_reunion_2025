@@ -14,7 +14,6 @@ import {
   arrayUnion,
   getDoc,
   updateDoc,
-  arrayRemove,
   deleteDoc,
 } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
 import {
@@ -28,7 +27,6 @@ import {
 
 // your main JavaScript file
 import firebaseConfig from './firebaseConfig.js';
-
 
 export default firebaseConfig;
 
@@ -131,68 +129,72 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Handle the delete account button click
-const deleteAccountButton = document.getElementById('deleteAccountButton');
-if (deleteAccountButton) {
-  deleteAccountButton.addEventListener('click', async () => {
-    const user = auth.currentUser;
+  const deleteAccountButton = document.getElementById('deleteAccountButton');
+  if (deleteAccountButton) {
+    deleteAccountButton.addEventListener('click', async () => {
+      const user = auth.currentUser;
 
-    if (!user) {
-      console.error('No user is signed in');
-      return;
-    }
-
-    try {
-      // Step 1: Delete user's images from Firebase Storage
-      const storageRef = ref(storage, `images/${user.uid}`);
-      const result = await listAll(storageRef);
-      const deletePromises = result.items.map((item) => deleteObject(ref(storage, item.fullPath)));
-
-      await Promise.all(deletePromises);
-      console.log('All user images deleted successfully');
-
-      // Step 2: Delete the user's Firestore document
-      const userDocRef = doc(db, 'users', user.uid);
-      await deleteDoc(userDocRef);
-      console.log('User Firestore document deleted successfully');
-
-      // Step 3: Delete the user's account from Firebase Authentication
-      await user.delete();
-      console.log('User account deleted successfully');
-
-      // Redirect to a goodbye or login page after account deletion
-      window.location.href = './goodbye.html'; // Create a "goodbye" page for confirmation
-    } catch (error) {
-      console.error('Delete Account Error:', error.message);
-      // Handle the case where the user needs to re-authenticate before account deletion
-      if (error.code === 'auth/requires-recent-login') {
-        alert('You need to re-login before deleting your account. Please log in again.');
-        // Optionally, redirect to the login page or force re-authentication
-        window.location.href = './logIn.html';
+      if (!user) {
+        console.error('No user is signed in');
+        return;
       }
-    }
-  });
-}
 
+      try {
+        // Step 1: Delete user's images from Firebase Storage
+        const storageRef = ref(storage, `images/${user.uid}`);
+        const result = await listAll(storageRef);
+        const deletePromises = result.items.map((item) =>
+          deleteObject(ref(storage, item.fullPath))
+        );
+
+        await Promise.all(deletePromises);
+        console.log('All user images deleted successfully');
+
+        // Step 2: Delete the user's Firestore document
+        const userDocRef = doc(db, 'users', user.uid);
+        await deleteDoc(userDocRef);
+        console.log('User Firestore document deleted successfully');
+
+        // Step 3: Delete the user's account from Firebase Authentication
+        await user.delete();
+        console.log('User account deleted successfully');
+
+        // Redirect to a goodbye or login page after account deletion
+        window.location.href = './goodbye.html'; // Create a "goodbye" page for confirmation
+      } catch (error) {
+        console.error('Delete Account Error:', error.message);
+        // Handle the case where the user needs to re-authenticate before account deletion
+        if (error.code === 'auth/requires-recent-login') {
+          alert(
+            'You need to re-login before deleting your account. Please log in again.'
+          );
+          // Optionally, redirect to the login page or force re-authentication
+          window.location.href = './logIn.html';
+        }
+      }
+    });
+  }
 
   const uploadForm = document.getElementById('uploadForm');
   if (uploadForm) {
     uploadForm.addEventListener('submit', async (event) => {
       event.preventDefault();
-  
+
       const fileInput = document.getElementById('fileInput');
+      const descriptionInput = document.getElementById('descriptionInput'); // Get the description input
       if (fileInput.files.length === 0) {
         console.error('No file selected');
         return;
       }
-  
+
       const file = fileInput.files[0];
       const user = auth.currentUser;
-  
+
       if (!user) {
         console.error('User not logged in');
         return;
       }
-  
+
       try {
         // Create a reference to the file in Firebase Storage
         const storageRef = ref(storage, `images/${user.uid}/${file.name}`);
@@ -200,15 +202,18 @@ if (deleteAccountButton) {
         await uploadBytes(storageRef, file);
         // Get the file's download URL
         const downloadURL = await getDownloadURL(storageRef);
-  
-        // Save the image URL in Firestore
+
+        // Save the image URL and description in Firestore
         const userDocRef = doc(db, 'users', user.uid);
-        await setDoc(userDocRef, {
-          images: arrayUnion(downloadURL) // Store the image URL in an array field
-        }, { merge: true });
-  
+        await updateDoc(userDocRef, {
+          images: arrayUnion({
+            url: downloadURL,
+            description: descriptionInput.value || '',
+          }), // Store both URL and description
+        });
+
         console.log('File uploaded successfully:', downloadURL);
-  
+
         // Fetch and display the updated gallery
         fetchImages();
       } catch (error) {
@@ -217,6 +222,15 @@ if (deleteAccountButton) {
     });
   }
 
+  // Check user authentication state and call fetchImages accordingly
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log('User is logged in:', user);
+      fetchImages(); // Call fetchImages to display images when user is authenticated
+    } else {
+      console.log('User is not logged in');
+    }
+  });
 });
 
 // Function to delete image from Firebase Storage and Firestore
@@ -224,8 +238,16 @@ if (deleteAccountButton) {
 const createDeleteButton = (imagePath) => {
   const deleteButton = document.createElement('button');
   deleteButton.textContent = 'Delete';
-  deleteButton.classList.add('absolute', 'top-0', 'right-0', 'bg-red-500', 'text-white', 'p-1', 'rounded');
-  
+  deleteButton.classList.add(
+    'absolute',
+    'top-0',
+    'right-0',
+    'bg-red-500',
+    'text-white',
+    'p-1',
+    'rounded'
+  );
+
   // Handle the delete action
   deleteButton.addEventListener('click', async () => {
     try {
@@ -244,11 +266,16 @@ const createDeleteButton = (imagePath) => {
 };
 
 // Function to fetch and display images
+// Function to fetch and display images
+// Function to fetch and display images
 const fetchImages = async () => {
   const user = auth.currentUser;
   if (user) {
-    const storageRef = ref(storage, `images/${user.uid}`);
+    const userDocRef = doc(db, 'users', user.uid); // Reference to the user document
     try {
+      const userDoc = await getDoc(userDocRef); // Get the user document
+      const storageRef = ref(storage, `images/${user.uid}`);
+
       const result = await listAll(storageRef);
       const photoGallery = document.getElementById('photoGallery');
       if (photoGallery) {
@@ -256,20 +283,37 @@ const fetchImages = async () => {
         if (result.items.length === 0) {
           photoGallery.innerHTML = '<p>No images available</p>';
         } else {
-          for (const item of result.items) {
-            const url = await getDownloadURL(item);
-            const img = document.createElement('img');
-            img.src = url;
-            img.alt = 'Uploaded Image';
-            img.classList.add('w-40', 'h-40', 'object-cover', 'rounded', 'shadow');
+          const userImages = userDoc.data().images || []; // Get images array from Firestore
 
-            // Create and append delete button
+          for (const item of result.items) {
+            const downloadURL = await getDownloadURL(item);
+            const imageDiv = document.createElement('div');
+            imageDiv.classList.add('relative', 'mb-4');
+            const img = document.createElement('img');
+            img.src = downloadURL;
+            img.alt = item.name;
+            img.classList.add('w-full', 'h-auto', 'rounded');
+
+            // Find the corresponding image description
+            const imageData = userImages.find(
+              (image) => image.url === downloadURL
+            );
+            const descriptionText = imageData
+              ? imageData.description
+              : 'No description available';
+
+            // Create and append the delete button
             const deleteButton = createDeleteButton(item.fullPath);
-            const imgContainer = document.createElement('div');
-            imgContainer.classList.add('relative');
-            imgContainer.appendChild(img);
-            imgContainer.appendChild(deleteButton);
-            photoGallery.appendChild(imgContainer);
+            imageDiv.appendChild(img);
+            imageDiv.appendChild(deleteButton); // Append delete button first
+
+            // Create and append description element below the delete button
+            const description = document.createElement('p');
+            description.textContent = `Description: ${descriptionText}`; // Include "Description:"
+            description.classList.add('mt-6', 'text-2xl', 'text-gray-400');
+
+            imageDiv.appendChild(description); // Append description to the image div
+            photoGallery.appendChild(imageDiv);
           }
         }
       }
@@ -277,34 +321,6 @@ const fetchImages = async () => {
       console.error('Fetch Images Error:', error.message);
     }
   } else {
-    console.error('User is not authenticated');
+    console.log('User not logged in, cannot fetch images');
   }
 };
-
-// Ensure the user is authenticated before calling fetchImages
-onAuthStateChanged(auth, (user) => {
-  const currentPage = window.location.pathname;
-  
-  // List of pages that require authentication
-  const protectedPages = [
-    '/2025_reunion.html', // Add any other protected pages here
-    // '/anotherProtectedPage.html',
-  ];
-
-  if (user) {
-    // If the user is authenticated, fetch images for the gallery
-    console.log('User is authenticated:', user);
-    fetchImages(); // Fetch images once the user is confirmed to be authenticated
-  } else {
-    // If the user is not authenticated and they are trying to access a protected page
-    if (protectedPages.includes(currentPage)) {
-      console.error('User is not authenticated, redirecting to login page...');
-      window.location.href = './logIn.html'; // Redirect to login page
-    }
-    // If the current page is the welcome page, do nothing and let them stay
-    else {
-      console.log('User is not authenticated, staying on the welcome page.');
-    }
-  }
-});
-
