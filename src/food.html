@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reunion Food List</title>
+  <link rel="stylesheet" href="../dist/output.css" />
+
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script type="module" src="food.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-r from-slate-400 via-slate-700 to-slate-400">
+    <div class="max-w-2xl bg-slate-300 mx-auto shadow-md rounded-lg p-6">
+        <h1 class="text-3xl bg-slate-700 text-white font-bold mb-6 text-center">Reunion Food List</h1>
+        <form id="foodForm">
+            <div>
+
+          <img class="h-96 w-3/4 mx-auto rounded-lg" src="./img/burger-with-melted-cheese.webp" alt="burger">
+        <label for="name" class="block text-lg font-medium text-gray-700">Your Name & Phone #:</label>
+        <input type="text" id="name" name="name" class="w-full border border-gray-300 rounded-md p-2 mt-2 mb-4" required>
+      </div>
+      <h2 class="text-2xl font-semibold mb-4">Select Items:  <h3 class="text-lg font-medium text-gray-700">Please look below for items already picked!</h2>
+      <div id="foodList" class="mt-4 space-y-3">
+        <!-- Food items will be dynamically populated here -->
+      </div>
+      <button type="submit" class="mt-6 w-full bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">Submit</button>
+    </form>
+    <div id="foodSelectionContainer">
+      <!-- <h2>Choose your food items for the reunion:</h2> -->
+      
+      <div id="foodList">
+        <!-- Dynamically generated list of food items will go here -->
+      </div>
+      
+      <button id="clearButton" style="display: none;"></button>
+    </div>
+    <h2 class="text-2xl font-semibold mt-8">Picked Items:</h2>
+    <ul id="pickedItems" class="mt-4 space-y-2">
+      <!-- Selected food items will appear here -->
+    </ul>
+  </div>
+  
+</body>
+</html>
