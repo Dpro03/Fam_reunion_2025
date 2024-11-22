@@ -38,49 +38,54 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-const signUpForm = document.getElementById('signUpForm');
-if (signUpForm) {
-  // Remove existing listeners
-  const clone = signUpForm.cloneNode(true);
-  signUpForm.parentNode.replaceChild(clone, signUpForm);
+// Signup function
+const handleSignup = async function (
+  firstName,
+  lastName,
+  email,
+  password,
+  phoneNumber
+) {
+  try {
+    // Create a new user with email and password
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
 
-  clone.addEventListener('submit', async (event) => {
-    event.preventDefault();
+    // Update the user's profile with the first and last name
+    await updateProfile(userCredential.user, {
+      displayName: `${firstName} ${lastName}`,
+    });
 
-    const firstName = document.getElementById('firstName').value;
-    const lastName = document.getElementById('lastName').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    // Save additional user details in Firestore
+    const userDoc = doc(db, 'users', userCredential.user.uid); // Save user info with their UID
+    await setDoc(userDoc, {
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      createdAt: new Date(),
+    });
 
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
+    console.log('User created and data saved in Firestore!');
+    alert('Signup successful! Welcome to the reunion app.');
+  } catch (error) {
+    console.error('Error signing up:', error.message);
+    alert(`Error: ${error.message}`);
+  }
+};
 
-      await setDoc(doc(db, 'users', user.uid), {
-        email: user.email,
-        firstName,
-        lastName,
-        uid: user.uid,
-      });
+// Example: Calling the function
+// document.getElementById("signupButton").addEventListener("click", () => {
+//   const firstName = document.getElementById("firstName").value;
+//   const lastName = document.getElementById("lastName").value;
+//   const email = document.getElementById("email").value;
+//   const password = document.getElementById("password").value;
+//   const phoneNumber = document.getElementById("phoneNumber").value;
 
-      await signInWithEmailAndPassword(auth, email, password);
-
-      window.location.href = './2025_reunion.html';
-    } catch (error) {
-      const errorMessage = error.message;
-      console.error(`Sign Up Error: ${errorMessage}`);
-      const errorMessageElement = document.getElementById('error-message');
-      if (errorMessageElement) {
-        errorMessageElement.textContent = errorMessage;
-        errorMessageElement.classList.remove('hidden');
-      }
-    }
-  });
-}
+// handleSignup(firstName, lastName, email, password, phone);
 
 // Handle the login form submission
 const handleLogin = async (event) => {
