@@ -44,12 +44,14 @@ foodSuggestions.forEach((food) => {
 document.getElementById("foodForm").addEventListener("submit", (e) => {
     e.preventDefault();
     const name = document.getElementById("name").value;
+    const phone = document.getElementById("phone").value;
+    const attendees = document.getElementById("attendees").value;
     const selectedItems = Array.from(document.querySelectorAll(".food-checkbox:checked")).map(
         (checkbox) => checkbox.value
     );
 
-    if (!name || selectedItems.length === 0) {
-        alert("Please provide your name and select at least one item.");
+    if (!name || !phone || !attendees || selectedItems.length === 0) {
+        alert("Please fill in all fields and select at least one item.");
         return;
     }
 
@@ -64,6 +66,8 @@ document.getElementById("foodForm").addEventListener("submit", (e) => {
     const newEntryRef = push(ref(db, "foodSelections"));
     set(newEntryRef, {
         name,
+        phone,
+        attendees: parseInt(attendees),
         items: selectedItems,
         userId: currentUser.uid
     }).then(() => {
@@ -90,9 +94,12 @@ function displayFoodSelections() {
                 const li = document.createElement("li");
                 li.classList.add("text-lg", "font-medium", "text-gray-700", "flex", "justify-between", "items-center", "mb-2");
                 
-                // Create the text content first
+                // Create the text content with all information
                 const selectionText = document.createElement("span");
-                selectionText.textContent = `${entry.name} -------   ${entry.items.join(", ")}`;
+                selectionText.innerHTML = `
+                    <strong>${entry.name}</strong> (${entry.phone}) - ${entry.attendees} people<br>
+                    Bringing: ${entry.items.join(", ")}
+                `;
                 
                 // Create remove button
                 const removeButton = document.createElement("button");
@@ -128,6 +135,7 @@ function displayFoodSelections() {
         }
     });
 }
+
 // Function to clear the user's selection
 function clearFoodSelection() {
     const currentUser = auth.currentUser;
