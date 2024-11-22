@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Family Reunion</title>
-    <!-- Using CDN for Tailwind to ensure styles work -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap"
@@ -18,12 +17,12 @@
   </head>
 
   <body
-    class="bg-gradient-to-r from-slate-400 via-slate-600 to-slate-400 min-h-screen"
+    class="bg-gradient-to-r from-slate-400 via-slate-800 to-slate-400 min-h-screen text-slate-200"
   >
     <!-- Main Heading -->
-    <header class="bg-slate-400 py-8">
+    <header class="bg-slate-700/50 py-8">
       <h1
-        class="font-exo text-5xl md:text-7xl font-bold text-pink-800 text-center underline"
+        class="font-exo text-5xl md:text-7xl font-bold text-slate-200 text-center"
       >
         Dombroski Family Reunion 2025
       </h1>
@@ -32,7 +31,7 @@
     <main class="container mx-auto px-4">
       <!-- Sub Heading -->
       <h2
-        class="text-xl sm:text-2xl md:text-3xl font-bold text-pink-700 bg-slate-800 max-w-2xl mx-auto text-center rounded-md mt-8 sm:mt-12 border-pink-600 border-2 p-4"
+        class="text-xl sm:text-2xl md:text-3xl font-bold text-slate-100 bg-slate-800/70 max-w-2xl mx-auto text-center rounded-xl mt-8 sm:mt-12 border-pink-600 border-2 p-4 shadow-lg"
       >
         Welcome to the home of the Dombroski family reunion! Thanks for
         visiting!
@@ -40,7 +39,7 @@
 
       <!-- Description -->
       <h3
-        class="text-lg sm:text-xl md:text-2xl font-bold text-slate-950 text-center mt-8 sm:mt-10"
+        class="text-lg sm:text-xl md:text-2xl font-bold text-slate-300 text-center mt-8 sm:mt-10"
       >
         Click on the links below to get started!
       </h3>
@@ -49,13 +48,13 @@
       <div class="flex flex-wrap justify-center mt-10 sm:mt-12 gap-6">
         <a
           href="./logIn.html"
-          class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-semibold py-4 px-12 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 text-center text-lg w-48"
+          class="bg-gradient-to-r from-slate-600 to-slate-900 hover:from-slate-700 hover:to-slate-950 text-slate-200 font-semibold py-4 px-12 rounded-lg shadow-xl transform hover:scale-105 transition-all duration-300 text-center text-lg w-48 border-slate-500 border-2"
         >
           Log In
         </a>
         <a
           href="./signUp.html"
-          class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-semibold py-4 px-12 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 text-center text-lg w-48"
+          class="bg-gradient-to-r from-slate-600 to-slate-900 hover:from-slate-700 hover:to-slate-950 text-slate-200 font-semibold py-4 px-12 rounded-lg shadow-xl transform hover:scale-105 transition-all duration-300 text-center text-lg w-48 border-slate-500 border-2"
         >
           Sign Up
         </a>
@@ -65,22 +64,22 @@
       <div class="flex flex-wrap justify-center mt-10 sm:mt-12 gap-6">
         <button
           id="logoutButton"
-          class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-semibold py-4 px-12 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 text-center text-lg w-48"
+          class="bg-gradient-to-r from-slate-600 to-slate-900 hover:from-slate-700 hover:to-slate-950 text-slate-200 font-semibold py-4 px-12 rounded-lg shadow-xl transform hover:scale-105 transition-all duration-300 text-center text-lg w-48 border-slate-500 border-2"
         >
           Log Out
         </button>
         <button
           id="deleteAccountButton"
-          class="bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 text-white font-semibold py-4 px-12 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 text-center text-lg w-48"
+          class="bg-gradient-to-r from-red-700 to-red-900 hover:from-red-800 hover:to-red-950 text-slate-200 font-semibold py-4 px-12 rounded-lg shadow-xl transform hover:scale-105 transition-all duration-300 text-center text-lg w-48 border-red-600 border-2"
         >
-          Delete Acct
+          Delete Account
         </button>
       </div>
 
       <!-- Image Section -->
       <div class="mt-8 sm:mt-12 flex justify-center pb-10 sm:pb-20">
         <img
-          class="w-full max-w-xs sm:max-w-lg rounded-lg shadow-xl"
+          class="w-full max-w-xs sm:max-w-lg rounded-xl shadow-2xl hover:scale-105 transition-transform"
           src="./img/stickfigures.jpg"
           alt="stick figures"
         />

@@ -1,146 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Photos Page</title>
-    <link rel="stylesheet" href="../dist/output.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap" rel="stylesheet" />
     <style>
-      .drag-over {
-        background-color: rgba(255, 255, 255, 0.1) !important;
-      }
+        .drag-over {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+        }
     </style>
-  </head>
-  <body class="bg-gradient-to-r from-slate-400 via-slate-700 to-slate-400">
-    <div class="text-center pt-14 mb-8">
-      <h1
-        class="font-exo text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-pink-800 bg-slate-400 underline"
-      >
-        Family Reunion Photos
-      </h1>
-    </div>
+</head>
+<body class="bg-gradient-to-r from-slate-400 via-slate-700 to-slate-400 min-h-screen">
+    <div class="container mx-auto px-4">
+        <!-- Header -->
+        <header class="text-center py-8">
+            <h1 class="font-exo text-5xl md:text-6xl lg:text-7xl font-bold text-slate-300 bg-slate-400/50 py-4 rounded-lg">
+                Family Reunion Photos
+            </h1>
+        </header>
 
-    <div class="container mx-auto px-4 py-8">
-      <div
-        class="bg-slate-900 rounded-3xl shadow-2xl shadow-slate-600 p-6 mb-12"
-      >
-        <form id="uploadForm" class="flex flex-col items-center w-full">
-          <div class="w-full max-w-lg mx-auto space-y-4 mt-4">
-            <div
-              id="dropZone"
-              class="border-4 border-dashed border-gray-500 h-32 md:h-48 w-full rounded-lg p-4 md:p-8 transition-colors duration-200 transform ease-in-out cursor-pointer bg-pink-700 text-slate-900 hover:bg-slate-700 flex flex-col items-center justify-center mx-auto"
-            >
-              <p class="text-center font-bold text-lg mb-2">
-                Drag and drop photos here&nbsp;&nbsp;
-              </p>
-              <p class="text-center text-sm mb-4">or&nbsp;&nbsp;</p>
-              <input
-                type="file"
-                id="fileInput"
-                accept="image/*"
-                class="hidden"
-              />
-            </div>
+        <!-- Main Content -->
+        <main class="max-w-5xl mx-auto">
+            <!-- Upload Section -->
+            <section class="bg-slate-900/80 rounded-3xl shadow-2xl shadow-slate-600 p-6 mb-12">
+                <form id="uploadForm" class="max-w-xl mx-auto">
+                    <div class="space-y-6">
+                        <!-- Drop Zone -->
+                        <div 
+                            id="dropZone" 
+                            class="border-4 border-dashed border-gray-500 h-48 w-full rounded-lg p-6 bg-pink-600/70 text-slate-900 hover:bg-slate-700/70 flex flex-col items-center justify-center cursor-pointer transition-colors"
+                        >
+                            <p class="text-xl font-bold mb-2">Drag and drop photos here</p>
+                            <p class="mb-4">or</p>
+                            <input
+                                type="file"
+                                id="fileInput"
+                                accept="image/*"
+                                multiple
+                                class="hidden"
+                            />
+                            <label 
+                                for="fileInput" 
+                                class="bg-slate-200 hover:bg-slate-300 text-slate-900 font-bold py-2 px-4 rounded"
+                            >
+                                Choose Files
+                            </label>
+                        </div>
 
-            <!-- New element to display selected file name -->
-            <p id="fileNameDisplay" class="text-center text-white"></p>
+                        <!-- File Name Display -->
+                        <p 
+                            id="fileNameDisplay" 
+                            class="text-center text-white min-h-[1.5rem]"
+                        ></p>
 
-            <input
-              type="text"
-              id="descriptionInput"
-              placeholder="Add a description......................................................"
-              class="px-4 py-2 rounded border border-gray-300 w-full mb-4 mt-4"
-            />
+                        <!-- Description Input -->
+                        <input
+                            type="text"
+                            id="descriptionInput"
+                            placeholder="Add a description..........."
+                            class="w-full px-4 py-2 rounded border border-gray-300"
+                        />
 
-            <button
-              type="submit"
-              class="bg-pink-700 hover:bg-pink-800 text-slate-950 ml-8 sm:ml-0 font-bold px-4 py-2 rounded border-slate-900 border-2 text-lg w-full sm:w-48 text-center box-border"
-            >
-              Upload
-            </button>
-          </div>
-        </form>
-      </div>
+                        <!-- Upload Button -->
+                        <button
+                            type="submit"
+                            class="w-full bg-pink-700 hover:bg-pink-800 text-white font-bold py-2 px-4 rounded transition-colors"
+                        >
+                            Upload Photo
+                        </button>
+                    </div>
+                </form>
+            </section>
 
-      <div
-        id="photoGallery"
-        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 p-4"
-      >
-        <!-- Images will be dynamically inserted here -->
-      </div>
-    </div>
+<!-- Photo Gallery -->
+<section 
+    id="photoGallery" 
+    class="w-full grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-6 p-4"
+>
+    <!-- Photos will be dynamically loaded here -->
+</section>
 
-    <script type="module" src="./firebase.js"></script>
+<script type="module" src="./firebase.js"></script>
 
-    <script>
-      const dropZone = document.getElementById('dropZone');
-      const fileInput = document.getElementById('fileInput');
-      const fileNameDisplay = document.getElementById('fileNameDisplay'); // New display element
-      const uploadForm = document.getElementById('uploadForm');
+<script>
+  const dropZone = document.getElementById('dropZone');
+  const fileInput = document.getElementById('fileInput');
+  const fileNameDisplay = document.getElementById('fileNameDisplay'); // New display element
+  const uploadForm = document.getElementById('uploadForm');
 
-      // Track the last file name to avoid duplicate displays
-      let lastFileName = '';
-      let isFileNameUpdated = false; // Flag to track if file name is already updated
+  // Track the last file name to avoid duplicate displays
+  let lastFileName = '';
+  let isFileNameUpdated = false; // Flag to track if file name is already updated
 
-      // Handle file selection via file input
-      fileInput.addEventListener('change', (event) =>
-        handleFileSelect(event.target.files)
-      );
+  // Handle file selection via file input
+  fileInput.addEventListener('change', (event) =>
+    handleFileSelect(event.target.files)
+  );
 
-      // Handle drag and drop
-      dropZone.addEventListener('dragover', (event) => {
-        event.preventDefault();
-        dropZone.classList.add('drag-over');
-      });
-      dropZone.addEventListener('dragleave', (event) => {
-        event.preventDefault();
-        dropZone.classList.remove('drag-over');
-      });
-      dropZone.addEventListener('drop', (event) => {
-        event.preventDefault();
-        dropZone.classList.remove('drag-over');
+  // Handle drag and drop
+  dropZone.addEventListener('dragover', (event) => {
+    event.preventDefault();
+    dropZone.classList.add('drag-over');
+  });
+  dropZone.addEventListener('dragleave', (event) => {
+    event.preventDefault();
+    dropZone.classList.remove('drag-over');
+  });
+  dropZone.addEventListener('drop', (event) => {
+    event.preventDefault();
+    dropZone.classList.remove('drag-over');
 
-        const files = event.dataTransfer.files;
-        if (files.length > 0) {
-          fileInput.files = files; // Set file input's files to dropped files
-          handleFileSelect(files);
+    const files = event.dataTransfer.files;
+    if (files.length > 0) {
+      fileInput.files = files; // Set file input's files to dropped files
+      handleFileSelect(files);
+    }
+    clearDescriptionInput();
+  });
+
+  // Prevent form submission
+  uploadForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    // Add your file upload logic here
+    const files = fileInput.files;
+    if (files.length > 0) {
+      handleFileSelect(files);
+    }
+  });
+
+  function handleFileSelect(files) {
+    if (files.length > 0) {
+      const currentFileName = files[0].name; // Get the name of the selected file
+      if (currentFileName !== lastFileName || !isFileNameUpdated) {
+        lastFileName = currentFileName; // Update lastFileName
+        if (fileNameDisplay) {
+          fileNameDisplay.textContent = lastFileName; // Update the displayed file name
         }
-        clearDescriptionInput();
-      });
-
-      // Prevent form submission
-      uploadForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-        // Add your file upload logic here
-        const files = fileInput.files;
-        if (files.length > 0) {
-          handleFileSelect(files);
-        }
-      });
-
-      function handleFileSelect(files) {
-        if (files.length > 0) {
-          const currentFileName = files[0].name; // Get the name of the selected file
-          if (currentFileName !== lastFileName || !isFileNameUpdated) {
-            lastFileName = currentFileName; // Update lastFileName
-            if (fileNameDisplay) {
-              fileNameDisplay.textContent = lastFileName; // Update the displayed file name
-            }
-            isFileNameUpdated = true; // Set the flag to true
-          }
-        }
+        isFileNameUpdated = true; // Set the flag to true
       }
+    }
+  }
 
-      function clearDescriptionInput() {
-        const descriptionInput = document.getElementById('descriptionInput');
-        if (descriptionInput) {
-          descriptionInput.value = '';
-        }
-      }
-    </script>
-  </body>
+  function clearDescriptionInput() {
+    const descriptionInput = document.getElementById('descriptionInput');
+    if (descriptionInput) {
+      descriptionInput.value = '';
+    }
+  }
+</script>
+</body>
 </html>
