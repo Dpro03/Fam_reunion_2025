@@ -275,15 +275,24 @@ export const fetchImages = async () => {
             description.textContent = `Description: ${descriptionText}`;
             description.classList.add(
               'mt-6',
-              'text-2xl',
-              'text-black',
-              'font-bold'
+              'text-lg', 
+              'text-slate-200', 
+              'font-semibold', 
+              'absolute',
+              'bottom-2', 
+              'left-2', 
+              'w-11/12', 
+              'bg-slate-900', 
+              'bg-opacity-75', 
+              'p-3',
+              'rounded-lg', 
+              'border-white', 
+              'border', 
+              'shadow-md' 
             );
-
-            const deleteButton = createDeleteButton(item.fullPath);
+            
             imageDiv.appendChild(img);
             imageDiv.appendChild(description);
-            imageDiv.appendChild(deleteButton);
 
             photoGallery.appendChild(imageDiv);
           }
@@ -296,25 +305,11 @@ export const fetchImages = async () => {
     console.log('User not logged in, cannot fetch images');
   }
 };
-// Helper function to create delete button
-function createDeleteButton(filePath) {
-  const button = document.createElement('button');
-  button.textContent = 'Delete';
-  button.classList.add('bg-red-500', 'text-white', 'px-4', 'py-2', 'rounded');
-  button.addEventListener('click', async () => {
-    try {
-      const storageRef = ref(storage, filePath);
-      await deleteObject(storageRef);
-      console.log('Image deleted from Firebase Storage');
-      fetchImages(); // Refresh images after deletion
-    } catch (error) {
-      console.error('Delete Error:', error);
-    }
-  });
-  return button;
-}
 
 // Add event listeners for forms and buttons
+document.addEventListener('DOMContentLoaded', () => {
+  
+});
 document.getElementById('signUpForm')?.addEventListener('submit', handleSignUp);
 document.getElementById('loginForm')?.addEventListener('submit', handleLogin);
 document

@@ -75,7 +75,7 @@ foodSuggestions.forEach((food) => {
   );
   div.innerHTML = `
       <input type="checkbox" id="${food}" value="${food}" class="food-checkbox w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-      <label for="${food}" class="text-lg font-medium text-black text-2xl">${food}</label>
+      <label for="${food}" class="text-lg font-medium text-black">${food}</label>
     `;
   foodList.appendChild(div);
 });
