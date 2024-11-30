@@ -46,47 +46,94 @@ const handleSignup = async function (
   password,
   phoneNumber
 ) {
+  // Input validation
+  if (!firstName || !lastName || !email || !password) {
+    alert('Please fill in all required fields');
+    return;
+  }
+
+  // Basic email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    alert('Please enter a valid email address');
+    return;
+  }
+
+  // Password strength validation
+  if (password.length < 8) {
+    alert('Password must be at least 8 characters long');
+    return;
+  }
+
   try {
+    // Disable signup button to prevent multiple submissions
+    const signupButton = document.getElementById('signupButton');
+    if (signupButton) signupButton.disabled = true;
+
     // Create a new user with email and password
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     );
+    const user = userCredential.user;
 
     // Update the user's profile with the first and last name
-    await updateProfile(userCredential.user, {
+    await updateProfile(user, {
       displayName: `${firstName} ${lastName}`,
     });
 
     // Save additional user details in Firestore
-    const userDoc = doc(db, 'users', userCredential.user.uid); // Save user info with their UID
+    const userDoc = doc(db, 'users', user.uid);
     await setDoc(userDoc, {
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+      email: email.toLowerCase(),
+      phoneNumber: phoneNumber || '', // Optional phone number
       createdAt: new Date(),
+      lastLogin: new Date(),
+      accountStatus: 'active',
     });
 
+    // Log successful signup
     console.log('User created and data saved in Firestore!');
+
+    // Show success message
     alert('Signup successful! Welcome to the reunion app.');
+
+    // Redirect to login or main page
+    window.location.href = './logIn.html';
   } catch (error) {
-    console.error('Error signing up:', error.message);
-    alert(`Error: ${error.message}`);
+    // Specific error handling
+    let errorMessage = 'Signup failed. Please try again.';
+
+    switch (error.code) {
+      case 'auth/email-already-in-use':
+        errorMessage =
+          'This email is already registered. Please use a different email or try logging in.';
+        break;
+      case 'auth/invalid-email':
+        errorMessage = 'Invalid email address. Please check and try again.';
+        break;
+      case 'auth/weak-password':
+        errorMessage =
+          'Password is too weak. Please choose a stronger password.';
+        break;
+      default:
+        errorMessage = error.message;
+    }
+
+    // Log the full error for debugging
+    console.error('Signup Error:', error);
+
+    // Show user-friendly error message
+    alert(errorMessage);
+  } finally {
+    // Re-enable signup button
+    const signupButton = document.getElementById('signupButton');
+    if (signupButton) signupButton.disabled = false;
   }
 };
-
-// Example: Calling the function
-// document.getElementById("signupButton").addEventListener("click", () => {
-//   const firstName = document.getElementById("firstName").value;
-//   const lastName = document.getElementById("lastName").value;
-//   const email = document.getElementById("email").value;
-//   const password = document.getElementById("password").value;
-//   const phoneNumber = document.getElementById("phoneNumber").value;
-
-// handleSignup(firstName, lastName, email, password, phone);
-
 // Handle the login form submission
 const handleLogin = async (event) => {
   event.preventDefault();
@@ -272,25 +319,51 @@ export const fetchImages = async () => {
             }
 
             const description = document.createElement('p');
-            description.textContent = `Description: ${descriptionText}`;
+            description.innerHTML = `#<span class="font-bold text-slate-100">${descriptionText}</span>`;
             description.classList.add(
-              'mt-6',
-              'text-lg', 
-              'text-slate-200', 
-              'font-semibold', 
+              // Positioning and Layout
               'absolute',
-              'bottom-2', 
-              'left-2', 
-              'w-11/12', 
-              'bg-slate-900', 
-              'bg-opacity-75', 
-              'p-3',
-              'rounded-lg', 
-              'border-white', 
-              'border', 
-              'shadow-md' 
+              'bottom-4',
+              'left-4',
+              'w-10/12',
+              'max-w-[90%]',
+              'mt-4',
+
+              // Typography
+              'text-2xl',
+              'font-semibold',
+              'text-slate-100',
+
+              // Background and Opacity
+              'bg-gradient-to-r',
+              'from-slate-900/80',
+              'to-slate-800/80',
+              'backdrop-blur-sm',
+
+              // Border and Shadows
+              'border-3',
+              'border-pink-600',
+              'rounded-xl',
+              'shadow-2xl',
+
+              // Padding and Spacing
+              'p-4',
+              'pr-8',
+
+              // Hover and Transition Effects
+              'transition-all',
+              'duration-300',
+              'hover:scale-[1.02]',
+              'hover:shadow-2xl',
+              'hover:border-pink-500',
+
+              // Text Effects
+              'text-opacity-90',
+              'tracking-wide',
+
+              // Interaction
+              'cursor-default'
             );
-            
             imageDiv.appendChild(img);
             imageDiv.appendChild(description);
 
@@ -307,9 +380,7 @@ export const fetchImages = async () => {
 };
 
 // Add event listeners for forms and buttons
-document.addEventListener('DOMContentLoaded', () => {
-  
-});
+document.addEventListener('DOMContentLoaded', () => {});
 document.getElementById('signUpForm')?.addEventListener('submit', handleSignUp);
 document.getElementById('loginForm')?.addEventListener('submit', handleLogin);
 document
