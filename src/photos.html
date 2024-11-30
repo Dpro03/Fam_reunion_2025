@@ -10,9 +10,25 @@
         .drag-over {
             background-color: rgba(255, 255, 255, 0.1) !important;
         }
+        figure {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        figure img {
+            width: 100%;
+            height: auto;
+            object-fit: cover; /* Ensures images maintain aspect ratio */
+        }
+        figcaption {
+            margin-top: 0.5rem; /* Space between image and caption */
+            width: 100%;
+            text-align: center; /* Center the caption text */
+            color: white; /* Adjust color as needed */
+        }
     </style>
 </head>
-<body class="bg-gradient-to-r from-slate-400 via-slate-700 to-slate-400 min-h-screen">
+<body class="bg-gradient-to-r from-slate-400 via-slate-800 to-indigo-400 min-h-screen">
     <div class="container mx-auto px-4">
         <!-- Header -->
         <header class="text-center py-8">
@@ -30,8 +46,7 @@
                         <!-- Drop Zone -->
                         <div 
                             id="dropZone" 
-                            class="border-4 border-dashed border-gray-500 h-48 w-full rounded-lg p-6 bg-pink-600/70
-                             text-slate-900 flex flex-col items-center justify-center cursor-pointer transition-colors"
+                            class="border-4 border-dashed border-gray-500 h-48 w-full rounded-lg p-6 bg-pink-600/70 text-slate-900 flex flex-col items-center justify-center cursor-pointer transition-colors"
                         >
                             <p class="text-xl font-bold mb-2">Drag and drop photos here</p>
                             <p class="mb-4">or</p>
@@ -75,81 +90,89 @@
                 </form>
             </section>
 
-<!-- Photo Gallery -->
-<section 
-    id="photoGallery" 
-    class="w-full grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-6 p-4"
->
-    <!-- Photos will be dynamically loaded here -->
-</section>
+            <!-- Photo Gallery -->
+            <section 
+                id="photoGallery" 
+                class="w-full grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-6 p-4"
+            >
+                <!-- Photos will be dynamically loaded here -->
+                <!-- Example structure for each photo item -->
+                <figure class="flex flex-col items-center">
+                    <img src="path_to_image.jpg" alt="Family photo" class="rounded-lg shadow-lg">
+                    <figcaption>#FamilyReunion2025</figcaption>
+                </figure>
+                <!-- Repeat the above block for each image you load dynamically -->
+            </section>
+        </main>
+    </div>
 
-<script type="module" src="./firebase.js"></script>
+    <script type="module" src="./firebase.js"></script>
 
-<script>
-  const dropZone = document.getElementById('dropZone');
-  const fileInput = document.getElementById('fileInput');
-  const fileNameDisplay = document.getElementById('fileNameDisplay'); // New display element
-  const uploadForm = document.getElementById('uploadForm');
+    <script>
+      const dropZone = document.getElementById('dropZone');
+      const fileInput = document.getElementById('fileInput');
+      const fileNameDisplay = document.getElementById('fileNameDisplay'); // New display element
+      const uploadForm = document.getElementById('uploadForm');
 
-  // Track the last file name to avoid duplicate displays
-  let lastFileName = '';
-  let isFileNameUpdated = false; // Flag to track if file name is already updated
+      // Track the last file name to avoid duplicate displays
+      let lastFileName = '';
+      let isFileNameUpdated = false; // Flag to track if file name is already updated
 
-  // Handle file selection via file input
-  fileInput.addEventListener('change', (event) =>
-    handleFileSelect(event.target.files)
-  );
+      // Handle file selection via file input
+      fileInput.addEventListener('change', (event) =>
+        handleFileSelect(event.target.files)
+      );
 
-  // Handle drag and drop
-  dropZone.addEventListener('dragover', (event) => {
-    event.preventDefault();
-    dropZone.classList.add('drag-over');
-  });
-  dropZone.addEventListener('dragleave', (event) => {
-    event.preventDefault();
-    dropZone.classList.remove('drag-over');
-  });
-  dropZone.addEventListener('drop', (event) => {
-    event.preventDefault();
-    dropZone.classList.remove('drag-over');
+      // Handle drag and drop
+      dropZone.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        dropZone.classList.add('drag-over');
+      });
+      dropZone.addEventListener('dragleave', (event) => {
+        event.preventDefault();
+        dropZone.classList.remove('drag-over');
+      });
+      dropZone.addEventListener('drop', (event) => {
+        event.preventDefault();
+        dropZone.classList.remove('drag-over');
 
-    const files = event.dataTransfer.files;
-    if (files.length > 0) {
-      fileInput.files = files; // Set file input's files to dropped files
-      handleFileSelect(files);
-    }
-    clearDescriptionInput();
-  });
-
-  // Prevent form submission
-  uploadForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    // Add your file upload logic here
-    const files = fileInput.files;
-    if (files.length > 0) {
-      handleFileSelect(files);
-    }
-  });
-
-  function handleFileSelect(files) {
-    if (files.length > 0) {
-      const currentFileName = files[0].name; // Get the name of the selected file
-      if (currentFileName !== lastFileName || !isFileNameUpdated) {
-        lastFileName = currentFileName; // Update lastFileName
-        if (fileNameDisplay) {
-          fileNameDisplay.textContent = lastFileName; // Update the displayed file name
+        const files = event.dataTransfer.files;
+        if (files.length > 0) {
+          fileInput.files = files; // Set file input's files to dropped files
+          handleFileSelect(files);
         }
-        isFileNameUpdated = true; // Set the flag to true
-      }
-    }
-  }
+        clearDescriptionInput();
+      });
 
-  function clearDescriptionInput() {
-    const descriptionInput = document.getElementById('descriptionInput');
-    if (descriptionInput) {
-      descriptionInput.value = '';
-    }
-  }
-</script>
+      // Prevent form submission
+      uploadForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        // Add your file upload logic here
+        const files = fileInput.files;
+        if (files.length > 0) {
+          handleFileSelect(files);
+        }
+      });
+
+      function handleFileSelect(files) {
+        if (files.length > 0) {
+          const currentFileName = files[0].name; // Get the name of the selected file
+          if (currentFileName !== lastFileName || !isFileNameUpdated) {
+            lastFileName = currentFileName; // Update lastFileName
+            if (fileNameDisplay) {
+              fileNameDisplay.textContent = lastFileName; // Update the displayed file name
+            }
+            isFileNameUpdated = true; // Set the flag to true
+          }
+        }
+      }
+
+      function clearDescriptionInput() {
+        const descriptionInput = document.getElementById('descriptionInput');
+        if (descriptionInput) {
+          descriptionInput.value = '';
+        }
+      }
+    </script>
 </body>
 </html>

@@ -280,95 +280,60 @@ export const fetchImages = async () => {
   const user = auth.currentUser;
   if (user) {
     try {
-      const storageRef = ref(storage, 'images');
-      const result = await listAll(storageRef);
+      const storageRef = ref(storage, 'images'); // Reference to the images folder
+      const result = await listAll(storageRef); // List all images in storage
       const photoGallery = document.getElementById('photoGallery');
 
       if (photoGallery) {
         photoGallery.innerHTML = ''; // Clear previous images
+
         if (result.items.length === 0) {
           photoGallery.innerHTML = '<p>No images available</p>';
-        } else {
-          // Fetch all users to get their image descriptions
-          const usersSnapshot = await getDocs(collection(db, 'users'));
-          const usersData = usersSnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
+          return;
+        }
 
-          for (const item of result.items) {
-            const downloadURL = await getDownloadURL(item);
-            const imageDiv = document.createElement('div');
-            imageDiv.classList.add('relative', 'mb-4');
+        // Fetch all users to get their image descriptions
+        const usersSnapshot = await getDocs(collection(db, 'users'));
+        const usersData = usersSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
 
-            const img = document.createElement('img');
-            img.src = downloadURL;
-            img.alt = item.name;
-            img.classList.add('w-full', 'h-auto', 'rounded');
+        for (const item of result.items) {
+          const downloadURL = await getDownloadURL(item); // Get download URL for each image
+          const imageDiv = document.createElement('div');
+          imageDiv.classList.add('relative', 'mb-4');
 
-            // Find description from any user's images
-            let descriptionText = 'No description available';
-            for (const userData of usersData) {
-              const images = userData.images || [];
-              const image = images.find((img) => img.url === downloadURL);
-              if (image) {
-                descriptionText =
-                  image.description || 'No description available';
-                break;
-              }
+          const img = document.createElement('img');
+          img.src = downloadURL;
+          img.alt = item.name;
+          img.classList.add('w-full', 'h-auto', 'rounded');
+
+          // Find description from any user's images
+          let descriptionText = 'No description available';
+          for (const userData of usersData) {
+            const images = userData.images || [];
+            const image = images.find((img) => img.url === downloadURL);
+            if (image) {
+              descriptionText = image.description || 'No description available';
+              break; // Stop searching once we find a match
             }
-
-            const description = document.createElement('p');
-            description.innerHTML = `#<span class="font-bold text-slate-100">${descriptionText}</span>`;
-            description.classList.add(
-              // Positioning and Layout
-              'absolute',
-              'bottom-4',
-              'left-4',
-              'w-10/12',
-              'max-w-[90%]',
-              'mt-4',
-
-              // Typography
-              'text-2xl',
-              'font-semibold',
-              'text-slate-100',
-
-              // Background and Opacity
-              'bg-gradient-to-r',
-              'from-slate-900/80',
-              'to-slate-800/80',
-              'backdrop-blur-sm',
-
-              // Border and Shadows
-              'border-3',
-              'border-pink-600',
-              'rounded-xl',
-              'shadow-2xl',
-
-              // Padding and Spacing
-              'p-4',
-              'pr-8',
-
-              // Hover and Transition Effects
-              'transition-all',
-              'duration-300',
-              'hover:scale-[1.02]',
-              'hover:shadow-2xl',
-              'hover:border-pink-500',
-
-              // Text Effects
-              'text-opacity-90',
-              'tracking-wide',
-
-              // Interaction
-              'cursor-default'
-            );
-            imageDiv.appendChild(img);
-            imageDiv.appendChild(description);
-
-            photoGallery.appendChild(imageDiv);
           }
+
+          const description = document.createElement('p');
+          description.innerHTML = `#<span class="font-bold text-xl  text-slate-100">${descriptionText}</span>`;
+          description.classList.add(
+            'mt-2', // Margin top for spacing
+            'text-center',
+            'text-slate-100',
+            'text-xl',
+            'font-bold'
+          );
+
+          // Append image and description to the gallery
+          imageDiv.appendChild(img);
+          imageDiv.appendChild(description);
+          photoGallery.appendChild(imageDiv);
         }
       }
     } catch (error) {
@@ -378,7 +343,6 @@ export const fetchImages = async () => {
     console.log('User not logged in, cannot fetch images');
   }
 };
-
 // Add event listeners for forms and buttons
 document.addEventListener('DOMContentLoaded', () => {});
 document.getElementById('signUpForm')?.addEventListener('submit', handleSignUp);
