@@ -7,65 +7,96 @@
   <script type="module" src="firebase.js" defer></script>
   <script type="module">
     import { getDocs, collection } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
-    import { db } from './firebase.js'; // Ensure this is your Firebase setup file
-
+    import { db } from './firebase.js';
+  
     async function fetchUsers() {
       const userList = document.getElementById('userList');
       userList.innerHTML = ''; // Clear existing list
-
+  
       try {
         const usersSnapshot = await getDocs(collection(db, 'users'));
         if (usersSnapshot.empty) {
           userList.innerHTML = '<p>No users found.</p>';
           return;
         }
+  
+        // Add table headers
+        userList.innerHTML = `
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Created At</th>
+          </tr>
+        `;
 
+  
         usersSnapshot.forEach((doc) => {
           const user = doc.data();
-
-          // Safely access user fields and handle undefined values
+  
+          // Handle Timestamp fields
+          const createdAt = user.createdAt ? user.createdAt.toDate().toLocaleString() : 'No creation date';
+  
+          // Safely handle potentially missing or null fields
           const firstName = user.firstName || 'N/A';
           const lastName = user.lastName || 'N/A';
-          const email = user.email || 'N/A';
-          const phoneNumber = user.phoneNumber || 'N/A';
-
-          // Handle Firestore Timestamp for creation date
-          const createdAt = user.createdAt
-            ? user.createdAt.toDate().toLocaleString()
-            : 'No date available';
-
-          // Create user item
-          const userItem = document.createElement('li');
-          userItem.classList.add(
-            'py-2',
-            'border-b',
-            'border-gray-300',
-            'flex',
-            'justify-between',
-            'items-center'
-          );
-
-          userItem.innerHTML = `
-            <div>
-              <strong>${firstName} ${lastName}</strong><br>
-              Email: ${email}<br>
-              Phone: ${phoneNumber}
-            </div>
-            <small class="text-gray-500">${createdAt}</small>
+          const email = user.email || 'No email provided';
+          const phoneNumber = user.phoneNumber || 'No phone number';
+  
+          const userRow = document.createElement('tr');
+          userRow.innerHTML = `
+            <td>${firstName} ${lastName}</td>
+            <td>${email}</td>
+            <td>${phoneNumber}</td>
+            <td>${createdAt}</td>
           `;
-
-          userList.appendChild(userItem);
+          userList.appendChild(userRow);
         });
+
+        // Add export functionality
+        const exportButton = document.getElementById('exportButton');
+        exportButton.style.display = 'block';
+        exportButton.onclick = exportUserData;
       } catch (error) {
         console.error('Error fetching users:', error);
         userList.innerHTML = '<p>Error fetching user list.</p>';
       }
     }
 
+    function exportUserData() {
+      // Collect user data
+      const rows = document.querySelectorAll('#userList tr');
+      const csvContent = [];
+      
+      // Convert table to CSV
+      rows.forEach((row, index) => {
+        const rowData = [];
+        row.querySelectorAll('td, th').forEach(cell => {
+          // Escape commas and quotes for CSV compatibility
+          let cellText = cell.textContent.replace(/"/g, '""');
+          if (cellText.includes(',')) {
+            cellText = `"${cellText}"`;
+          }
+          rowData.push(cellText);
+        });
+        csvContent.push(rowData.join(','));
+      });
+
+      // Create and download CSV file
+      const csvString = csvContent.join('\n');
+      const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", "users_export.csv");
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  
     document.addEventListener('DOMContentLoaded', () => {
-      document
-        .getElementById('fetchUsersButton')
-        .addEventListener('click', fetchUsers);
+      document.getElementById('fetchUsersButton').addEventListener('click', fetchUsers);
     });
   </script>
   <link
@@ -82,9 +113,16 @@
     >
       Fetch Users
     </button>
-    <ul id="userList" class="mt-4 bg-white p-4 rounded shadow">
+    <button
+      id="exportButton"
+      style="display:none;"
+      class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition ml-2"
+    >
+      Export to CSV
+    </button>
+    <table id="userList" class="mt-4 w-full bg-white p-4 rounded shadow">
       <!-- User details will be dynamically added here -->
-    </ul>
+    </table>
   </div>
 </body>
 </html>

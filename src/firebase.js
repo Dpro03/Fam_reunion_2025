@@ -48,18 +48,7 @@ const handleSignup = async function (
   password,
   phoneNumber
 ) {
-  // Input validation
-  if (!firstName || !lastName || !email || !password) {
-    alert('Please fill in all required fields');
-    return;
-  }
 
-  // Basic email validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    alert('Please enter a valid email address');
-    return;
-  }
 
   // Password strength validation
   if (password.length < 8) {
