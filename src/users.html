@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User List</title>
+  <script type="module" src="firebase.js" defer></script>
+  <script type="module">
+    import { getDocs, collection } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
+    import { db } from './firebase.js'; // Ensure this is your Firebase setup file
+
+    async function fetchUsers() {
+      const userList = document.getElementById('userList');
+      userList.innerHTML = ''; // Clear existing list
+
+      try {
+        const usersSnapshot = await getDocs(collection(db, 'users'));
+        if (usersSnapshot.empty) {
+          userList.innerHTML = '<p>No users found.</p>';
+          return;
+        }
+
+        usersSnapshot.forEach((doc) => {
+          const user = doc.data();
+
+          // Safely access user fields and handle undefined values
+          const firstName = user.firstName || 'N/A';
+          const lastName = user.lastName || 'N/A';
+          const email = user.email || 'N/A';
+          const phoneNumber = user.phoneNumber || 'N/A';
+
+          // Handle Firestore Timestamp for creation date
+          const createdAt = user.createdAt
+            ? user.createdAt.toDate().toLocaleString()
+            : 'No date available';
+
+          // Create user item
+          const userItem = document.createElement('li');
+          userItem.classList.add(
+            'py-2',
+            'border-b',
+            'border-gray-300',
+            'flex',
+            'justify-between',
+            'items-center'
+          );
+
+          userItem.innerHTML = `
+            <div>
+              <strong>${firstName} ${lastName}</strong><br>
+              Email: ${email}<br>
+              Phone: ${phoneNumber}
+            </div>
+            <small class="text-gray-500">${createdAt}</small>
+          `;
+
+          userList.appendChild(userItem);
+        });
+      } catch (error) {
+        console.error('Error fetching users:', error);
+        userList.innerHTML = '<p>Error fetching user list.</p>';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document
+        .getElementById('fetchUsersButton')
+        .addEventListener('click', fetchUsers);
+    });
+  </script>
+  <link
+    href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    rel="stylesheet"
+  />
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <div class="container mx-auto py-8">
+    <h1 class="text-3xl font-bold mb-4">User List</h1>
+    <button
+      id="fetchUsersButton"
+      class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+    >
+      Fetch Users
+    </button>
+    <ul id="userList" class="mt-4 bg-white p-4 rounded shadow">
+      <!-- User details will be dynamically added here -->
+    </ul>
+  </div>
+</body>
+</html>

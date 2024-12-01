@@ -35,8 +35,10 @@ export default firebaseConfig;
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
+// const db = getFirestore(app);
 const storage = getStorage(app);
+
+export const db = getFirestore();
 
 // Signup function
 const handleSignup = async function (
@@ -345,7 +347,7 @@ export const fetchImages = async () => {
 };
 // Add event listeners for forms and buttons
 document.addEventListener('DOMContentLoaded', () => {});
-document.getElementById('signUpForm')?.addEventListener('submit', handleSignUp);
+document.getElementById('signUpForm')?.addEventListener('submit', handleSignup);
 document.getElementById('loginForm')?.addEventListener('submit', handleLogin);
 document
   .getElementById('logoutButton')

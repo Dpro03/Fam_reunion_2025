@@ -4,7 +4,6 @@ module.exports = {
     './src/**/*.{html,js,ts,jsx,tsx}',
     './public/**/*.html',
     './src/index.html', // Corrected from .src to ./src
-    './index.html', // Add this if your main HTML is in the root
   ],
   theme: {
     extend: {
