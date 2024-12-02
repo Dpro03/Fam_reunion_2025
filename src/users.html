@@ -1,128 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User List</title>
-  <script type="module" src="firebase.js" defer></script>
-  <script type="module">
-    import { getDocs, collection } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
-    import { db } from './firebase.js';
-  
-    async function fetchUsers() {
-      const userList = document.getElementById('userList');
-      userList.innerHTML = ''; // Clear existing list
-  
-      try {
-        const usersSnapshot = await getDocs(collection(db, 'users'));
-        if (usersSnapshot.empty) {
-          userList.innerHTML = '<p>No users found.</p>';
-          return;
-        }
-  
-        // Add table headers
-        userList.innerHTML = `
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Created At</th>
-          </tr>
-        `;
-
-  
-        usersSnapshot.forEach((doc) => {
-          const user = doc.data();
-  
-          // Handle Timestamp fields
-          const createdAt = user.createdAt ? user.createdAt.toDate().toLocaleString() : 'No creation date';
-  
-          // Safely handle potentially missing or null fields
-          const firstName = user.firstName || 'N/A';
-          const lastName = user.lastName || 'N/A';
-          const email = user.email || 'No email provided';
-          const phoneNumber = user.phoneNumber || 'No phone number';
-  
-          const userRow = document.createElement('tr');
-          userRow.innerHTML = `
-            <td>${firstName} ${lastName}</td>
-            <td>${email}</td>
-            <td>${phoneNumber}</td>
-            <td>${createdAt}</td>
-          `;
-          userList.appendChild(userRow);
-        });
-
-        // Add export functionality
-        const exportButton = document.getElementById('exportButton');
-        exportButton.style.display = 'block';
-        exportButton.onclick = exportUserData;
-      } catch (error) {
-        console.error('Error fetching users:', error);
-        userList.innerHTML = '<p>Error fetching user list.</p>';
-      }
-    }
-
-    function exportUserData() {
-      // Collect user data
-      const rows = document.querySelectorAll('#userList tr');
-      const csvContent = [];
-      
-      // Convert table to CSV
-      rows.forEach((row, index) => {
-        const rowData = [];
-        row.querySelectorAll('td, th').forEach(cell => {
-          // Escape commas and quotes for CSV compatibility
-          let cellText = cell.textContent.replace(/"/g, '""');
-          if (cellText.includes(',')) {
-            cellText = `"${cellText}"`;
-          }
-          rowData.push(cellText);
-        });
-        csvContent.push(rowData.join(','));
-      });
-
-      // Create and download CSV file
-      const csvString = csvContent.join('\n');
-      const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement("a");
-      const url = URL.createObjectURL(blob);
-      link.setAttribute("href", url);
-      link.setAttribute("download", "users_export.csv");
-      link.style.visibility = 'hidden';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('fetchUsersButton').addEventListener('click', fetchUsers);
-    });
-  </script>
-  <link
-    href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-    rel="stylesheet"
-  />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Information</title>
+    <link rel="stylesheet" href="../dist/output.css">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-gray-100 text-gray-800">
-  <div class="container mx-auto py-8">
-    <h1 class="text-3xl font-bold mb-4">User List</h1>
-    <button
-      id="fetchUsersButton"
-      class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
-    >
-      Fetch Users
-    </button>
-    <button
-      id="exportButton"
-      style="display:none;"
-      class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition ml-2"
-    >
-      Export to CSV
-    </button>
-    <table id="userList" class="mt-4 w-full bg-white p-4 rounded shadow">
-      <!-- User details will be dynamically added here -->
-    </table>
-  </div>
+<body class="bg-gradient-to-r from-slate-400 via-slate-600 to-indigo-400 min-h-screen p-4">
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-bold mb-8 text-center text-white">User Information</h1>
+        <div id="usersContainer" class="space-y-4"></div>
+        <ul id="userList"></ul>
+    </div>
+    <script type="module" src="./firebase.js"></script>
+    <script type="module" src="./users.js"></script>
 </body>
 </html>

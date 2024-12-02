@@ -6,6 +6,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
+  updateProfile
 } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
 import {
   getFirestore,
@@ -26,6 +27,7 @@ import {
   listAll,
   deleteObject,
 } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js';
+// import { auth, db } from './firebaseConfig.js';
 
 // your main JavaScript file
 import firebaseConfig from './firebaseConfig.js';
@@ -35,24 +37,61 @@ export default firebaseConfig;
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-// const db = getFirestore(app);
 const storage = getStorage(app);
 
 export const db = getFirestore();
 
+
+
+// console.log('Firebase.js is running');
+
+// document.addEventListener('DOMContentLoaded', () => {
+//   console.log('DOM fully loaded');
+  
+//   console.log('Document body innerHTML:', document.body.innerHTML);
+  
+//   const allForms = document.getElementsByTagName('form');
+//   console.log('Total forms found:', allForms.length);
+  
+//   for (let form of allForms) {
+//     console.log('Form ID:', form.id);
+//     console.log('Form element:', form);
+//   }
+  
+//   const signUpForm = document.getElementById('signUpForm');
+  
+//   if (!signUpForm) {
+//     console.error('Signup form NOT FOUND');
+//     console.log('Checking querySelector methods:');
+//     console.log('document.querySelector("#signUpForm"):', document.querySelector('#signUpForm'));
+//     console.log('document.querySelector("form[id=\'signUpForm\']"):', document.querySelector('form[id="signUpForm"]'));
+//   } else {
+//     console.log('Signup form FOUND:', signUpForm);
+//   }
+// });
+
+
+
+
+
+
+
+
+
+
 // Signup function
-const handleSignup = async function (
-  firstName,
-  lastName,
-  email,
-  password,
-  phoneNumber
-) {
-
-
+const handleSignup = async function (firstName, lastName, email, password) {
+  const phoneInput = document.getElementById('phone');
+  console.log("Phone input element:", phoneInput);
+  
+  // More robust phone number retrieval
+  const phoneNumber = phoneInput ? phoneInput.value.trim() : '';
+  
+  console.log("Phone number entered:", phoneNumber);
+  console.log("Phone number length:", phoneNumber.length);
   // Password strength validation
-  if (password.length < 8) {
-    alert('Password must be at least 8 characters long');
+  if (password.length < 6) {
+    alert('Password must be at least 6 characters long');
     return;
   }
 
@@ -80,7 +119,7 @@ const handleSignup = async function (
       firstName: firstName.trim(),
       lastName: lastName.trim(),
       email: email.toLowerCase(),
-      phoneNumber: phoneNumber || '', // Optional phone number
+      phone: phoneNumber || '', // Now correctly referencing the phone number
       createdAt: new Date(),
       lastLogin: new Date(),
       accountStatus: 'active',
@@ -125,6 +164,108 @@ const handleSignup = async function (
     if (signupButton) signupButton.disabled = false;
   }
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOM fully loaded');
+  
+  const signUpForm = document.getElementById('signUpForm');
+  
+  if (signUpForm) {
+    console.log('Signup form found');
+    
+    signUpForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // Get form values
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const phoneNumber = document.getElementById('phone').value.trim();
+
+      console.log('Signup Form Values:', {
+        firstName,
+        lastName,
+        email,
+        phoneNumber
+      });
+
+      try {
+        // Disable signup button to prevent multiple submissions
+        const signupButton = document.getElementById('signUpButton');
+        if (signupButton) signupButton.disabled = true;
+
+        // Create a new user with email and password
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        const user = userCredential.user;
+
+        // Update the user's profile with the first and last name
+        await updateProfile(user, {
+          displayName: `${firstName} ${lastName}`,
+        });
+
+        // Save additional user details in Firestore
+        const userDoc = doc(db, 'users', user.uid);
+        await setDoc(userDoc, {
+          firstName: firstName,
+          lastName: lastName,
+          email: email.toLowerCase(),
+          phoneNumber: phoneNumber, 
+          createdAt: new Date(),
+          lastLogin: new Date(),
+          accountStatus: 'active',
+        });
+
+        // Log successful signup
+        console.log('User created and data saved in Firestore!');
+
+        // Show success message
+        alert('Signup successful! Welcome to the reunion app.');
+
+        // Redirect to login or main page
+        window.location.href = './logIn.html';
+      } catch (error) {
+        // Specific error handling
+        let errorMessage = 'Signup failed. Please try again.';
+
+        switch (error.code) {
+          case 'auth/email-already-in-use':
+            errorMessage =
+              'This email is already registered. Please use a different email or try logging in.';
+            break;
+          case 'auth/invalid-email':
+            errorMessage = 'Invalid email address. Please check and try again.';
+            break;
+          case 'auth/weak-password':
+            errorMessage =
+              'Password is too weak. Please choose a stronger password.';
+            break;
+          default:
+            errorMessage = error.message;
+        }
+
+        // Log the full error for debugging
+        console.error('Signup Error:', error);
+
+        // Show user-friendly error message
+        alert(errorMessage);
+      } finally {
+        // Re-enable signup button
+        const signupButton = document.getElementById('signUpButton');
+        if (signupButton) signupButton.disabled = false;
+      }
+    });
+  } else {
+    console.error('Signup form not found');
+  }
+});
+
+
+
 // Handle the login form submission
 const handleLogin = async (event) => {
   event.preventDefault();
