@@ -71,90 +71,71 @@ export const db = getFirestore();
 // Signup function
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('DOM fully loaded');
-
   const signUpForm = document.getElementById('signUpForm');
 
-  if (signUpForm && !signUpForm.dataset.listenerAdded) {
-    console.log('Signup form found');
-    signUpForm.dataset.listenerAdded = 'true'; // Mark as handled
+  if (!signUpForm) {
+    console.error('SignUp form not found in the DOM');
+    return;
+  }
 
-    signUpForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
+  // Prevent adding duplicate event listeners
+  if (signUpForm.dataset.listenerAdded === 'true') {
+    console.warn('SignUp form event listener already initialized');
+    return;
+  }
 
-      // Form values
-      const firstName = document.getElementById('firstName').value.trim();
-      const lastName = document.getElementById('lastName').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      const phoneNumber = document.getElementById('phone').value.trim();
+  signUpForm.dataset.listenerAdded = 'true';
 
-      console.log('Signup Form Values:', {
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
+  signUpForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const firstName = document.getElementById('firstName')?.value.trim();
+    const lastName = document.getElementById('lastName')?.value.trim();
+    const email = document.getElementById('email')?.value.trim();
+    const password = document.getElementById('password')?.value;
+    const phoneNumber = document.getElementById('phone')?.value.trim();
+
+    if (!firstName || !lastName || !email || !password || !phoneNumber) {
+      alert('Please fill in all fields.');
+      return;
+    }
+
+    try {
+      // Disable button to prevent duplicate submissions
+      const signUpButton = document.getElementById('signUpButton');
+      if (signUpButton) signUpButton.disabled = true;
+
+      // Firebase Authentication logic
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Update profile in Firebase Authentication
+      await updateProfile(user, {
+        displayName: `${firstName} ${lastName}`,
       });
 
-      try {
-        const signupButton = document.getElementById('signUpButton');
-        if (signupButton) signupButton.disabled = true;
+      // Add user data to Firestore
+      const userDoc = doc(db, 'users', user.uid);
+      await setDoc(userDoc, {
+        firstName,
+        lastName,
+        email: email.toLowerCase(),
+        phoneNumber: phoneNumber || null,
+        createdAt: new Date(),
+        lastLogin: new Date(),
+        accountStatus: 'active',
+      });
 
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-        const user = userCredential.user;
-
-        await updateProfile(user, {
-          displayName: `${firstName} ${lastName}`,
-        });
-
-        const userDoc = doc(db, 'users', user.uid);
-        await setDoc(userDoc, {
-          firstName: firstName,
-          lastName: lastName,
-          email: email.toLowerCase(),
-          phoneNumber: phoneNumber,
-          createdAt: new Date(),
-          lastLogin: new Date(),
-          accountStatus: 'active',
-        });
-
-        console.log('User created and data saved in Firestore!');
-        alert('Signup successful! Welcome to the reunion app.');
-        window.location.href = './logIn.html';
-      } catch (error) {
-        let errorMessage = 'Signup failed. Please try again.';
-
-        switch (error.code) {
-          case 'auth/email-already-in-use':
-            errorMessage =
-              'This email is already registered. Please use a different email or try logging in.';
-            break;
-          case 'auth/invalid-email':
-            errorMessage = 'Invalid email address. Please check and try again.';
-            break;
-          case 'auth/weak-password':
-            errorMessage =
-              'Password is too weak. Please choose a stronger password.';
-            break;
-          default:
-            errorMessage = error.message;
-        }
-
-        console.error('Signup Error:', error);
-        alert(errorMessage);
-      } finally {
-        const signupButton = document.getElementById('signUpButton');
-        if (signupButton) signupButton.disabled = false;
-      }
-    },
-  { once: true });
-  } else {
-    console.error('Signup form not found or already initialized');
-  }
+      alert('Signup successful!');
+      window.location.href = './logIn.html';
+    } catch (error) {
+      console.error('Error during signup:', error);
+      alert(error.message || 'Signup failed. Please try again.');
+    } finally {
+      const signUpButton = document.getElementById('signUpButton');
+      if (signUpButton) signUpButton.disabled = false;
+    }
+  });
 });
 
 // Handle the login form submission
