@@ -6,7 +6,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
-  updateProfile
+  updateProfile,
 } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
 import {
   getFirestore,
@@ -41,25 +41,23 @@ const storage = getStorage(app);
 
 export const db = getFirestore();
 
-
-
 // console.log('Firebase.js is running');
 
 // document.addEventListener('DOMContentLoaded', () => {
 //   console.log('DOM fully loaded');
-  
+
 //   console.log('Document body innerHTML:', document.body.innerHTML);
-  
+
 //   const allForms = document.getElementsByTagName('form');
 //   console.log('Total forms found:', allForms.length);
-  
+
 //   for (let form of allForms) {
 //     console.log('Form ID:', form.id);
 //     console.log('Form element:', form);
 //   }
-  
+
 //   const signUpForm = document.getElementById('signUpForm');
-  
+
 //   if (!signUpForm) {
 //     console.error('Signup form NOT FOUND');
 //     console.log('Checking querySelector methods:');
@@ -70,113 +68,21 @@ export const db = getFirestore();
 //   }
 // });
 
-
-
-
-
-
-
-
-
-
 // Signup function
-const handleSignup = async function (firstName, lastName, email, password) {
-  const phoneInput = document.getElementById('phone');
-  console.log("Phone input element:", phoneInput);
-  
-  // More robust phone number retrieval
-  const phoneNumber = phoneInput ? phoneInput.value.trim() : '';
-  
-  console.log("Phone number entered:", phoneNumber);
-  console.log("Phone number length:", phoneNumber.length);
-  // Password strength validation
-  if (password.length < 6) {
-    alert('Password must be at least 6 characters long');
-    return;
-  }
-
-  try {
-    // Disable signup button to prevent multiple submissions
-    const signupButton = document.getElementById('signupButton');
-    if (signupButton) signupButton.disabled = true;
-
-    // Create a new user with email and password
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    const user = userCredential.user;
-
-    // Update the user's profile with the first and last name
-    await updateProfile(user, {
-      displayName: `${firstName} ${lastName}`,
-    });
-
-    // Save additional user details in Firestore
-    const userDoc = doc(db, 'users', user.uid);
-    await setDoc(userDoc, {
-      firstName: firstName.trim(),
-      lastName: lastName.trim(),
-      email: email.toLowerCase(),
-      phone: phoneNumber || '', // Now correctly referencing the phone number
-      createdAt: new Date(),
-      lastLogin: new Date(),
-      accountStatus: 'active',
-    });
-
-    // Log successful signup
-    console.log('User created and data saved in Firestore!');
-
-    // Show success message
-    alert('Signup successful! Welcome to the reunion app.');
-
-    // Redirect to login or main page
-    window.location.href = './logIn.html';
-  } catch (error) {
-    // Specific error handling
-    let errorMessage = 'Signup failed. Please try again.';
-
-    switch (error.code) {
-      case 'auth/email-already-in-use':
-        errorMessage =
-          'This email is already registered. Please use a different email or try logging in.';
-        break;
-      case 'auth/invalid-email':
-        errorMessage = 'Invalid email address. Please check and try again.';
-        break;
-      case 'auth/weak-password':
-        errorMessage =
-          'Password is too weak. Please choose a stronger password.';
-        break;
-      default:
-        errorMessage = error.message;
-    }
-
-    // Log the full error for debugging
-    console.error('Signup Error:', error);
-
-    // Show user-friendly error message
-    alert(errorMessage);
-  } finally {
-    // Re-enable signup button
-    const signupButton = document.getElementById('signupButton');
-    if (signupButton) signupButton.disabled = false;
-  }
-};
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log('DOM fully loaded');
-  
+
   const signUpForm = document.getElementById('signUpForm');
-  
-  if (signUpForm) {
+
+  if (signUpForm && !signUpForm.dataset.listenerAdded) {
     console.log('Signup form found');
-    
+    signUpForm.dataset.listenerAdded = 'true'; // Mark as handled
+
     signUpForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
-      // Get form values
+
+      // Form values
       const firstName = document.getElementById('firstName').value.trim();
       const lastName = document.getElementById('lastName').value.trim();
       const email = document.getElementById('email').value.trim();
@@ -187,15 +93,13 @@ document.addEventListener('DOMContentLoaded', () => {
         firstName,
         lastName,
         email,
-        phoneNumber
+        phoneNumber,
       });
 
       try {
-        // Disable signup button to prevent multiple submissions
         const signupButton = document.getElementById('signUpButton');
         if (signupButton) signupButton.disabled = true;
 
-        // Create a new user with email and password
         const userCredential = await createUserWithEmailAndPassword(
           auth,
           email,
@@ -203,33 +107,25 @@ document.addEventListener('DOMContentLoaded', () => {
         );
         const user = userCredential.user;
 
-        // Update the user's profile with the first and last name
         await updateProfile(user, {
           displayName: `${firstName} ${lastName}`,
         });
 
-        // Save additional user details in Firestore
         const userDoc = doc(db, 'users', user.uid);
         await setDoc(userDoc, {
           firstName: firstName,
           lastName: lastName,
           email: email.toLowerCase(),
-          phoneNumber: phoneNumber, 
+          phoneNumber: phoneNumber,
           createdAt: new Date(),
           lastLogin: new Date(),
           accountStatus: 'active',
         });
 
-        // Log successful signup
         console.log('User created and data saved in Firestore!');
-
-        // Show success message
         alert('Signup successful! Welcome to the reunion app.');
-
-        // Redirect to login or main page
         window.location.href = './logIn.html';
       } catch (error) {
-        // Specific error handling
         let errorMessage = 'Signup failed. Please try again.';
 
         switch (error.code) {
@@ -248,23 +144,18 @@ document.addEventListener('DOMContentLoaded', () => {
             errorMessage = error.message;
         }
 
-        // Log the full error for debugging
         console.error('Signup Error:', error);
-
-        // Show user-friendly error message
         alert(errorMessage);
       } finally {
-        // Re-enable signup button
         const signupButton = document.getElementById('signUpButton');
         if (signupButton) signupButton.disabled = false;
       }
-    });
+    },
+  { once: true });
   } else {
-    console.error('Signup form not found');
+    console.error('Signup form not found or already initialized');
   }
 });
-
-
 
 // Handle the login form submission
 const handleLogin = async (event) => {
@@ -477,7 +368,7 @@ export const fetchImages = async () => {
 };
 // Add event listeners for forms and buttons
 document.addEventListener('DOMContentLoaded', () => {});
-document.getElementById('signUpForm')?.addEventListener('submit', handleSignup);
+// document.getElementById('signUpForm')?.addEventListener('submit', handleSignup);
 document.getElementById('loginForm')?.addEventListener('submit', handleLogin);
 document
   .getElementById('logoutButton')
