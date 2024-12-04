@@ -7,6 +7,9 @@ import {
   signOut,
   onAuthStateChanged,
   updateProfile,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+  deleteUser,
 } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
 import {
   getFirestore,
@@ -40,33 +43,6 @@ const auth = getAuth(app);
 const storage = getStorage(app);
 
 export const db = getFirestore();
-
-// console.log('Firebase.js is running');
-
-// document.addEventListener('DOMContentLoaded', () => {
-//   console.log('DOM fully loaded');
-
-//   console.log('Document body innerHTML:', document.body.innerHTML);
-
-//   const allForms = document.getElementsByTagName('form');
-//   console.log('Total forms found:', allForms.length);
-
-//   for (let form of allForms) {
-//     console.log('Form ID:', form.id);
-//     console.log('Form element:', form);
-//   }
-
-//   const signUpForm = document.getElementById('signUpForm');
-
-//   if (!signUpForm) {
-//     console.error('Signup form NOT FOUND');
-//     console.log('Checking querySelector methods:');
-//     console.log('document.querySelector("#signUpForm"):', document.querySelector('#signUpForm'));
-//     console.log('document.querySelector("form[id=\'signUpForm\']"):', document.querySelector('form[id="signUpForm"]'));
-//   } else {
-//     console.log('Signup form FOUND:', signUpForm);
-//   }
-// });
 
 // Signup function
 
@@ -106,12 +82,16 @@ document.addEventListener('DOMContentLoaded', () => {
       if (signUpButton) signUpButton.disabled = true;
 
       // Firebase Authentication logic
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
 
       // Update profile in Firebase Authentication
       await updateProfile(user, {
-        displayName: `${firstName} ${lastName}`,
+        displayName: `${firstName} ${lastName} ${phoneNumber}`,
       });
 
       // Add user data to Firestore
@@ -120,14 +100,13 @@ document.addEventListener('DOMContentLoaded', () => {
         firstName,
         lastName,
         email: email.toLowerCase(),
-        phoneNumber: phoneNumber || null,
+        phoneNumber: phoneNumber || null, // Add phone number
         createdAt: new Date(),
         lastLogin: new Date(),
         accountStatus: 'active',
       });
-
-      alert('Signup successful!');
-      window.location.href = './logIn.html';
+      // alert('Signup successful!');
+      window.location.href = './2025_reunion.html';
     } catch (error) {
       console.error('Error during signup:', error);
       alert(error.message || 'Signup failed. Please try again.');
@@ -172,41 +151,50 @@ const handleDeleteAccount = async () => {
   }
 
   try {
-    const storageRef = ref(storage, `images/${user.uid}`);
-    const result = await listAll(storageRef);
-    const deletePromises = result.items.map((item) =>
-      deleteObject(ref(storage, item.fullPath))
+    // Prompt for password to re-authenticate
+    const password = prompt(
+      'Please enter your password to confirm account deletion:'
     );
 
-    await Promise.all(deletePromises);
-    console.log('All user images deleted successfully');
+    if (!password) {
+      alert('Password is required to delete the account.');
+      return;
+    }
 
+    // Create credential
+    const credential = EmailAuthProvider.credential(user.email, password);
+
+    // Re-authenticate the user
+    await reauthenticateWithCredential(user, credential);
+
+    // Delete user document from Firestore
     const userDocRef = doc(db, 'users', user.uid);
     await deleteDoc(userDocRef);
     console.log('User Firestore document deleted successfully');
 
-    await user.delete();
+    // Delete the user account
+    await deleteUser(user);
     console.log('User account deleted successfully');
 
+    // Redirect to a goodbye page or other actions after deletion
     window.location.href = './goodbye.html';
   } catch (error) {
-    console.error('Delete Account Error:', error.message);
-    if (error.code === 'auth/requires-recent-login') {
-      alert(
-        'You need to re-login before deleting your account. Please log in again.'
-      );
-      window.location.href = './logIn.html';
-    }
-  }
-};
+    console.error('Delete Account Error:', error);
 
-// General error handling function
-const handleError = (error) => {
-  console.error(`Error: ${error.message}`);
-  const errorMessageElement = document.getElementById('error-message');
-  if (errorMessageElement) {
-    errorMessageElement.textContent = error.message;
-    errorMessageElement.classList.remove('hidden');
+    // Detailed error handling
+    switch (error.code) {
+      case 'auth/wrong-password':
+        alert('Incorrect password. Account deletion cancelled.');
+        break;
+      case 'auth/requires-recent-login':
+        alert('Please log in again before attempting to delete your account.');
+        window.location.href = './logIn.html';
+        break;
+      default:
+        alert(
+          'An error occurred while deleting the account. Please try again.'
+        );
+    }
   }
 };
 
