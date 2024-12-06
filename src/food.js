@@ -81,18 +81,19 @@ function createFoodCheckboxItem(food) {
     'space-x-3',
     'p-2',
     'rounded-lg',
-    'bg-gradient-to-r',
-    'from-pink-600',
-    'to-pink-900',
-    'hover:bg-gray-300',
+    'bg-gradient-to-br',
+    'from-rose-600',
+    'via-pink-700',
+    'to-rose-700',
     'border-2',
     'border-gray-800',
     'shadow-sm',
-    'mb-2'
+    'mb-2',
+    'w-full'
   );
   div.innerHTML = `
     <input type="checkbox" id="${food}" value="${food}" class="food-checkbox w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-    <label for="${food}" class="text-lg font-medium text-black">${food}</label>
+    <label for="${food}" class="text-lg font-medium text-slate-200">${food}</label>
   `;
   return div;
 }
@@ -184,9 +185,10 @@ function createSelectionListItem(entry, key) {
     'items-center',
     'mb-4',
     'p-4',
-    'bg-gradient-to-r',
-    'from-green-800',
-    'to-green-500',
+    'bg-gradient-to-br',
+    'from-emerald-800',
+    'via-emerald-700',
+    'to-emerald-800',
     'rounded-3xl',
     'shadow-2xl',
     'shadow-gray-600',
@@ -203,7 +205,7 @@ function createSelectionListItem(entry, key) {
     entry.attendees
   } <br>
     <span class="inline-flex items-center">
-      <span class="font-bold text-red-500 border-b-2 border-gray-600">Bringing --></span>
+      <span class="font-bold text-orange-500 border-b-2 border-red-600">Bringing --></span>
       <span class="ml-2">${entry.items.join(', ')}</span>
     </span>
   `;

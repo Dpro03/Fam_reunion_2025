@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    font-family: 'Exo 2', sans-serif;
+  }
+
+
+/* Add custom colors to Tailwind's color palette */
+@layer base {
+  /* Blue Variants */
+  .bg-family-blue {
+    @apply bg-[var(--color-blue-500)];
+  }
+  .text-family-blue {
+    @apply text-[var(--color-blue-500)];
+  }
+  .border-family-blue {
+    @apply border-[var(--color-blue-500)];
+  }
+
+  /* Green Variants */
+  .bg-family-green {
+    @apply bg-[var(--color-green-500)];
+  }
+  .text-family-green {
+    @apply text-[var(--color-green-500)];
+  }
+  .border-family-green {
+    @apply border-[var(--color-green-500)];
+  }
+
+  /* Coral Variants */
+  .bg-family-coral {
+    @apply bg-[var(--color-coral-500)];
+  }
+  .text-family-coral {
+    @apply text-[var(--color-coral-500)];
+  }
+  .border-family-coral {
+    @apply border-[var(--color-coral-500)];
+  }
+
+  /* Red Variants */
+  .bg-family-red {
+    @apply bg-[var(--color-red-500)];
+  }
+  .text-family-red {
+    @apply text-[var(--color-red-500)];
+  }
+  .border-family-red {
+    @apply border-[var(--color-red-500)];
+  }
+
+  /* Gray Variants */
+  .bg-family-gray {
+    @apply bg-[var(--color-gray-500)];
+  }
+  .text-family-gray {
+    @apply text-[var(--color-gray-500)];
+  }
+  .border-family-gray {
+    @apply border-[var(--color-gray-500)];
+  }
+
+  /* Indigo Variants */
+  .bg-family-indigo {
+    @apply bg-[var(--color-indigo-500)];
+  }
+  .text-family-indigo {
+    @apply text-[var(--color-indigo-500)];
+  }
+  .border-family-indigo {
+    @apply border-[var(--color-indigo-500)];
+  }
+
+  /* Yellow Variants */
+  .bg-family-yellow {
+    @apply bg-[var(--color-yellow-500)];
+  }
+  .text-family-yellow {
+    @apply text-[var(--color-yellow-500)];
+  }
+  .border-family-yellow {
+    @apply border-[var(--color-yellow-500)];
+  }
+}
+
+/* Utility Classes */
+@layer utilities {
+  .transition-smooth {
+    @apply transition-all duration-300 hover:shadow-xl hover:scale-[1.02];
+  }
+  
+  .glass-effect {
+    @apply bg-white bg-opacity-10 backdrop-blur-md border border-opacity-10;
+  }
+}
+
+/* Gradient Backgrounds */
+.bg-gradient-family {
+  background: linear-gradient(
+    135deg, 
+    var(--color-blue-700), 
+    var(--color-green-600), 
+    var(--color-red-500),
+    var(--color-indigo-400),
+    var(--color-yellow-500)
+  );
+}
+
+/* Responsive Typography */
+.fluid-type {
+  font-size: clamp(1rem, 4vw, 2.5rem);
+}
+
+  
+  
