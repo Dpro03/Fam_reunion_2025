@@ -12,62 +12,159 @@
   </head>
 
   <body
-    class="bg-gradient-to-br from-fuchsia-800 via-sky-900 to-stone-500 min-h-screen text-gray-100"
+    class="bg-gradient-to-br from-fuchsia-700 via-sky-600 to-indigo-400 min-h-screen text-gray-100"
   >
-    <header
-      class="bg-gradient-to-r from-slate-400 via-slate-700 to-slate-500 py-8"
-    >
       <h1
-        class="font-exo text-5xl md:text-7xl font-bold text-white text-center underline"
-      >
+      class="font-exo text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-slate-200 
+      bg-gradient-to-br from-slate-400 via-slate-600 to-indigo-500 text-center py-8 rounded-lg 
+      mt-8 mb-10 shadow-2xl shadow-slate-600 border-b-4 border-slate-100 w-3/4 mx-auto"
+    >
         Dombroski Family Reunion 2025
       </h1>
     </header>
 
     <main class="container mx-auto px-4">
+      <!-- Header Section -->
       <h2
-        class="text-xl sm:text-2xl md:text-3xl font-bold text-white bg-gradient-to-r from-stone-600 via-indigo-700 to-stone-600 max-w-3xl mx-auto text-center rounded-xl mt-8 sm:mt-12 border-pink-400 border-2 p-4 shadow-lg shadow-indigo-500/50"
+        class="text-xl sm:text-2xl md:text-3xl font-bold text-white bg-gradient-to-r from-slate-600 via-indigo-700 to-slate-600 
+        max-w-3xl mx-auto text-center rounded-xl mt-8 sm:mt-12 border-y-rose-400 border-b-4  p-4 shadow-lg shadow-indigo-500/50"
       >
-        Welcome to the home of the Dombroski family reunion! Thanks for
-        visiting!
+        Welcome to the home of the Dombroski family reunion! Thanks for visiting!
       </h2>
-
+    
       <h3
         class="text-lg sm:text-xl md:text-2xl font-bold text-white text-center mt-8 sm:mt-10"
       >
         Click on the links below to get started!
       </h3>
-
+    
+      <!-- Navigation Links -->
       <div class="flex flex-wrap justify-center mt-10 sm:mt-12 gap-6">
         <a
           href="./logIn.html"
-          class="bg-gradient-to-r from-sky-700 to-indigo-400 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold py-4 px-12 rounded-lg shadow-xl transform hover:scale-105 transition-all duration-300 text-center text-lg w-48 border-indigo-300 border-2"
-        >
+          class="w-full sm:w-48 
+          bg-gradient-to-br 
+          from-emerald-400 
+          via-green-600 
+          to-slate-300 
+          hover:from-emerald-500 
+          hover:via-green-700 
+          hover:to-slate-400 
+          text-white 
+          font-bold 
+          py-4 
+          px-8 
+          rounded-lg 
+          border-2 
+          border-slate-200 
+          transition-all 
+          duration-300 
+          transform 
+          hover:scale-105 
+          hover:shadow-xl 
+          active:scale-95 
+          focus:outline-none 
+          focus:ring-4 
+          focus:ring-orange-300/50 
+          shadow-md
+          text-center"        >
           Log In
         </a>
         <a
           href="./signUp.html"
-          class="bg-gradient-to-r from-emerald-700 to-stone-400 hover:from-green-600 hover:to-teal-700 text-white font-semibold py-4 px-12 rounded-lg shadow-xl transform hover:scale-105 transition-all duration-300 text-center text-lg w-48 border-teal-300 border-2"
-        >
+          class="w-full sm:w-48 
+          bg-gradient-to-br 
+          from-sky-400 
+          via-sky-600 
+          to-slate-400 
+          hover:from-sky-500 
+          hover:via-sky-700 
+          hover:to-slate-500 
+          text-white 
+          font-bold 
+          py-4 
+          px-8 
+          rounded-lg 
+          border-2 
+          border-slate-200 
+          transition-all 
+          duration-300 
+          transform 
+          hover:scale-105 
+          hover:shadow-xl 
+          active:scale-95 
+          focus:outline-none 
+          focus:ring-4 
+          focus:ring-orange-300/50 
+          shadow-md
+          text-center"        >
           Sign Up
         </a>
       </div>
-
+    
+      <!-- Action Buttons -->
       <div class="flex flex-wrap justify-center mt-10 sm:mt-12 gap-6">
         <button
           id="logoutButton"
-          class="bg-gradient-to-r from-fuchsia-700 to-indigo-600 hover:from-amber-600 hover:to-orange-700 text-white font-semibold py-4 px-12 rounded-lg shadow-xl transform hover:scale-105 transition-all duration-300 text-center text-lg w-48 border-orange-300 border-2"
-        >
+          class="w-full sm:w-48 
+          bg-gradient-to-br 
+          from-rose-400 
+          via-orange-600 
+          to-red-400 
+          hover:from-rose-500 
+          hover:via-orange-700 
+          hover:to-red-500 
+          text-white 
+          font-bold 
+          py-4 
+          px-8 
+          rounded-lg 
+          border-2 
+          border-slate-200 
+          transition-all 
+          duration-300 
+          transform 
+          hover:scale-105 
+          hover:shadow-xl 
+          active:scale-95 
+          focus:outline-none 
+          focus:ring-4 
+          focus:ring-orange-300/50 
+          shadow-md"        >
           Log Out
         </button>
         <button
           id="deleteAccountButton"
-          class="bg-gradient-to-r from-rose-700 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-semibold py-4 px-12 rounded-lg shadow-xl transform hover:scale-105 transition-all duration-300 text-center text-lg w-48 border-pink-300 border-2"
-        >
+          class="w-full sm:w-48 
+          bg-gradient-to-br 
+          from-rose-500 
+          via-orange-700 
+          to-red-500 
+          hover:from-rose-600 
+          hover:via-orange-700 
+          hover:to-red-600 
+          text-white 
+          font-bold 
+          py-4 
+          px-8 
+          rounded-lg 
+          border-2 
+          border-slate-200 
+          transition-all 
+          duration-300 
+          transform 
+          hover:scale-105 
+          hover:shadow-xl 
+          active:scale-95 
+          focus:outline-none 
+          focus:ring-4 
+          focus:ring-orange-300/50 
+          shadow-md"        >
           Delete Account
         </button>
       </div>
-
+    
+      <!-- Additional Links -->
       <div class="flex flex-col items-center gap-6 mt-10">
         <a
           href="./users.html"
@@ -94,21 +191,23 @@
           Home
         </a>
       </div>
-
+    
+      <!-- Venue Section -->
       <div
-        class="mx-auto text-center text-white text-2xl font-semibold mb-4 mt-10 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 rounded-3xl w-48 shadow-2xl shadow-purple-500/50 border-2 border-slate-600 p-2"
+        class="mx-auto text-center text-white text-2xl font-semibold mb-4 mt-10 bg-gradient-to-br from-slate-700 via-slate-600 to-indigo-700 hover:from-purple-900 hover:to-indigo-900 rounded-3xl w-48 shadow-2xl shadow-purple-500/50 border-2 border-slate-600 p-2"
       >
         The Venue
       </div>
+    
+      <!-- Venue Image -->
       <div class="flex justify-center mb-8">
         <img
           src="./img/clubhouse.jpeg"
           alt="the clubhouse"
-          class="w-full max-w-6xl rounded-2xl shadow-xl hover:scale-[1.02] transition-transform duration-300"
+          class="w-full max-w-7xl rounded-2xl shadow-xl hover:scale-[1.02] transition-transform duration-300"
         />
       </div>
     </main>
-
+    
     <script type="module" src="./firebase.js"></script>
-  </body>
-</html>
+    

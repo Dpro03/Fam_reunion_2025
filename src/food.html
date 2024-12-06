@@ -29,12 +29,14 @@
     </script>
   </head>
   <body
-    class="bg-gradient-to-br from-fuchsia-800 via-sky-900 to-stone-500 flex items-center justify-center min-h-screen p-4"
+    class="bg-gradient-to-br from-fuchsia-700 via-sky-700 to-indigo-400 flex items-center justify-center min-h-screen p-4"
   >
     <div
-      class="bg-gradient-to-br from-slate-400 via-slate-700 to-slate-400 p-8 rounded-lg shadow-xl border border-indigo-400 w-full max-w-xl md:max-w-3xl"
+      class="bg-gradient-to-br from-slate-700 via-sky-800 to-indigo-700 p-8 rounded-lg shadow-xl border border-indigo-400 w-full max-w-xl md:max-w-3xl"
     >
-      <h1 class="text-3xl font-bold mb-6 text-center text-white">
+      <h1
+        class="text-3xl font-bold mb-6 text-center text-white bg-slate-600 p-2 rounded-lg shadow-lg border-2 border-slate-100 w-3/4 mx-auto border-b-4"
+      >
         Reunion Food List
       </h1>
       <h2
@@ -56,7 +58,9 @@
         <!-- Contact Information Section -->
         <div class="space-y-4 mb-6">
           <div>
-            <label for="name" class="block text-sm font-medium text-slate-200 mb-2"
+            <label
+              for="name"
+              class="block text-sm font-medium text-slate-200 mb-2"
               >Your Name:</label
             >
             <input
@@ -64,7 +68,7 @@
               id="name"
               name="name"
               placeholder="Enter your name..."
-              class="w-full p-3 bg-slate-400 border border-indigo-400 rounded-lg text-gray-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-fuchsia-800 focus:border-transparent"
+              class="w-full p-3 bg-slate-200 border border-indigo-400 rounded-lg text-gray-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-800 focus:border-transparent"
               required
             />
           </div>
@@ -80,7 +84,7 @@
               placeholder="Enter numbers only"
               maxlength="14"
               oninput="formatPhoneNumber(this)"
-              class="w-full p-3 bg-slate-400 border border-indigo-400 rounded-lg text-gray-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-fuchsia-800 focus:border-transparent"
+              class="w-full p-3 bg-slate-200 border border-indigo-400 rounded-lg text-gray-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-800 focus:border-transparent"
               required
             />
             <p class="text-sm text-gray-300 mt-1">
@@ -100,7 +104,7 @@
               name="attendees"
               placeholder="Enter the number of people attending..."
               min="1"
-              class="w-full p-3 bg-slate-400 border border-indigo-400 rounded-lg text-gray-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-fuchsia-800 focus:border-transparent"
+              class="w-full p-3 bg-slate-200 border border-indigo-400 rounded-lg text-gray-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-800 focus:border-transparent"
               required
             />
           </div>
@@ -120,7 +124,7 @@
         <div class="flex justify-center mt-6">
           <button
             type="submit"
-            class="w-1/2 bg-yellow-500 text-slate-900 py-2 px-4 rounded-lg hover:bg-yellow-600 transition-colors duration-300"
+            class="w-1/2 bg-yellow-400 text-slate-900 py-2 px-4 rounded-lg hover:bg-yellow-500 transition-colors duration-300"
           >
             Submit
           </button>
@@ -134,7 +138,7 @@
         <button id="clearButton" style="display: none"></button>
       </div>
 
-      <h2 class="text-2xl text-gray-300 font-semibold">Picked Items:</h2>
+      <h2 class="text-2xl text-gray-200 font-semibold">Picked Items:</h2>
       <ul id="pickedItems" class="mt-4 space-y-2"></ul>
     </div>
   </body>

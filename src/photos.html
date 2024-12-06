@@ -1,110 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Photos Page</title>
 
-    <link rel="stylesheet" href="./styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        .drag-over {
-            background-color: rgba(255, 255, 255, 0.1) !important;
-        }
-        figure {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        figure img {
-            width: 100%;
-            height: auto;
-            object-fit: cover; /* Ensures images maintain aspect ratio */
-        }
-        figcaption {
-            margin-top: 0.5rem; /* Space between image and caption */
-            width: 100%;
-            text-align: center; /* Center the caption text */
-            color: white; /* Adjust color as needed */
-        }
+      .drag-over {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+      }
+      figure {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      figure img {
+        width: 100%;
+        height: auto;
+        object-fit: cover; /* Ensures images maintain aspect ratio */
+      }
+      figcaption {
+        margin-top: 0.5rem; /* Space between image and caption */
+        width: 100%;
+        text-align: center; /* Center the caption text */
+        color: white; /* Adjust color as needed */
+      }
     </style>
-</head><body
-class="bg-gradient-to-br from-fuchsia-800 via-sky-900 to-stone-500 flex items-center border-slate-200 border-2 justify-center min-h-screen p-4"><
-<div class="container mx-auto px-4">
-        <!-- Header -->
-        <header class="text-center py-8">
-            <h1 class="font-exo text-5xl md:text-6xl lg:text-7xl font-bold text-slate-300 bg-gradient-to-br from-stone-600 via-indigo-800 to-stone-600 shadow-2xl shadow-slate-600 py-4 rounded-lg">
-                Family Reunion Photos
-            </h1>
-        </header>
+  </head>
+  <body
+    class="bg-gradient-to-br from-fuchsia-700 via-sky-700 to-indigo-400 flex items-center border-slate-200 border-2 justify-center min-h-screen p-4"
+  >
+    <
+    <div class="container mx-auto px-4">
+      <!-- Header -->
+      <header class="text-center py-8">
+        <h1
+          class="bg-gradient-to-br from-slate-900 via-sky-800 to-slate-900 font-exo text-5xl md:text-6xl lg:text-7xl font-bold text-slate-200 border-b-4 border-slate-100 shadow-2xl shadow-slate-600 py-4 rounded-lg"
+        >
+          Family Reunion Photos
+        </h1>
+      </header>
 
-        <!-- Main Content -->
-        <main class="max-w-5xl mx-auto">
-            <!-- Upload Section -->
-            <section class="bg-slate-500 rounded-3xl shadow-2xl shadow-indigo-600 p-6 mb-12">
-                <form id="uploadForm" class="max-w-xl mx-auto">
-                    <div class="space-y-6">
-                        <!-- Drop Zone -->
-                        <div 
-                            id="dropZone" 
-                            class="border-4 border-dashed border-gray-500 h-48 w-full rounded-lg p-6 bg-pink-600/70 text-gray-200 flex flex-col items-center justify-center cursor-pointer transition-colors"
-                        >
-                            <p class="text-xl font-bold mb-2">Drag and drop photos here</p>
-                            <p class="mb-4">or</p>
-                            <input
-                                type="file"
-                                id="fileInput"
-                                accept="image/*"
-                                multiple
-                                class="hidden"
-                            />
-                            <label 
-                                for="fileInput" 
-                                class="bg-slate-600 hover:bg-slate-700 text-gray-200 font-bold py-2 px-4 rounded"
-                            >
-                                Choose Images
-                            </label>
-                        </div>
-
-                        <!-- File Name Display -->
-                        <p 
-                            id="fileNameDisplay" 
-                            class="text-center text-white min-h-[1.5rem]"
-                        ></p>
-
-                        <!-- Description Input -->
-                        <input
-                            type="text"
-                            id="descriptionInput"
-                            placeholder="Add a #hashtag 😎"
-                            class="w-full px-4 py-2 text-white bg-slate-800 rounded border border-gray-300"
-                        />
-
-                        <!-- Upload Button -->
-                        <button
-                            type="submit"
-                            class="w-full bg-pink-700 hover:bg-pink-800 text-white font-bold py-2 px-4 rounded transition-colors"
-                        >
-                            Upload Photo
-                        </button>
-                    </div>
-                </form>
-            </section>
-
-            <!-- Photo Gallery -->
-            <section 
-                id="photoGallery" 
-                class="w-full grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-6 p-4"
+      <!-- Main Content -->
+      <main
+        class="bg-gradient-to-br from-slate-900 via-sky-800 to-slate-900 max-w-7xl mx-auto"
+      >
+        <!-- Upload Section -->
+        <section class="rounded-3xl shadow-2xl shadow-indigo-500 p-6 mb-12">
+          <form id="uploadForm" class="max-w-xl mx-auto">
+            <div
+              class="bg-gradient-to-br from-rose-600 via-rose-700 to-rose-800 shadow-2xl shadow-rose-900 border-2 border-rose-600 rounded-lg p-6 space-y-6"
             >
-                <!-- Photos will be dynamically loaded here -->
-                <!-- Example structure for each photo item -->
-                <figure class="flex flex-col items-center">
-                    <img src="path_to_image.jpg" alt="Family photo" class="rounded-lg shadow-lg">
-                    <figcaption>#FamilyReunion2025</figcaption>
-                </figure>
-                <!-- Repeat the above block for each image you load dynamically -->
-            </section>
-        </main>
+              <!-- Drop Zone -->
+              <div
+                id="dropZone"
+                class="border-4 border-dashed border-slate-500 h-48 w-full rounded-lg p-6 text-gray-200 flex flex-col items-center justify-center cursor-pointer transition-colors"
+              >
+                <p class="text-xl font-bold mb-2">Drag and drop photos here</p>
+                <p class="mb-4">or</p>
+                <input
+                  type="file"
+                  id="fileInput"
+                  accept="image/*"
+                  multiple
+                  class="hidden"
+                />
+                <label
+                  for="fileInput"
+                  class="bg-slate-600 hover:bg-slate-700 text-gray-200 font-bold py-2 px-4 rounded"
+                >
+                  Choose Images
+                </label>
+              </div>
+
+              <!-- File Name Display -->
+              <p
+                id="fileNameDisplay"
+                class="text-center text-white min-h-[1.5rem]"
+              ></p>
+
+              <!-- Description Input -->
+              <input
+                type="text"
+                id="descriptionInput"
+                placeholder="Add a #hashtag 😎"
+                class="w-full px-4 py-2 text-white bg-slate-700 rounded border border-gray-300"
+              />
+
+              <!-- Upload Button -->
+              <button
+                type="submit"
+                class="w-full bg-amber-500 hover:bg-orange-500 text-slate-900 font-bold py-2 px-4 rounded transition-colors"
+              >
+                Upload Photo
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Photo Gallery -->
+        <section
+          id="photoGallery"
+          class="w-screen-4xl grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 p-4"
+        >
+          <!-- Photos will be dynamically loaded here -->
+          <!-- Example structure for each photo item -->
+          <figure class="flex flex-col items-center">
+            <img
+              src="path_to_image.jpg"
+              alt="Family photo"
+              class="rounded-lg shadow-lg"
+            />
+            <figcaption>#FamilyReunion2025</figcaption>
+          </figure>
+          <!-- Repeat the above block for each image you load dynamically -->
+        </section>
+      </main>
     </div>
 
     <script type="module" src="./firebase.js"></script>
@@ -175,5 +191,5 @@ class="bg-gradient-to-br from-fuchsia-800 via-sky-900 to-stone-500 flex items-ce
         }
       }
     </script>
-</body>
+  </body>
 </html>
