@@ -4,11 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Information</title>
-    <link rel="stylesheet" href="../dist/output.css" />
+    <link rel="stylesheet" href="./src/styles.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap"
       rel="stylesheet"
     />
+    <link
+    href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    rel="stylesheet"
+  />
+
     <style>
       .font-exo {
         font-family: 'Exo 2', sans-serif;
@@ -16,18 +21,20 @@
     </style>
   </head>
   <body
-    class="bg-gradient-to-r from-slate-400 via-slate-600 to-indigo-400 min-h-screen p-4 font-exo"
-  >
-    <h1 class="text-3xl font-bold mb-8 text-center text-white">
+  class="bg-gradient-to-r from-gray-600 via-red-900 to-gray-800 min-h-screen p-4 font-exo"
+  
+  <main class="container mx-auto px-4">
+    <h1 class="p-4 rounded-lg text-3xl font-bold mb-8 text-center text-white mt-8 underline">
       User Sign-Up Info
     </h1>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="grid-cols-1 md:grid-cols-3 gap-8 mt-4">
       <div
         id="usersContainer"
-        class="bg-gradient-to-r from-blue-600 to-slate-800 p-4 rounded-lg mb-4 space-y-2 min-h-[120px]"
+        class="p-4 rounded-lg mb-4 space-y-2 min-h-[120px]"
       ></div>
       <div id="userList" class="space-y-2 min-h-[100px]"></div>
     </div>
+  </main>
     <script type="module" src="./firebase.js"></script>
     <script type="module" src="./users.js"></script>
   </body>

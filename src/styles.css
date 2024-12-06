@@ -5,4 +5,194 @@
 body {
     font-family: 'Exo 2', sans-serif;
   }
+
+/* Custom Color Palette */
+:root {
+  /* Family Blue Palette */
+  --color-blue-100: #e6f2ff;
+  --color-blue-200: #bae6fd;
+  --color-blue-300: #7dd3fc;
+  --color-blue-400: #38bdf8;
+  --color-blue-500: #0ea5e9;
+  --color-blue-600: #2563eb;
+  --color-blue-700: #1d4ed8;
+  --color-blue-800: #1e40af;
+  --color-blue-900: #1e3a8a;
+
+  /* Family Green Palette */
+  --color-green-100: #f0fdf4;
+  --color-green-200: #dcfce7;
+  --color-green-300: #bbf7d0;
+  --color-green-400: #86efac;
+  --color-green-500: #22c55e;
+  --color-green-600: #16a34a;
+  --color-green-700: #15803d;
+  --color-green-800: #166534;
+  --color-green-900: #14532d;
+
+  /* Family Coral Palette */
+  --color-coral-100: #fff5f5;
+  --color-coral-200: #fed7d7;
+  --color-coral-300: #feb2b2;
+  --color-coral-400: #fc8181;
+  --color-coral-500: #f56565;
+  --color-coral-600: #e53e3e;
+  --color-coral-700: #c53030;
+  --color-coral-800: #9b2c2c;
+  --color-coral-900: #742a2a;
+
+  /* Family Red Palette */
+  --color-red-100: #fff5f5;
+  --color-red-200: #fed7d7;
+  --color-red-300: #feb2b2;
+  --color-red-400: #fc8181;
+  --color-red-500: #f44336;
+  --color-red-600: #d32f2f;
+  --color-red-700: #c62828;
+  --color-red-800: #b71c1c;
+  --color-red-900: #9a0007;
+
+  /* Family Gray Palette */
+  --color-gray-100: #f5f5f5;
+  --color-gray-200: #eeeeee;
+  --color-gray-300: #e0e0e0;
+  --color-gray-400: #bdbdbd;
+  --color-gray-500: #9e9e9e;
+  --color-gray-600: #757575;
+  --color-gray-700: #616161;
+  --color-gray-800: #424242;
+  --color-gray-900: #212121;
+
+  /* Family Indigo Palette */
+  --color-indigo-100: #e8eaf6;
+  --color-indigo-200: #c5cae9;
+  --color-indigo-300: #9fa8da;
+  --color-indigo-400: #7986cb;
+  --color-indigo-500: #3f51b5;
+  --color-indigo-600: #3949ab;
+  --color-indigo-700: #303f9f;
+  --color-indigo-800: #283593;
+  --color-indigo-900: #1a237e;
+
+  /* Family Yellow Palette */
+  --color-yellow-100: #fffde7;
+  --color-yellow-200: #fff9c4;
+  --color-yellow-300: #fff59d;
+  --color-yellow-400: #ffee58;
+  --color-yellow-500: #ffeb3b;
+  --color-yellow-600: #fdd835;
+  --color-yellow-700: #fbc02d;
+  --color-yellow-800: #f9a825;
+  --color-yellow-900: #f57f17;
+}
+
+/* Add custom colors to Tailwind's color palette */
+@layer base {
+  /* Blue Variants */
+  .bg-family-blue {
+    @apply bg-[var(--color-blue-500)];
+  }
+  .text-family-blue {
+    @apply text-[var(--color-blue-500)];
+  }
+  .border-family-blue {
+    @apply border-[var(--color-blue-500)];
+  }
+
+  /* Green Variants */
+  .bg-family-green {
+    @apply bg-[var(--color-green-500)];
+  }
+  .text-family-green {
+    @apply text-[var(--color-green-500)];
+  }
+  .border-family-green {
+    @apply border-[var(--color-green-500)];
+  }
+
+  /* Coral Variants */
+  .bg-family-coral {
+    @apply bg-[var(--color-coral-500)];
+  }
+  .text-family-coral {
+    @apply text-[var(--color-coral-500)];
+  }
+  .border-family-coral {
+    @apply border-[var(--color-coral-500)];
+  }
+
+  /* Red Variants */
+  .bg-family-red {
+    @apply bg-[var(--color-red-500)];
+  }
+  .text-family-red {
+    @apply text-[var(--color-red-500)];
+  }
+  .border-family-red {
+    @apply border-[var(--color-red-500)];
+  }
+
+  /* Gray Variants */
+  .bg-family-gray {
+    @apply bg-[var(--color-gray-500)];
+  }
+  .text-family-gray {
+    @apply text-[var(--color-gray-500)];
+  }
+  .border-family-gray {
+    @apply border-[var(--color-gray-500)];
+  }
+
+  /* Indigo Variants */
+  .bg-family-indigo {
+    @apply bg-[var(--color-indigo-500)];
+  }
+  .text-family-indigo {
+    @apply text-[var(--color-indigo-500)];
+  }
+  .border-family-indigo {
+    @apply border-[var(--color-indigo-500)];
+  }
+
+  /* Yellow Variants */
+  .bg-family-yellow {
+    @apply bg-[var(--color-yellow-500)];
+  }
+  .text-family-yellow {
+    @apply text-[var(--color-yellow-500)];
+  }
+  .border-family-yellow {
+    @apply border-[var(--color-yellow-500)];
+  }
+}
+
+/* Utility Classes */
+@layer utilities {
+  .transition-smooth {
+    @apply transition-all duration-300 hover:shadow-xl hover:scale-[1.02];
+  }
+  
+  .glass-effect {
+    @apply bg-white bg-opacity-10 backdrop-blur-md border border-opacity-10;
+  }
+}
+
+/* Gradient Backgrounds */
+.bg-gradient-family {
+  background: linear-gradient(
+    135deg, 
+    var(--color-blue-700), 
+    var(--color-green-600), 
+    var(--color-red-500),
+    var(--color-indigo-400),
+    var(--color-yellow-500)
+  );
+}
+
+/* Responsive Typography */
+.fluid-type {
+  font-size: clamp(1rem, 4vw, 2.5rem);
+}
+
+  
   

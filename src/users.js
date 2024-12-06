@@ -21,17 +21,17 @@ async function fetchAndDisplayUsers() {
       const phoneNumber = userData.phoneNumber || 'N/A';
       const userElement = document.createElement('div');
       userElement.className =
-        'bg-gradient-to-r from-blue-600 to-slate-800 p-4 rounded-lg mb-4';
+        'bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 p-4 rounded-lg mb-4';
 
       userElement.innerHTML = `
-        <h3 class="text-xl font-bold text-white">${
+        <h3 class="p-2 rounded-lg text-xl font-bold text-gray-200 w-auto">${
           userData.firstName || 'N/A'
         } ${userData.lastName || 'N/A'}</h3>
-        <p class="text-slate-300">Email: ${userData.email || 'N/A'}</p>
-        <p class="text-slate-300">Phone: ${
+        <p class="text-gray-200 text-xl">Email: ${userData.email || 'N/A'}</p>
+        <p class="text-gray-200 text-xl">Phone: ${
           userData.phone || userData.phoneNumber || 'N/A'
         }</p>
-        <p class="text-gray-300">Signed up: ${formatDate(
+        <p class="text-gray-200 text-lg">Signed up: ${formatDate(
           userData.createdAt
         )}</p>
       `;

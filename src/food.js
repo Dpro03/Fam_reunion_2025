@@ -82,8 +82,8 @@ function createFoodCheckboxItem(food) {
     'p-2',
     'rounded-lg',
     'bg-gradient-to-r',
-    'from-yellow-400',
-    'to-slate-500',
+    'from-pink-600',
+    'to-pink-900',
     'hover:bg-gray-300',
     'border-2',
     'border-gray-800',
@@ -178,23 +178,23 @@ function createSelectionListItem(entry, key) {
   li.classList.add(
     'text-lg',
     'font-medium',
-    'text-slate-100',
+    'text-gray-100',
     'flex',
     'justify-between',
     'items-center',
     'mb-4',
     'p-4',
     'bg-gradient-to-r',
-    'from-slate-600',
-    'to-slate-400',
+    'from-green-800',
+    'to-green-500',
     'rounded-3xl',
     'shadow-2xl',
-    'shadow-slate-600',
+    'shadow-gray-600',
     'hover:scale-105',
     'transition-transform',
     'duration-300',
     'border-3',
-    'border-slate-200'
+    'border-gray-200'
   );
 
   const selectionText = document.createElement('span');
@@ -203,7 +203,7 @@ function createSelectionListItem(entry, key) {
     entry.attendees
   } <br>
     <span class="inline-flex items-center">
-      <span class="font-bold text-red-500 border-b-2 border-pink-600">Bringing --></span>
+      <span class="font-bold text-red-500 border-b-2 border-gray-600">Bringing --></span>
       <span class="ml-2">${entry.items.join(', ')}</span>
     </span>
   `;

@@ -4,115 +4,127 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Reunion Food List</title>
-    <link rel="stylesheet" href="../dist/output.css" />
-
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-    <script type="module" src="food.js"></script>
     <link
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
     />
-<!-- Add this script for phone formatting -->
-<script>
-  function formatPhoneNumber(input) {
-    // Remove all non-digit characters
-    let value = input.value.replace(/\D/g, '');
-    
-    // Limit to 10 digits
-    value = value.substring(0, 10);
-    
-    // Format the number
-    if (value.length >= 3) {
-      value = '(' + value.substring(0, 3) + ')' + (value.length > 3 ? ' ' + value.substring(3) : '');
-    }
-    if (value.length >= 9) {
-      value = value.substring(0, 9) + '-' + value.substring(9);
-    }
-    
-    // Update the input value
-    input.value = value;
-  }
-</script>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script type="module" src="food.js"></script>
 
+    <!-- Add this script for phone formatting -->
+    <script>
+      function formatPhoneNumber(input) {
+        let value = input.value.replace(/\D/g, '');
+        value = value.substring(0, 10);
+        if (value.length >= 3) {
+          value =
+            '(' +
+            value.substring(0, 3) +
+            ')' +
+            (value.length > 3 ? ' ' + value.substring(3) : '');
+        }
+        if (value.length >= 9) {
+          value = value.substring(0, 9) + '-' + value.substring(9);
+        }
+        input.value = value;
+      }
+    </script>
   </head>
-  <body class="bg-gradient-to-r from-slate-400 via-slate-700 to-indigo-400">
-    <div class="max-w-2xl bg-slate-800 mx-auto shadow-md rounded-lg p-6">
-      <h1 class="text-3xl bg-slate-700 text-white font-bold mb-6 text-center">
+  <body
+    class="bg-gradient-to-r from-gray-600 via-red-900 to-gray-800 flex items-center justify-center min-h-screen p-4"
+  >
+    <div
+      class="bg-gradient-to-r from-gray-600 via-gray-700 to-gray-400 p-8 rounded-lg shadow-xl border border-indigo-400 w-full max-w-xl md:max-w-3xl"
+    >
+      <h1 class="text-3xl font-bold mb-6 text-center text-white">
         Reunion Food List
       </h1>
-      <h2 class="text-2xl font-bold text-center bg-red-600 text-white p-2 mb-3 rounded-lg shadow-lg border-2 border-red-700">
+      <h2
+        class="text-2xl font-bold text-center bg-red-600 text-white p-2 mb-3 rounded-lg shadow-lg border-2 border-red-700"
+      >
         ⚠️ Please be sure to select all fields below!
       </h2>
-            <form id="foodForm">
+
+      <form id="foodForm" class="space-y-6">
+        <!-- Food Image Section -->
         <div>
           <img
             class="h-96 w-3/4 mx-auto rounded-lg mb-2"
             src="./img/burger-with-melted-cheese.webp"
             alt="burger"
           />
+        </div>
 
-          <!-- Contact Information Section -->
-          <div class="space-y-4 mb-6">
-            <div>
-              <label for="name" class="block text-lg font-medium text-gray-200"
-                >Your Name:</label
-              >
-              <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="Enter your name..."
-                class="w-full border border-gray-300 rounded-md p-2 mt-1"
-                required
-              />
-            </div>
+        <!-- Contact Information Section -->
+        <div class="space-y-4 mb-6">
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-200"
+              >Your Name:</label
+            >
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Enter your name..."
+              class="w-full p-3 bg-purple-900/70 border border-indigo-400 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent"
+              required
+            />
+          </div>
 
-            <div>
-              <label for="phone" class="block text-lg font-medium text-gray-200">Phone Number:</label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                placeholder="Enter numbers only"
-                maxlength="14"
-                oninput="formatPhoneNumber(this)"
-                class="w-full border border-gray-300 rounded-md p-2 mt-1"
-                required
-              />
-              <p class="text-sm text-gray-300 mt-1">Just enter the numbers - formatting will be added automatically</p>
-            <div>
-              <label
-                for="attendees"
-                class="block text-lg font-medium text-gray-200"
-                >Number of People Attending:</label
-              >
-              <input
-                type="number"
-                id="attendees"
-                name="attendees"
-                placeholder="Enter the number of people attending..."
-                min="1"
-                class="w-full border border-gray-300 rounded-md p-2 mt-1"
-                required
-              />
-            </div>
+          <div>
+            <label for="phone" class="block text-sm font-medium text-gray-200"
+              >Phone Number:</label
+            >
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder="Enter numbers only"
+              maxlength="14"
+              oninput="formatPhoneNumber(this)"
+              class="w-full p-3 bg-purple-900/70 border border-indigo-400 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent"
+              required
+            />
+            <p class="text-sm text-gray-300 mt-1">
+              Just enter the numbers - formatting will be added automatically
+            </p>
+          </div>
+
+          <div>
+            <label
+              for="attendees"
+              class="block text-sm font-medium text-gray-200"
+              >Number of People Attending:</label
+            >
+            <input
+              type="number"
+              id="attendees"
+              name="attendees"
+              placeholder="Enter the number of people attending..."
+              min="1"
+              class="w-full p-3 bg-purple-900/70 border border-indigo-400 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent"
+              required
+            />
           </div>
         </div>
 
         <h2 class="text-2xl font-semibold mb-4 text-gray-200">Select Items:</h2>
-        <h3 class="text-xl font-medium text-gray-100 p-4 mb-4 bg-red-500 rounded-md border-2 border-red-900">
+        <h3
+          class="text-xl font-medium text-gray-100 p-4 mb-4 bg-red-600 rounded-md border-2 border-red-900"
+        >
           ⚠️ Before submitting, please look below for items already picked!
         </h3>
         <div id="foodList" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
           <!-- Food items will be dynamically populated here -->
         </div>
-        
+
         <!-- Center the submit button -->
         <div class="flex justify-center mt-6">
           <button
             type="submit"
-            class="w-1/2 bg-yellow-500  text-slate-700 py-2 px-4 rounded hover:bg-yellow-600 transition-colors duration-300"
+            class="w-1/2 bg-yellow-500 text-slate-700 py-2 px-4 rounded-lg hover:bg-yellow-600 transition-colors duration-300"
           >
             Submit
           </button>
@@ -126,7 +138,7 @@
         <button id="clearButton" style="display: none"></button>
       </div>
 
-      <h2 class="text-2xl text-slate-300 font-semibold">Picked Items:</h2>
+      <h2 class="text-2xl text-gray-300 font-semibold">Picked Items:</h2>
       <ul id="pickedItems" class="mt-4 space-y-2"></ul>
     </div>
   </body>

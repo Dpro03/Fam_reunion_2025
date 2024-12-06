@@ -117,6 +117,12 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+function handleError(error) {
+  // Log the error to the console or display a message
+  console.error('Error:', error);
+  alert('An error occurred: ' + error.message);
+}
+
 // Handle the login form submission
 const handleLogin = async (event) => {
   event.preventDefault();
@@ -317,7 +323,7 @@ export const fetchImages = async () => {
           description.classList.add(
             'mt-2', // Margin top for spacing
             'text-center',
-            'text-slate-100',
+            'text-gray-100',
             'text-xl',
             'font-bold'
           );

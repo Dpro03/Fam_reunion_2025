@@ -4,24 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up Page</title>
-    <link rel="stylesheet" href="../dist/output.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap" rel="stylesheet" />
   </head>
-  <body
-    class="bg-gradient-to-r from-slate-400 via-slate-600 to-indigo-400 flex items-center justify-center min-h-screen p-4"
-  >
-    <div
-      class="bg-slate-900 p-8 rounded-lg shadow-xl border border-slate-700 w-full max-w-md"
-    >
-      <h2 class="text-3xl font-bold mb-8 text-center text-white">
-        Welcome, to the Dombroski Family Reunion!
+  <body class="bg-gradient-to-r from-gray-600 via-red-900 to-gray-800 flex items-center justify-center min-h-screen p-4">
+    <div class="bg-indigo-900/70 p-8 rounded-lg shadow-xl border border-gray-200 w-full max-w-md">
+      <h2 class="font-exo text-3xl font-bold mb-8 bg-gradient-to-r from-gray-600 via-gray-900 to-gray-800 p-4 rounded-lg text-center text-gray-200">
+        Welcome to the Dombroski Family Reunion!
       </h2>
 
-      <form id="signUpForm" class="space-y-6">
+      <form id="signUpForm" class="bg-gradient-to-r from-gray-600 via-gray-900 to-gray-800 p-8 rounded-lg shadow-xl border border-gray-400 w-full max-w-md space-y-6">
         <div class="space-y-4">
+          <!-- First Name -->
           <div class="flex flex-col space-y-2">
             <label for="firstName" class="text-sm font-medium text-gray-200">
               First Name:
@@ -30,11 +24,12 @@
               type="text"
               id="firstName"
               placeholder="First Name"
-              class="w-full p-3 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent"
+              class="w-full p-3 bg-purple-900/70 border border-indigo-400 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent"
               required
             />
           </div>
 
+          <!-- Last Name -->
           <div class="flex flex-col space-y-2">
             <label for="lastName" class="text-sm font-medium text-gray-200">
               Last Name:
@@ -43,11 +38,12 @@
               type="text"
               id="lastName"
               placeholder="Last Name"
-              class="w-full p-3 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent"
+              class="w-full p-3 bg-purple-900/70 border border-indigo-400 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent"
               required
             />
           </div>
 
+          <!-- Email -->
           <div class="flex flex-col space-y-2">
             <label for="email" class="text-sm font-medium text-gray-200">
               Email:
@@ -56,11 +52,12 @@
               type="email"
               id="email"
               placeholder="Email"
-              class="w-full p-3 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent"
+              class="w-full p-3 bg-purple-900/70 border border-indigo-400 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent"
               required
             />
           </div>
 
+          <!-- Password -->
           <div class="flex flex-col space-y-2">
             <label for="password" class="text-sm font-medium text-gray-200">
               Password:
@@ -69,36 +66,12 @@
               type="password"
               id="password"
               placeholder="Password"
-              class="w-full p-3 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent"
+              class="w-full p-3 bg-purple-900/70 border border-indigo-400 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent"
               required
             />
           </div>
 
-          <script>
-            function formatPhoneNumber(input) {
-              // Remove all non-digit characters
-              let value = input.value.replace(/\D/g, '');
-
-              // Limit to 10 digits
-              value = value.substring(0, 10);
-
-              // Format the number
-              if (value.length >= 3) {
-                value =
-                  '(' +
-                  value.substring(0, 3) +
-                  ')' +
-                  (value.length > 3 ? ' ' + value.substring(3) : '');
-              }
-              if (value.length >= 9) {
-                value = value.substring(0, 9) + '-' + value.substring(9);
-              }
-
-              // Update the input value
-              input.value = value;
-            }
-          </script>
-
+          <!-- Phone -->
           <div class="flex flex-col space-y-2">
             <label for="phone" class="text-sm font-medium text-gray-200">
               Phone:
@@ -110,23 +83,38 @@
               placeholder="Enter numbers only"
               maxlength="14"
               oninput="formatPhoneNumber(this)"
-              class="w-full p-3 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent"
+              class="w-full p-3 bg-purple-900/70 border border-indigo-400 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent"
               required
             />
           </div>
         </div>
 
+        <!-- Sign Up Button -->
         <div class="pt-4">
           <button
             type="submit"
             id="signUpButton"
-            class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200"
+            class="w-full bg-gradient-to-r from-blue-700 to-indigo-500 hover:from-blue-600 hover:to-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200"
           >
             Sign Up
           </button>
         </div>
       </form>
     </div>
+
     <script type="module" src="./firebase.js" defer></script>
+    <script>
+      function formatPhoneNumber(input) {
+        let value = input.value.replace(/\D/g, '');
+        value = value.substring(0, 10);
+        if (value.length >= 3) {
+          value = '(' + value.substring(0, 3) + ')' + (value.length > 3 ? ' ' + value.substring(3) : '');
+        }
+        if (value.length >= 9) {
+          value = value.substring(0, 9) + '-' + value.substring(9);
+        }
+        input.value = value;
+      }
+    </script>
   </body>
 </html>
