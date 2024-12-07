@@ -278,9 +278,11 @@ export const fetchImages = async () => {
   const user = auth.currentUser;
   if (user) {
     try {
+      const storage = getStorage();
       const storageRef = ref(storage, 'images'); // Reference to the images folder
       const result = await listAll(storageRef); // List all images in storage
       const photoGallery = document.getElementById('photoGallery');
+    
 
       if (photoGallery) {
         photoGallery.innerHTML = ''; // Clear previous images
@@ -323,7 +325,7 @@ export const fetchImages = async () => {
           description.classList.add(
             'mt-2', // Margin top for spacing
             'text-center',
-            'text-gray-100',
+            'text-slate-100',
             'text-xl',
             'font-bold'
           );

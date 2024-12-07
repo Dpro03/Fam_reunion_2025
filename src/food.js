@@ -84,15 +84,15 @@ function createFoodCheckboxItem(food) {
     'bg-gradient-to-br',
     'from-rose-800',
     'via-red-700',
-    'to-rose-700',
+    'to-rose-800',
     'border-2',
-    'border-gray-800',
+    'border-slate-300',
     'shadow-sm',
     'mb-2',
     'w-full'
   );
   div.innerHTML = `
-    <input type="checkbox" id="${food}" value="${food}" class="food-checkbox w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+    <input type="checkbox" id="${food}" value="${food}" class="food-checkbox w-5 h-5 text-blue-500 rounded border-slate-300 focus:ring-blue-700">
     <label for="${food}" class="text-lg font-semibold text-slate-100">${food}</label>
   `;
   return div;
@@ -195,8 +195,8 @@ function createSelectionListItem(entry, key) {
     'hover:scale-105',
     'transition-transform',
     'duration-300',
-    'border-3',
-    'border-gray-200'
+    'border-2',
+    'border-slate-200'
   );
 
   const selectionText = document.createElement('span');
