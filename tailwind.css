@@ -115,29 +115,3 @@ body {
   font-size: clamp(1rem, 4vw, 2.5rem);
 }
 
-.lightbox {
-  display: none;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-}
-
-.lightbox.show {
-  display: flex;
-  opacity: 1;
-}
-
-#lightboxClose {
-  background: rgba(0, 0, 0, 0.6);
-  border: none;
-  border-radius: 50%;
-  padding: 0.5rem;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-#lightboxClose:hover {
-  background: rgba(255, 255, 255, 0.6);
-  color: black;
-}
-
-  

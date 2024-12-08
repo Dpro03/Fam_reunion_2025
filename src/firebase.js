@@ -320,7 +320,7 @@ export const fetchImages = async () => {
               'w-full',
               'h-full',
               'bg-black',
-              'bg-opacity-75',
+              'bg-opacity-85',
               'flex',
               'items-center',
               'justify-center',

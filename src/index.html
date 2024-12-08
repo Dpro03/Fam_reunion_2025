@@ -9,205 +9,278 @@
       href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap"
       rel="stylesheet"
     />
+    <style>
+      canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1; /* Keep behind other elements */
+      }
+    </style>
   </head>
 
   <body
     class="bg-gradient-to-br from-fuchsia-700 via-sky-600 to-indigo-900 min-h-screen text-gray-100"
   >
-      <h1
+    <canvas id="fireworksCanvas"></canvas>
+    <h1
       class="font-exo text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-slate-200 
       bg-gradient-to-br from-slate-400 via-slate-600 to-indigo-500 text-center py-8 rounded-lg 
       mt-8 mb-10 shadow-2xl shadow-slate-600 border-b-4 border-slate-100 w-3/4 mx-auto"
     >
-        Dombroski Family Reunion 2025
-      </h1>
-    </header>
-
-    <main class="container mx-auto px-4">
-      <!-- Header Section -->
+      Dombroski Family Reunion 2025
+    </h1>
+      <!-- Existing content here -->  <!-- Header Section -->
       <h2
-        class="text-xl sm:text-2xl md:text-3xl font-bold text-white bg-gradient-to-r from-slate-600 via-indigo-700 to-slate-600 
-        max-w-3xl mx-auto text-center rounded-xl mt-8 sm:mt-12 border-y-rose-400 border-b-4  p-4 shadow-lg shadow-indigo-500/50"
+      class="text-xl sm:text-2xl md:text-3xl font-bold text-white bg-gradient-to-r from-slate-600 via-indigo-700 to-slate-600 
+      max-w-3xl mx-auto text-center rounded-xl mt-8 sm:mt-12 border-y-rose-400 border-b-4  p-4 shadow-lg shadow-indigo-500/50"
+    >
+      Welcome to the home of the Dombroski family reunion! Thanks for visiting!
+    </h2>
+  
+    <h3
+      class="text-lg sm:text-xl md:text-2xl font-bold text-white text-center mt-8 sm:mt-10"
+    >
+      Click on the links below to get started!
+    </h3>
+  
+    <!-- Navigation Links -->
+    <div class="flex flex-wrap justify-center mt-10 sm:mt-12 gap-6">
+      <a
+        href="./logIn.html"
+        class="w-3/4 sm:w-48 
+        bg-gradient-to-br 
+        from-emerald-400 
+        via-green-600 
+        to-slate-300 
+        hover:from-emerald-500 
+        hover:via-green-700 
+        hover:to-slate-400 
+        text-white 
+        font-bold 
+        py-4 
+        px-8 
+        rounded-lg 
+        border-2 
+        border-slate-200 
+        transition-all 
+        duration-300 
+        transform 
+        hover:scale-105 
+        hover:shadow-xl 
+        active:scale-95 
+        focus:outline-none 
+        focus:ring-4 
+        focus:ring-orange-300/50 
+        shadow-md
+        text-center"        >
+        Log In
+      </a>
+      <a
+        href="./signUp.html"
+        class="w-3/4 sm:w-48 
+        bg-gradient-to-br 
+        from-sky-400 
+        via-sky-600 
+        to-slate-400 
+        hover:from-sky-500 
+        hover:via-sky-700 
+        hover:to-slate-500 
+        text-white 
+        font-bold 
+        py-4 
+        px-8 
+        rounded-lg 
+        border-2 
+        border-slate-200 
+        transition-all 
+        duration-300 
+        transform 
+        hover:scale-105 
+        hover:shadow-xl 
+        active:scale-95 
+        focus:outline-none 
+        focus:ring-4 
+        focus:ring-orange-300/50 
+        shadow-md
+        text-center"        >
+        Sign Up
+      </a>
+    </div>
+  
+    <!-- Action Buttons -->
+    <div class="flex flex-wrap justify-center mt-10 sm:mt-12 gap-6">
+      <button
+        id="logoutButton"
+        class="w-3/4 sm:w-48 
+        bg-gradient-to-br 
+        from-rose-400 
+        via-orange-600 
+        to-red-400 
+        hover:from-rose-500 
+        hover:via-orange-700 
+        hover:to-red-500 
+        text-white 
+        font-bold 
+        py-4 
+        px-8 
+        rounded-lg 
+        border-2 
+        border-slate-200 
+        transition-all 
+        duration-300 
+        transform 
+        hover:scale-105 
+        hover:shadow-xl 
+        active:scale-95 
+        focus:outline-none 
+        focus:ring-4 
+        focus:ring-orange-300/50 
+        shadow-md"        >
+        Log Out
+      </button>
+      <button
+        id="deleteAccountButton"
+        class="w-3/4 sm:w-48 
+        bg-gradient-to-br 
+        from-rose-500 
+        via-orange-700 
+        to-red-500 
+        hover:from-rose-600 
+        hover:via-orange-700 
+        hover:to-red-600 
+        text-white 
+        font-bold 
+        py-4 
+        px-8 
+        rounded-lg 
+        border-2 
+        border-slate-200 
+        transition-all 
+        duration-300 
+        transform 
+        hover:scale-105 
+        hover:shadow-xl 
+        active:scale-95 
+        focus:outline-none 
+        focus:ring-4 
+        focus:ring-orange-300/50 
+        shadow-md"        >
+        Delete Account
+      </button>
+    </div>
+  
+    <!-- Additional Links -->
+    <div class="flex flex-col items-center gap-6 mt-10">
+      <a
+        href="./users.html"
+        class="text-lg sm:text-xl md:text-2xl font-bold text-white bg-purple-900/70 max-w-3xl mx-auto text-center rounded-xl border-indigo-400 border-2 p-4 shadow-lg shadow-purple-500/50 hover:bg-purple-800/70 transition-colors duration-300"
       >
-        Welcome to the home of the Dombroski family reunion! Thanks for visiting!
-      </h2>
-    
-      <h3
-        class="text-lg sm:text-xl md:text-2xl font-bold text-white text-center mt-8 sm:mt-10"
+        User List
+      </a>
+      <a
+        href="./food.html"
+        class="text-lg sm:text-xl md:text-2xl font-bold text-white bg-purple-900/70 max-w-3xl mx-auto text-center rounded-xl border-indigo-400 border-2 p-4 shadow-lg shadow-purple-500/50 hover:bg-purple-800/70 transition-colors duration-300"
       >
-        Click on the links below to get started!
-      </h3>
-    
-      <!-- Navigation Links -->
-      <div class="flex flex-wrap justify-center mt-10 sm:mt-12 gap-6">
-        <a
-          href="./logIn.html"
-          class="w-full sm:w-48 
-          bg-gradient-to-br 
-          from-emerald-400 
-          via-green-600 
-          to-slate-300 
-          hover:from-emerald-500 
-          hover:via-green-700 
-          hover:to-slate-400 
-          text-white 
-          font-bold 
-          py-4 
-          px-8 
-          rounded-lg 
-          border-2 
-          border-slate-200 
-          transition-all 
-          duration-300 
-          transform 
-          hover:scale-105 
-          hover:shadow-xl 
-          active:scale-95 
-          focus:outline-none 
-          focus:ring-4 
-          focus:ring-orange-300/50 
-          shadow-md
-          text-center"        >
-          Log In
-        </a>
-        <a
-          href="./signUp.html"
-          class="w-full sm:w-48 
-          bg-gradient-to-br 
-          from-sky-400 
-          via-sky-600 
-          to-slate-400 
-          hover:from-sky-500 
-          hover:via-sky-700 
-          hover:to-slate-500 
-          text-white 
-          font-bold 
-          py-4 
-          px-8 
-          rounded-lg 
-          border-2 
-          border-slate-200 
-          transition-all 
-          duration-300 
-          transform 
-          hover:scale-105 
-          hover:shadow-xl 
-          active:scale-95 
-          focus:outline-none 
-          focus:ring-4 
-          focus:ring-orange-300/50 
-          shadow-md
-          text-center"        >
-          Sign Up
-        </a>
-      </div>
-    
-      <!-- Action Buttons -->
-      <div class="flex flex-wrap justify-center mt-10 sm:mt-12 gap-6">
-        <button
-          id="logoutButton"
-          class="w-full sm:w-48 
-          bg-gradient-to-br 
-          from-rose-400 
-          via-orange-600 
-          to-red-400 
-          hover:from-rose-500 
-          hover:via-orange-700 
-          hover:to-red-500 
-          text-white 
-          font-bold 
-          py-4 
-          px-8 
-          rounded-lg 
-          border-2 
-          border-slate-200 
-          transition-all 
-          duration-300 
-          transform 
-          hover:scale-105 
-          hover:shadow-xl 
-          active:scale-95 
-          focus:outline-none 
-          focus:ring-4 
-          focus:ring-orange-300/50 
-          shadow-md"        >
-          Log Out
-        </button>
-        <button
-          id="deleteAccountButton"
-          class="w-full sm:w-48 
-          bg-gradient-to-br 
-          from-rose-500 
-          via-orange-700 
-          to-red-500 
-          hover:from-rose-600 
-          hover:via-orange-700 
-          hover:to-red-600 
-          text-white 
-          font-bold 
-          py-4 
-          px-8 
-          rounded-lg 
-          border-2 
-          border-slate-200 
-          transition-all 
-          duration-300 
-          transform 
-          hover:scale-105 
-          hover:shadow-xl 
-          active:scale-95 
-          focus:outline-none 
-          focus:ring-4 
-          focus:ring-orange-300/50 
-          shadow-md"        >
-          Delete Account
-        </button>
-      </div>
-    
-      <!-- Additional Links -->
-      <div class="flex flex-col items-center gap-6 mt-10">
-        <a
-          href="./users.html"
-          class="text-lg sm:text-xl md:text-2xl font-bold text-white bg-purple-900/70 max-w-3xl mx-auto text-center rounded-xl border-indigo-400 border-2 p-4 shadow-lg shadow-purple-500/50 hover:bg-purple-800/70 transition-colors duration-300"
-        >
-          User List
-        </a>
-        <a
-          href="./food.html"
-          class="text-lg sm:text-xl md:text-2xl font-bold text-white bg-purple-900/70 max-w-3xl mx-auto text-center rounded-xl border-indigo-400 border-2 p-4 shadow-lg shadow-purple-500/50 hover:bg-purple-800/70 transition-colors duration-300"
-        >
-          Food List
-        </a>
-        <a
-          href="./photos.html"
-          class="text-lg sm:text-xl md:text-2xl font-bold text-white bg-purple-900/70 max-w-3xl mx-auto text-center rounded-xl border-indigo-400 border-2 p-4 shadow-lg shadow-purple-500/50 hover:bg-purple-800/70 transition-colors duration-300"
-        >
-          Photos
-        </a>
-        <a
-          href="./2025_reunion.html"
-          class="text-lg sm:text-xl md:text-2xl font-bold text-white bg-purple-900/70 max-w-3xl mx-auto text-center rounded-xl border-indigo-400 border-2 p-4 shadow-lg shadow-purple-500/50 hover:bg-purple-800/70 transition-colors duration-300"
-        >
-          Home
-        </a>
-      </div>
-    
-      <!-- Venue Section -->
-      <div
-        class="mx-auto text-center text-white text-2xl font-semibold mb-4 mt-10 bg-gradient-to-br from-slate-400 via-slate-600 to-rose-400 hover:from-purple-900 hover:to-indigo-900 rounded-3xl w-48 shadow-2xl shadow-purple-500/50 border-2 border-slate-600 p-2"
+        Food List
+      </a>
+      <a
+        href="./photos.html"
+        class="text-lg sm:text-xl md:text-2xl font-bold text-white bg-purple-900/70 max-w-3xl mx-auto text-center rounded-xl border-indigo-400 border-2 p-4 shadow-lg shadow-purple-500/50 hover:bg-purple-800/70 transition-colors duration-300"
       >
-        The Venue!
-      </div>
-    
-      <!-- Venue Image -->
-      <div class="flex justify-center mb-8">
-        <img
-          src="./img/clubhouse.jpeg"
-          alt="the clubhouse"
-          class="w-full max-w-7xl rounded-2xl shadow-xl hover:scale-[1.02] transition-transform duration-300"
-        />
-      </div>
+        Photos
+      </a>
+      <a
+        href="./2025_reunion.html"
+        class="text-lg sm:text-xl md:text-2xl font-bold text-white bg-purple-900/70 max-w-3xl mx-auto text-center rounded-xl border-indigo-400 border-2 p-4 shadow-lg shadow-purple-500/50 hover:bg-purple-800/70 transition-colors duration-300"
+      >
+        Home
+      </a>
+    </div>
+  
+    <!-- Venue Section -->
+    <div
+      class="mx-auto text-center text-white text-2xl font-semibold mb-4 mt-10 bg-gradient-to-br from-slate-400 via-slate-600 to-rose-400 hover:from-purple-900 hover:to-indigo-900 rounded-3xl w-48 shadow-2xl shadow-purple-500/50 border-2 border-slate-600 p-2"
+    >
+      The Venue!
+    </div>
+  
+    <!-- Venue Image -->
+    <div class="flex justify-center mb-8">
+      <img
+        src="./img/clubhouse.jpeg"
+        alt="the clubhouse"
+        class="w-3/4 max-w-8xl rounded-2xl shadow-xl hover:scale-[1.02] transition-transform duration-300"
+      />
+    </div>
+
     </main>
-    
+
     <script type="module" src="./firebase.js"></script>
-    
+    <script>
+      // Fireworks Animation Script
+      const canvas = document.getElementById("fireworksCanvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      let particles = [];
+      class Particle {
+        constructor(x, y, color) {
+          this.x = x;
+          this.y = y;
+          this.radius = Math.random() * 3 + 1;
+          this.color = color;
+          this.speedX = Math.random() * 6 - 3;
+          this.speedY = Math.random() * 6 - 3;
+          this.opacity = 1;
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
+          ctx.fill();
+          ctx.closePath();
+        }
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          this.opacity -= 0.02;
+        }
+      }
+
+      function createFireworks() {
+        const colors = ["255, 99, 71", "255, 255, 0", "173, 216, 230"];
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height * 0.5;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+
+        for (let i = 0; i < 100; i++) {
+          particles.push(new Particle(x, y, color));
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach((particle, index) => {
+          particle.update();
+          particle.draw();
+          if (particle.opacity <= 0) {
+            particles.splice(index, 1);
+          }
+        });
+        requestAnimationFrame(animate);
+      }
+
+      setInterval(createFireworks, 1000);
+      animate();
+
+      window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    </script>
+  </body>
+</html>
