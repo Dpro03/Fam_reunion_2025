@@ -282,7 +282,6 @@ export const fetchImages = async () => {
       const storageRef = ref(storage, 'images'); // Reference to the images folder
       const result = await listAll(storageRef); // List all images in storage
       const photoGallery = document.getElementById('photoGallery');
-    
 
       if (photoGallery) {
         photoGallery.innerHTML = ''; // Clear previous images
@@ -307,7 +306,40 @@ export const fetchImages = async () => {
           const img = document.createElement('img');
           img.src = downloadURL;
           img.alt = item.name;
-          img.classList.add('w-full', 'h-auto', 'rounded');
+          img.classList.add('w-full', 'h-auto', 'rounded', 'cursor-pointer');
+          img.style.maxHeight = '300px'; // Initial thumbnail size
+          img.style.objectFit = 'cover';
+
+          // Add click event listener to enlarge image
+          img.addEventListener('click', () => {
+            const overlay = document.createElement('div');
+            overlay.classList.add(
+              'fixed',
+              'top-0',
+              'left-0',
+              'w-full',
+              'h-full',
+              'bg-black',
+              'bg-opacity-75',
+              'flex',
+              'items-center',
+              'justify-center',
+              'z-50'
+            );
+
+            const enlargedImg = document.createElement('img');
+            enlargedImg.src = downloadURL;
+            enlargedImg.alt = item.name;
+            enlargedImg.classList.add('max-w-full', 'max-h-full', 'rounded');
+
+            // Add click listener to close overlay
+            overlay.addEventListener('click', () => {
+              overlay.remove();
+            });
+
+            overlay.appendChild(enlargedImg);
+            document.body.appendChild(overlay);
+          });
 
           // Find description from any user's images
           let descriptionText = 'No description available';
@@ -321,7 +353,7 @@ export const fetchImages = async () => {
           }
 
           const description = document.createElement('p');
-          description.innerHTML = `#<span class="font-bold text-xl  text-slate-100">${descriptionText}</span>`;
+          description.innerHTML = `#<span class="font-bold text-xl text-slate-100">${descriptionText}</span>`;
           description.classList.add(
             'mt-2', // Margin top for spacing
             'text-center',
@@ -343,6 +375,10 @@ export const fetchImages = async () => {
     console.log('User not logged in, cannot fetch images');
   }
 };
+
+
+
+
 // Add event listeners for forms and buttons
 document.addEventListener('DOMContentLoaded', () => {});
 // document.getElementById('signUpForm')?.addEventListener('submit', handleSignup);
