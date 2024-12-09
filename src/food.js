@@ -199,14 +199,20 @@ function createSelectionListItem(entry, key) {
     'border-slate-200'
   );
 
+  // Add error checking for items
+  const itemsText =
+    entry.items && entry.items.length
+      ? entry.items.join(', ')
+      : 'No items selected';
+
   const selectionText = document.createElement('span');
   selectionText.innerHTML = `
-    <strong>${entry.name}</strong> -- phone: (${entry.phone}) -- # Attendees: ${
-    entry.attendees
-  } <br>
+    <strong>${entry.name || 'Unknown Name'}</strong> -- phone: ${
+    entry.phone || 'N/A'
+  } -- # Attendees: ${entry.attendees || 'N/A'} <br>
     <span class="inline-flex items-center">
       <span class="font-bold text-orange-600 border-b-2 border-red-600">Bringing --></span>
-      <span class="ml-2">${entry.items.join(', ')}</span>
+      <span class="ml-2">${itemsText}</span>
     </span>
   `;
 

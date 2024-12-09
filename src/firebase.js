@@ -46,7 +46,7 @@ export const db = getFirestore();
 
 // Signup function
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function () {
   const signUpForm = document.getElementById('signUpForm');
 
   if (!signUpForm) {
@@ -375,9 +375,6 @@ export const fetchImages = async () => {
     console.log('User not logged in, cannot fetch images');
   }
 };
-
-
-
 
 // Add event listeners for forms and buttons
 document.addEventListener('DOMContentLoaded', () => {});

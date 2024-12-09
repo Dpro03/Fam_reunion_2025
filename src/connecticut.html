@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connecticut Aerial Photos</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <style>
+      /* Modal styles */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      .modal img {
+        max-width: 95%; /* Increased from 90% */
+        max-height: 95%; /* Increased from 90% */
+        object-fit: contain; /* Ensures entire image is visible */
+        transition: transform 0.3s ease; /* Smooth transition for scaling */
+        cursor: zoom-in; /* Indicates the image can be further enlarged */
+      }
+      .modal.active {
+        display: flex;
+      }
+      .modal.zoomed img {
+        transform: scale(1.5); /* Additional zoom when clicked */
+      }
+      .modal-close {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 36px; /* Slightly larger */
+        color: white;
+        cursor: pointer;
+        z-index: 1001; /* Ensure it's above the image */
+      }
+      /* Adding pointer cursor to images */
+      .modal-trigger {
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .grid img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      class="bg-gradient-to-br from-fuchsia-700 via-sky-600 to-indigo-400 min-h-screen"
+    >
+      <h1
+        class="font-exo text-4xl font-bold mb-6 text-center text-slate-200 p-6"
+      >
+        Connecticut Aerial Photos
+      </h1>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
+        <!-- Image 1 -->
+        <div class="relative">
+          <div class="rounded-lg overflow-hidden shadow-lg">
+            <img
+              src="https://live.staticflickr.com/980/26835748257_8b29d391fa_b.jpg"
+              alt="Aerial View of Hartford, Connecticut"
+              class="w-full h-auto object-cover modal-trigger"
+            />
+            <div
+              class="bg-black bg-opacity-70 text-white text-sm p-2 text-center"
+            >
+              Aerial View of Hartford, Connecticut
+            </div>
+          </div>
+        </div>
+
+        <!-- Image 2 -->
+        <div class="relative">
+          <div class="rounded-lg overflow-hidden shadow-lg">
+            <img
+              src="https://media.gettyimages.com/id/1465625283/photo/aerial-view-of-stunning-connecticut-capitol-in-downtown-hartford.jpg?s=612x612&w=0&k=20&c=-mzfjEH3hbXykJd03ncajfyrgTbOYsw8pgcfuX4D56o="
+              alt="State Capitol"
+              class="w-full h-auto object-cover modal-trigger"
+            />
+            <div
+              class="bg-black bg-opacity-70 text-white text-sm p-2 text-center"
+            >
+              State Capitol in Hartford
+            </div>
+          </div>
+        </div>
+
+        <!-- Image 3 -->
+        <div class="relative">
+          <div class="rounded-lg overflow-hidden shadow-lg">
+            <img
+              src="https://live.staticflickr.com/949/41696853142_5b5d8a0518_w.jpg"
+              alt="View of New Haven from Sleeping Giant State Park"
+              class="w-full h-auto object-cover modal-trigger"
+            />
+            <div
+              class="bg-black bg-opacity-70 text-white text-sm p-2 text-center"
+            >
+              View of New Haven from Sleeping Giant State Park
+            </div>
+          </div>
+        </div>
+
+        <!-- Image 4 -->
+        <div class="relative">
+          <div class="rounded-lg overflow-hidden shadow-lg">
+            <img
+              src="https://live.staticflickr.com/2699/33020928686_76571be451_n.jpg"
+              alt="Bend in the Connecticut River"
+              class="w-full h-auto object-cover modal-trigger"
+            />
+            <div
+              class="bg-black bg-opacity-70 text-white text-sm p-2 text-center"
+            >
+              Bend in the Connecticut River
+            </div>
+          </div>
+        </div>
+
+        <!-- Image 5 -->
+        <div class="relative">
+          <div class="rounded-lg overflow-hidden shadow-lg">
+            <img
+              src="https://live.staticflickr.com/4567/38161266786_140740a4ea_n.jpg"
+              alt="Uconn Campus"
+              class="w-full h-auto object-cover modal-trigger"
+            />
+            <div
+              class="bg-black bg-opacity-70 text-white text-sm p-2 text-center"
+            >
+              UCONN Campus
+            </div>
+          </div>
+        </div>
+
+        <!-- Image 6 -->
+        <div class="relative">
+          <div class="rounded-lg overflow-hidden shadow-lg">
+            <img
+              src="https://live.staticflickr.com/2031/5713107739_62afafdd9b_n.jpg"
+              alt="Bradley International Airport"
+              class="w-full h-auto object-cover modal-trigger"
+            />
+            <div
+              class="bg-black bg-opacity-70 text-white text-sm p-2 text-center"
+            >
+              Bradley International Airport
+            </div>
+          </div>
+        </div>
+
+        <!-- Image 7 -->
+        <div class="relative">
+          <div class="rounded-lg overflow-hidden shadow-lg">
+            <img
+              src="https://live.staticflickr.com/4128/5024371918_1c8ea26a02_n.jpg"
+              alt="Mouth of the Connecticut River"
+              class="w-full h-auto object-cover modal-trigger"
+            />
+            <div
+              class="bg-black bg-opacity-70 text-white text-sm p-2 text-center"
+            >
+              Mouth of the Connecticut River
+            </div>
+          </div>
+        </div>
+
+        <!-- Image 8 -->
+        <div class="relative">
+          <div class="rounded-lg overflow-hidden shadow-lg">
+            <img
+              src="https://live.staticflickr.com/8388/8598205817_0cb2bc085a_w.jpg"
+              alt="Essex, CT"
+              class="w-full h-auto object-cover modal-trigger"
+            />
+            <div
+              class="bg-black bg-opacity-70 text-white text-sm p-2 text-center"
+            >
+              Essex, CT
+            </div>
+          </div>
+        </div>
+
+        <!-- Image 9 -->
+        <div class="relative">
+          <div class="rounded-lg overflow-hidden shadow-lg">
+            <img
+              src="https://roamingtheamericas.com/wp-content/uploads/2023/10/connecticut-fall-east-haddam-swing-bridge-LR-W-0234.jpg"
+              alt="Goodspeed Opera House and Swing Bridge in East Haddam"
+              class="w-full h-auto object-cover modal-trigger"
+            />
+            <div
+              class="bg-black bg-opacity-70 text-white text-sm p-2 text-center"
+            >
+              Goodspeed Opera House and Swing Bridge in East Haddam
+            </div>
+          </div>
+        </div>
+
+        <!-- Image 10 -->
+        <div class="relative">
+          <div class="rounded-lg overflow-hidden shadow-lg">
+            <img
+              src="https://www.albradenphoto.com/img-get/I0000psuO_UbHbko/s/1200/I0000psuO_UbHbko.jpg"
+              alt="Fenwick Point - Old Saybrook"
+              class="w-full h-auto object-cover modal-trigger"
+            />
+            <div
+              class="bg-black bg-opacity-70 text-white text-sm p-2 text-center"
+            >
+              Fenwick Point - Old Saybrook
+            </div>
+          </div>
+        </div>
+
+        <!-- Image 11 -->
+        <div class="relative">
+          <div class="rounded-lg overflow-hidden shadow-lg">
+            <img
+              src="https://www.albradenphoto.com/img-get/I0000XjqyPBXUzCM/s/1200/I0000XjqyPBXUzCM.jpg"
+              alt="Gillette Castle - East Haddam"
+              class="w-full h-auto object-cover modal-trigger"
+            />
+            <div
+              class="bg-black bg-opacity-70 text-white text-sm p-2 text-center"
+            >
+              Gillette Castle - East Haddam
+            </div>
+          </div>
+        </div>
+
+        <div class="relative">
+          <div class="rounded-lg overflow-hidden shadow-lg">
+            <img
+              src="https://media.gettyimages.com/id/1447721577/photo/high-angle-view-of-sea-and-cityscape-against-sky-stonington-connecticut-united-states-usa.jpg?s=612x612&w=0&k=20&c=t1JplpWY3FplOmwJ6tGl2kFUwMOlMG0QH0yCpx-385w="
+              alt="Stonington, CT"
+              class="w-full h-auto object-cover modal-trigger"
+            />
+            <div
+              class="bg-black bg-opacity-70 text-white text-sm p-2 text-center"
+            >
+              Stonington, CT
+            </div>
+          </div>
+        </div>
+
+        <div class="relative">
+          <div class="rounded-lg overflow-hidden shadow-lg">
+            <img
+              src="https://media.gettyimages.com/id/534813644/photo/an-aerial-view-of-mansions-along-the-coastline-of-southeastern-connecticut-near-greenwich-on.jpg?s=612x612&w=0&k=20&c=k1Fvr4dEt34uf5NPDvA2_pjdVD5ItV01uwZfv4mHPCc="
+              alt="Greenwich, CT"
+              class="w-full h-auto object-cover modal-trigger"
+            />
+            <div
+              class="bg-black bg-opacity-70 text-white text-sm p-2 text-center"
+            >
+              Greenwich, CT
+            </div>
+          </div>
+        </div>
+
+        <div class="relative">
+          <div class="rounded-lg overflow-hidden shadow-lg">
+            <img
+              src="https://media.gettyimages.com/id/951781636/photo/aerial-view-of-new-milford-connecticut.jpg?s=612x612&w=0&k=20&c=N2bC1lWE2_3rrS_qrtrnSjXmkf5v6ududRnQez-f4Hw="
+              alt="New Milford, CT"
+              class="w-full h-auto object-cover modal-trigger"
+            />
+            <div
+              class="bg-black bg-opacity-70 text-white text-sm p-2 text-center"
+            >
+              New Milford, CT
+            </div>
+          </div>
+        </div>
+
+        <div class="relative">
+          <div class="rounded-lg overflow-hidden shadow-lg">
+            <img
+              src="https://media.gettyimages.com/id/1241532372/photo/cromwell-ct-aerial-view-of-the-course-is-seen-after-the-third-round-of-the-travelers.jpg?s=612x612&w=0&k=20&c=Wa26aA7a_ojDN-ZufhGMT5eQdqhdyElp_t7v3j5RKV8="
+              alt="The Travelers Championship"
+              class="w-full h-auto object-cover modal-trigger"
+            />
+            <div
+              class="bg-black bg-opacity-70 text-white text-sm p-2 text-center"
+            >
+              The Travelers Championship
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="image-modal" class="modal">
+      <span class="modal-close">&times;</span>
+      <img id="modal-img" src="" alt="Enlarged View" />
+    </div>
+
+    <script>
+      const modal = document.getElementById('image-modal');
+      const modalImg = document.getElementById('modal-img');
+      const modalClose = document.querySelector('.modal-close');
+
+      // Add click listeners to all images
+      document.querySelectorAll('.modal-trigger').forEach((img) => {
+        img.addEventListener('click', () => {
+          modalImg.src = img.src;
+          modal.classList.add('active');
+        });
+      });
+
+      // Add double-click zoom functionality
+      modalImg.addEventListener('click', () => {
+        modal.classList.toggle('zoomed');
+      });
+
+      // Close the modal
+      modalClose.addEventListener('click', () => {
+        modal.classList.remove('active', 'zoomed');
+      });
+
+      // Close modal when clicking outside the image
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active', 'zoomed');
+        }
+      });
+    </script>
+  </body>
+</html>
