@@ -990,6 +990,10 @@ video {
   border-color: rgb(103 232 249 / 0.5);
 }
 
+.border-cyan-700\/50 {
+  border-color: rgb(14 116 144 / 0.5);
+}
+
 .border-gray-300 {
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity, 1));
@@ -1076,11 +1080,6 @@ video {
   background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
 }
 
-.bg-fuchsia-600 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(192 38 211 / var(--tw-bg-opacity, 1));
-}
-
 .bg-orange-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(249 115 22 / var(--tw-bg-opacity, 1));
@@ -1118,11 +1117,6 @@ video {
 .bg-yellow-400 {
   --tw-bg-opacity: 1;
   background-color: rgb(250 204 21 / var(--tw-bg-opacity, 1));
-}
-
-.bg-fuchsia-800 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(134 25 143 / var(--tw-bg-opacity, 1));
 }
 
 .bg-opacity-70 {
@@ -1237,12 +1231,6 @@ video {
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
-.from-fuchsia-800 {
-  --tw-gradient-from: #86198f var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(134 25 143 / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-
 .via-blue-500 {
   --tw-gradient-to: rgb(59 130 246 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), #3b82f6 var(--tw-gradient-via-position), var(--tw-gradient-to);
@@ -1313,16 +1301,6 @@ video {
   --tw-gradient-stops: var(--tw-gradient-from), #334155 var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
 
-.via-rose-700 {
-  --tw-gradient-to: rgb(190 18 60 / 0)  var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), #be123c var(--tw-gradient-via-position), var(--tw-gradient-to);
-}
-
-.via-sky-500 {
-  --tw-gradient-to: rgb(14 165 233 / 0)  var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), #0ea5e9 var(--tw-gradient-via-position), var(--tw-gradient-to);
-}
-
 .to-fuchsia-400 {
   --tw-gradient-to: #e879f9 var(--tw-gradient-to-position);
 }
@@ -1367,6 +1345,10 @@ video {
   --tw-gradient-to: #fb7185 var(--tw-gradient-to-position);
 }
 
+.to-rose-500 {
+  --tw-gradient-to: #f43f5e var(--tw-gradient-to-position);
+}
+
 .to-rose-700 {
   --tw-gradient-to: #be123c var(--tw-gradient-to-position);
 }
@@ -1397,10 +1379,6 @@ video {
 
 .to-slate-900 {
   --tw-gradient-to: #0f172a var(--tw-gradient-to-position);
-}
-
-.to-rose-500 {
-  --tw-gradient-to: #f43f5e var(--tw-gradient-to-position);
 }
 
 .object-cover {
