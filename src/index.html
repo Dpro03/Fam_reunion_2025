@@ -24,6 +24,20 @@
   <body
     class="bg-gradient-to-br from-fuchsia-700 via-sky-600 to-indigo-900 min-h-screen text-gray-100"
   >
+
+  <div>
+    <a href="./users.html" class="w-full sm:w-auto block">
+      <button
+        class="items-center absolute top-2 left-2 z-50 w-28 sm:w-28 bg-gradient-to-br from-fuchsia-500 to-sky-600 via-blue-500 hover:from-fuchsia-300   hover:via-orange-700 hover:to-fuchsia-500 text-white font-bold py-4 px-8 rounded-lg border-2 border-slate-200 transition-all duration-300 transform hover:scale-105 hover:shadow-xl active:scale-95 focus:outline-none focus:ring-4 focus:ring-orange-300/50 shadow-md wiggle-on-hover"
+      >
+        Users
+      </button>
+    </a>
+  
+  </div>
+  
+
+
     <canvas id="fireworksCanvas"></canvas>
     <h1
       class="font-exo text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-slate-200 
@@ -73,10 +87,15 @@
         active:scale-95 
         focus:outline-none 
         focus:ring-4 
-        focus:ring-orange-300/50 
+        focus:ring-green-300/50 
         shadow-md
-        text-center"        >
-        Log In
+        text-center
+        relative
+        overflow-hidden
+        group"
+      >
+        <span class="relative z-10">Log In</span>
+        <span class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
       </a>
       <a
         href="./signUp.html"
@@ -103,13 +122,18 @@
         active:scale-95 
         focus:outline-none 
         focus:ring-4 
-        focus:ring-orange-300/50 
+        focus:ring-sky-300/50 
         shadow-md
-        text-center"        >
-        Sign Up
+        text-center
+        relative
+        overflow-hidden
+        group"
+      >
+        <span class="relative z-10">Sign Up</span>
+        <span class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
       </a>
     </div>
-  
+    
     <!-- Action Buttons -->
     <div class="flex flex-wrap justify-center mt-10 sm:mt-12 gap-6">
       <button
@@ -138,8 +162,13 @@
         focus:outline-none 
         focus:ring-4 
         focus:ring-orange-300/50 
-        shadow-md"        >
-        Log Out
+        shadow-md
+        relative
+        overflow-hidden
+        group"
+      >
+        <span class="relative z-10">Log Out</span>
+        <span class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
       </button>
       <button
         id="deleteAccountButton"
@@ -149,7 +178,7 @@
         via-orange-700 
         to-red-500 
         hover:from-rose-600 
-        hover:via-orange-700 
+        hover:via-orange-800 
         hover:to-red-600 
         text-white 
         font-bold 
@@ -166,39 +195,43 @@
         active:scale-95 
         focus:outline-none 
         focus:ring-4 
-        focus:ring-orange-300/50 
-        shadow-md"        >
-        Delete Account
+        focus:ring-red-300/50 
+        shadow-md
+        relative
+        overflow-hidden
+        group"
+      >
+        <span class="relative z-10">Delete Account</span>
+        <span class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
       </button>
     </div>
-  
-    <!-- Additional Links -->
-    <div class="flex flex-col items-center gap-6 mt-10">
-      <a
-        href="./users.html"
-        class="text-lg sm:text-xl md:text-2xl font-bold text-white bg-purple-900/70 max-w-3xl mx-auto text-center rounded-xl border-indigo-400 border-2 p-4 shadow-lg shadow-purple-500/50 hover:bg-purple-800/70 transition-colors duration-300"
-      >
-        User List
-      </a>
-      <a
-        href="./food.html"
-        class="text-lg sm:text-xl md:text-2xl font-bold text-white bg-purple-900/70 max-w-3xl mx-auto text-center rounded-xl border-indigo-400 border-2 p-4 shadow-lg shadow-purple-500/50 hover:bg-purple-800/70 transition-colors duration-300"
-      >
-        Food List
-      </a>
-      <a
-        href="./photos.html"
-        class="text-lg sm:text-xl md:text-2xl font-bold text-white bg-purple-900/70 max-w-3xl mx-auto text-center rounded-xl border-indigo-400 border-2 p-4 shadow-lg shadow-purple-500/50 hover:bg-purple-800/70 transition-colors duration-300"
-      >
-        Photos
-      </a>
-      <a
-        href="./2025_reunion.html"
-        class="text-lg sm:text-xl md:text-2xl font-bold text-white bg-purple-900/70 max-w-3xl mx-auto text-center rounded-xl border-indigo-400 border-2 p-4 shadow-lg shadow-purple-500/50 hover:bg-purple-800/70 transition-colors duration-300"
-      >
-        Home
-      </a>
+    <div class="flex items-center justify-center ">
+      <div class="mt-6 bg-gradient-to-br from-rose-500 via-orange-600 to-red-500 border-2 border-orange-300 p-2 w-1/3 rounded-lg text-center text-slate-950">
+        You can only access the food and photos pages while you are logged in!
+      </div>
     </div>
+          
+<!-- Additional Links -->
+<div class="flex flex-wrap justify-center mt-6 gap-4">
+  <a
+    href="./food.html"
+    class="text-sm sm:text-md md:text-lg font-semibold text-white bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-lg border-2 border-purple-400 px-6 py-2 shadow-md hover:shadow-lg hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 transition-all duration-300 transform hover:scale-105"
+  >
+    Food List
+  </a>
+  <a
+    href="./photos.html"
+    class="text-sm sm:text-md md:text-lg font-semibold text-white bg-gradient-to-r from-green-400 via-teal-500 to-blue-500 rounded-lg border-2 border-teal-400 px-6 py-2 shadow-md hover:shadow-lg hover:from-green-500 hover:via-teal-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105"
+  >
+    Photos
+  </a>
+  <a
+    href="./2025_reunion.html"
+    class="text-sm sm:text-md md:text-lg font-semibold text-white bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 rounded-lg border-2 border-orange-400 px-6 py-2 shadow-md hover:shadow-lg hover:from-yellow-500 hover:via-orange-600 hover:to-red-600 transition-all duration-300 transform hover:scale-105"
+  >
+    Home
+  </a>
+</div>
   
     <!-- Venue Section -->
     <div
