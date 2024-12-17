@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Family Photo Memories!</title>
+
+    <link rel="stylesheet" href="./styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @keyframes shimmer {
+        0% {
+          background-position: -1000px 0;
+        }
+        100% {
+          background-position: 1000px 0;
+        }
+      }
+
+      .drag-over {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        animation: bounce 0.5s ease-in-out;
+      }
+
+      figure {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: transform 0.3s ease;
+      }
+
+      figure:hover {
+        transform: scale(1.05);
+      }
+
+      figure img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      figure img:hover {
+        transform: rotate(2deg);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      figcaption {
+        margin-top: 0.5rem;
+        width: 100%;
+        text-align: center;
+        color: white;
+        font-weight: bold;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+      }
+
+      #dropZone {
+        position: relative;
+        overflow: hidden;
+      }
+
+      #dropZone::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        background-size: 200px 100%;
+        animation: shimmer 2s infinite linear;
+        pointer-events: none;
+      }
+
+      #uploadForm button {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      #uploadForm button::after {
+        content: '🎉';
+        position: absolute;
+        top: -100%;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: all 0.3s ease;
+        opacity: 0;
+      }
+
+      #uploadForm button:hover {
+        transform: scale(1.05);
+      }
+
+      #uploadForm button:hover::after {
+        top: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gradient-to-br from-fuchsia-700 via-sky-700 to-indigo-900 flex items-center border-slate-200 border-2 justify-center min-h-screen p-4"
+  >
+  <div>
+  <a href="./2025_reunion.html" class="w-full sm:w-auto block">
+    <button
+      class="items-center absolute top-2 left-2 z-50 w-28 sm:w-28 bg-gradient-to-br from-fuchsia-500 to-sky-600 via-blue-500 hover:from-fuchsia-300   hover:via-orange-700 hover:to-fuchsia-500 text-white font-bold py-4 px-8 rounded-lg border-2 border-slate-200 transition-all duration-300 transform hover:scale-105 hover:shadow-xl active:scale-95 focus:outline-none focus:ring-4 focus:ring-orange-300/50 shadow-md wiggle-on-hover"
+    >
+      Home
+    </button>
+  </a>
+
+</div>
+
+
+    <div class="container mx-auto px-4">
+      <!-- Playful Header -->
+      <header class="text-center py-8 group">
+        <h1
+          class="bg-gradient-to-br from-slate-900 via-sky-800 to-slate-900 font-exo text-5xl md:text-6xl lg:text-7xl font-bold text-slate-200 border-b-4 border-slate-100 shadow-2xl shadow-slate-600 py-4 rounded-lg transition-all duration-300 group-hover:scale-105 group-hover:rotate-2"
+        >
+          Family Photo Memories! 📸
+        </h1>
+      </header>
+      <div class="mb-8 text-center text-xl text-slate-200 animate-pulse">
+        Please contribute and add the photos you are proud to share!
+      </div>
+
+      <!-- Main Content -->
+      <main
+        class="bg-gradient-to-br from-sky-800 via-sky-900 to-slate-700 max-w-7xl mx-auto rounded-3xl shadow-2xl"
+      >
+        <!-- Upload Section -->
+        <section class="rounded-3xl shadow-2xl shadow-indigo-500 p-6 mb-12">
+          <form id="uploadForm" class="max-w-xl mx-auto">
+            <div
+              class="bg-gradient-to-br from-rose-500 via-rose-600 to-rose-700 shadow-2xl shadow-rose-900 border-2 border-rose-600 rounded-lg p-6 space-y-6"
+            >
+              <!-- Drop Zone -->
+              <div
+                id="dropZone"
+                class="border-4 border-dashed border-slate-500 h-48 w-full rounded-lg p-6 text-slate-200 flex flex-col items-center justify-center cursor-pointer transition-colors"
+              >
+                <p class="text-xl font-bold mb-2 animate-bounce">
+                  Drag and drop photos here 🖼️
+                </p>
+                <p class="mb-4">or</p>
+                <input
+                  type="file"
+                  id="fileInput"
+                  accept="image/*"
+                  multiple
+                  class="hidden"
+                />
+                <label
+                  for="fileInput"
+                  class="bg-slate-600 hover:bg-slate-700 text-gray-200 font-bold py-2 px-4 rounded transition-all hover:scale-105"
+                >
+                  Choose Images ☘️
+                </label>
+              </div>
+
+              <!-- File Name Display -->
+              <p
+                id="fileNameDisplay"
+                class="text-center text-white min-h-[1.5rem] animate-pulse"
+              ></p>
+
+              <!-- Description Input -->
+              <input
+                type="text"
+                id="descriptionInput"
+                placeholder="Add a fun #hashtag 🎈"
+                class="w-full px-4 py-2 text-white bg-slate-700 rounded border border-gray-300 transition-all focus:ring-2 focus:ring-amber-400"
+              />
+
+              <!-- Upload Button -->
+              <button
+                type="submit"
+                class="w-full bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold py-2 px-4 rounded transition-colors"
+              >
+                Upload Photo
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Photo Gallery -->
+        <section
+          id="photoGallery"
+          class="bg-gradient-to-br from-slate-900 via-sky-900 to-slate-900 max-w-screen-4xl grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 p-4"
+        >
+          <!-- Photos will be dynamically loaded here -->
+          <figure class="flex flex-col items-center group">
+            <div class="overflow-hidden rounded-lg"></div>
+            <figcaption
+              class="mt-2 group-hover:text-amber-300 transition-colors"
+            >
+              #FamilyReunion2025 🎉
+            </figcaption>
+          </figure>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./firebase.js"></script>
+
+    <script>
+      const dropZone = document.getElementById('dropZone');
+      const fileInput = document.getElementById('fileInput');
+      const fileNameDisplay = document.getElementById('fileNameDisplay');
+      const uploadForm = document.getElementById('uploadForm');
+
+      let lastFileName = '';
+      let isFileNameUpdated = false;
+
+      fileInput.addEventListener('change', (event) =>
+        handleFileSelect(event.target.files)
+      );
+
+      dropZone.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        dropZone.classList.add('drag-over');
+      });
+
+      dropZone.addEventListener('dragleave', (event) => {
+        event.preventDefault();
+        dropZone.classList.remove('drag-over');
+      });
+
+      dropZone.addEventListener('drop', (event) => {
+        event.preventDefault();
+        dropZone.classList.remove('drag-over');
+
+        const files = event.dataTransfer.files;
+        if (files.length > 0) {
+          fileInput.files = files;
+          handleFileSelect(files);
+        }
+        clearDescriptionInput();
+      });
+
+      uploadForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const files = fileInput.files;
+        if (files.length > 0) {
+          handleFileSelect(files);
+          playUploadAnimation();
+        }
+      });
+
+      function handleFileSelect(files) {
+        if (files.length > 0) {
+          const currentFileName = files[0].name;
+          if (currentFileName !== lastFileName || !isFileNameUpdated) {
+            lastFileName = currentFileName;
+            if (fileNameDisplay) {
+              fileNameDisplay.textContent = `🎊 ${lastFileName} 🎊`;
+            }
+            isFileNameUpdated = true;
+          }
+        }
+      }
+
+      function clearDescriptionInput() {
+        const descriptionInput = document.getElementById('descriptionInput');
+        if (descriptionInput) {
+          descriptionInput.value = '';
+        }
+      }
+
+      function playUploadAnimation() {
+        const uploadButton = document.querySelector('#uploadForm button');
+        uploadButton.classList.add('animate-bounce');
+        setTimeout(() => {
+          uploadButton.classList.remove('animate-bounce');
+        }, 1000);
+      }
+    </script>
+  </body>
+</html>

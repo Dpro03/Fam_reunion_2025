@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dombroski Family Reunion Extravaganza!</title>
+
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <style>
+      @keyframes wiggle {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        25% {
+          transform: rotate(-5deg);
+        }
+        75% {
+          transform: rotate(5deg);
+        }
+      }
+      .wiggle-on-hover:hover {
+        animation: wiggle 0.3s ease-in-out;
+      }
+      .confetti-burst {
+        position: relative;
+        overflow: hidden;
+      }
+      .confetti-burst::before {
+        content: '🎉';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+        transition: all 0.5s ease;
+      }
+      .confetti-burst:hover::before {
+        transform: translate(-50%, -50%) scale(3);
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gradient-to-br from-fuchsia-700 via-sky-600 to-indigo-400 flex items-center justify-center min-h-screen"
+  >
+    <main class="animate__animated animate__fadeInLeft">
+      <div class="container mx-auto px-4">
+        <h1
+          id="typed-title"
+          class="font-exo text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-slate-300 bg-gradient-to-br from-slate-400 via-slate-600 to-indigo-500 text-center py-8 rounded-lg mt-8 mb-10 shadow-2xl shadow-slate-600 border-b-4 border-slate-100 wiggle-on-hover"
+        >
+          Welcome to the Dombroski Family Reunion!
+        </h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          <div
+            class="bg-gradient-to-br from-indigo-500 via-sky-600 to-fuchsia-500 rounded-3xl shadow-2xl shadow-cyan-600/50 text-lg sm:text-2xl md:text-3xl text-white text-center flex justify-center items-center border-cyan-300/50 border-2 hover:scale-105 transition-transform duration-300 confetti-burst"
+          >
+            <p>
+              The address:<br />
+              42 Center Court<br />
+              Colchester, CT, 06415
+            </p>
+          </div>
+          <div
+            class="bg-gradient-to-br from-indigo-500 via-sky-600 to-fuchsia-500 rounded-3xl shadow-2xl shadow-cyan-600/50 text-md sm:text-xl md:text-2xl text-white text-center flex justify-center items-center border-cyan-300/50 border-2 hover:scale-105 transition-transform duration-300 p-4 wiggle-on-hover"
+          >
+            <p>
+              Our venue features a full kitchen, 2 floors, indoor and outdoor
+              seating, billiards, ping pong table, television, and board games!
+            </p>
+          </div>
+          <div
+            class="bg-gradient-to-br from-indigo-500 via-sky-600 to-fuchsia-500 rounded-3xl shadow-2xl shadow-cyan-600/50 text-lg sm:text-2xl md:text-3xl text-white text-center flex justify-center items-center border-cyan-300/50 border-2 hover:scale-105 transition-transform duration-300 confetti-burst"
+          >
+            <p>
+              The date:<br />
+              August 4, 2025<br />
+              10:00 AM to 5:00 PM
+            </p>
+          </div>
+        </div>
+        <div
+          id="volunteer-alert"
+          class="mb-12 text-center text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-br from-orange-600 via-orange-700 to-orange-600 py-4 rounded-lg text-gray-200 wiggle-on-hover"
+        >
+          ⚠️ We will need volunteers to help with set up and clean up!<br />Set
+          up will start at 9:30 AM and clean up commences at 5:00 PM
+        </div>
+        <div class="flex items-center justify-center mb-6">
+          <div
+            class="bg-gradient-to-br from-fuchsia-500 via-sky-600 to-fuchsia-500 border-cyan-700/50 border-2 rounded-3xl shadow-2xl shadow-cyan-800/50 text-center text-xl text-slate-200 w-48 py-4"
+          >
+            Super Cool Links ↓
+          </div>
+        </div>
+        <div
+          class="flex flex-col sm:flex-row justify-center space-y-6 sm:space-y-0 sm:space-x-8 mb-12"
+        >
+          <a href="./photos.html" class="w-full sm:w-auto block">
+            <button
+              class="w-full sm:w-48 bg-gradient-to-br from-rose-300 via-orange-600 to-fuchsia-400 hover:from-rose-400 hover:via-orange-700 hover:to-fuchsia-500 text-white font-bold py-4 px-8 rounded-lg border-2 border-slate-200 transition-all duration-300 transform hover:scale-105 hover:shadow-xl active:scale-95 focus:outline-none focus:ring-4 focus:ring-orange-300/50 shadow-md wiggle-on-hover"
+            >
+              Photos
+            </button>
+          </a>
+          <a href="./food.html" class="w-full sm:w-auto block">
+            <button
+              class="w-full sm:w-48 bg-gradient-to-br from-rose-300 via-orange-600 to-fuchsia-400 hover:from-rose-400 hover:via-orange-600 hover:to-fuchsia-500 text-white font-bold py-4 px-8 rounded-lg border-2 border-slate-200 transition-all duration-300 transform hover:scale-105 hover:shadow-xl active:scale-95 focus:outline-none focus:ring-4 focus:ring-orange-300/50 shadow-md wiggle-on-hover"
+            >
+              Food List
+            </button>
+          </a>
+
+          <a href="./connecticut.html" class="w-full sm:w-auto block">
+            <button
+              class="w-full sm:w-48 bg-gradient-to-br from-rose-300 via-orange-600 to-fuchsia-400 hover:from-rose-400 hover:via-orange-700 hover:to-fuchsia-500 text-white font-bold py-4 px-8 rounded-lg border-2 border-slate-200 transition-all duration-300 transform hover:scale-110 hover:rotate-6 hover:shadow-xl active:scale-95 focus:outline-none focus:ring-4 focus:ring-orange-300/50 shadow-md wiggle-on-hover"
+            >
+              ✓ this out!🙂
+            </button>
+          </a>
+
+          <style>
+            /* Adding some fun wiggle animation for hover effect */
+            .wiggle-on-hover:hover {
+              animation: wiggle 0.5s ease-in-out infinite;
+            }
+
+            /* Define the wiggle animation */
+            @keyframes wiggle {
+              0% {
+                transform: rotate(-3deg);
+              }
+              25% {
+                transform: rotate(3deg);
+              }
+              50% {
+                transform: rotate(-3deg);
+              }
+              75% {
+                transform: rotate(3deg);
+              }
+              100% {
+                transform: rotate(0deg);
+              }
+            }
+          </style>
+        </div>
+
+        <div class="flex justify-center mb-12">
+          <img
+            src="./img/reunion.jpg"
+            alt="family reunion"
+            class="w-full max-w-8xl h-auto rounded-3xl shadow-2xl hover:scale-105 transition-transform wiggle-on-hover"
+          />
+        </div>
+      </div>
+
+      <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+          // Typed.js for dynamic title
+          var typed = new Typed('#typed-title', {
+            strings: [
+              'Welcome to the Dombroski Family Reunion!',
+              'Get Ready for some Fun!',
+              'Reunion 2025 - Good Times!',
+              "Potato Salad? 🥔 Your web developer's Fav!",
+              'Did you catch the hint??',
+            ],
+            typeSpeed: 50,
+            backSpeed: 30,
+            loop: true,
+          });
+
+          // Random fun facts popup
+          const funFacts = [
+            'Did you know? The Dombroskis have the BEST family reunions!',
+            'Ping pong tournament, anyone?',
+            'Who makes the best potato salad? Family vote incoming!',
+            'Board games and billiards - competition starts here!',
+          ];
+
+          const randomFunFact =
+            funFacts[Math.floor(Math.random() * funFacts.length)];
+
+          const volunteerAlert = document.getElementById('volunteer-alert');
+          volunteerAlert.addEventListener('click', () => {
+            alert(funFacts[Math.floor(Math.random() * funFacts.length)]);
+          });
+        });
+      </script>
+    </main>
+  </body>
+</html>
