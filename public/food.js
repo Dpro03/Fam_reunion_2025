@@ -56,7 +56,7 @@ const foodSuggestions = [
   'Brownies',
   'Cupcakes',
   'Ice Cream',
-  'Corned Beef',
+  'Cannolis',
 ];
 
 // DOM elements
