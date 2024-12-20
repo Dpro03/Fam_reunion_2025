@@ -8,10 +8,9 @@
       href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com;"
     />
     <link rel="stylesheet" href="./styles.css" />
 
@@ -166,37 +165,6 @@
           />
         </div>
       </div>
-
-      <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-          // Typed.js for dynamic title
-          var typed = new Typed('#typed-title', {
-            strings: [
-              'Welcome to the Dombroski Family Reunion!',
-              'Get Ready for some Fun!',
-              'Reunion 2025 - Good Times!',
-              "Potato Salad? 🥔 Your web developer's Fav!",
-              'Did you catch the hint??',
-            ],
-            typeSpeed: 50,
-            backSpeed: 30,
-            loop: true,
-          });
-
-          // Random fun facts popup
-          const funFacts = [
-            'Did you know? The Dombroskis have the BEST family reunions!',
-            'Ping pong tournament, anyone?',
-            'Who makes the best potato salad? Family vote incoming!',
-            'Board games and billiards - competition starts here!',
-          ];
-
-          const volunteerAlert = document.getElementById('volunteer-alert');
-          volunteerAlert.addEventListener('click', () => {
-            alert(funFacts[Math.floor(Math.random() * funFacts.length)]);
-          });
-        });
-      </script>
     </main>
   </body>
 </html>
