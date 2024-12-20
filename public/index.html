@@ -4,318 +4,191 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Family Reunion</title>
-    <link rel="stylesheet" href="./styles.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap"
       rel="stylesheet"
     />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+  
+
+    <link rel="stylesheet" href="./styles.css" />
+
     <style>
-      canvas {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1; /* Keep behind other elements */
+      body {
+        font-family: 'Exo 2', sans-serif;
+        background: linear-gradient(to bottom, #4a148c, #1565c0, #1b5e20);
+        color: #ffffff;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      header {
+        margin: 2rem 0;
+      }
+
+      header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #ffffff;
+        padding: 1rem;
+        background: linear-gradient(to right, #ff6f61, #42a5f5, #ab47bc);
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        margin: 1rem 0; /* Default margin */
+      }
+
+      @media (max-width: 768px) {
+        header h1 {
+          margin: 1rem 0; /* Increased margin for smaller screens */
+          font-size: 2rem;
+          padding: 0.8rem;
+          border-radius: 8px;
+          box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+      }
+
+      header h2 {
+        margin-top: 1rem;
+        font-size: 1.2rem;
+      }
+
+      .btn-container {
+        margin: 2rem 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 0.8rem 1.5rem;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #ffffff;
+        transition: transform 0.3s ease, background 0.3s ease;
+        cursor: pointer;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn:hover {
+        transform: scale(1.1);
+      }
+
+      .btn-login {
+        background: linear-gradient(to right, #66bb6a, #43a047);
+      }
+
+      .btn-signup {
+        background: linear-gradient(to right, #29b6f6, #0288d1);
+      }
+
+      .btn-logout {
+        background: linear-gradient(to right, #ef5350, #c62828);
+      }
+
+      .btn-delete {
+        background: linear-gradient(to right, #ff7043, #d84315);
+      }
+
+      .links-container {
+        margin-top: 2rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+      }
+
+      .link {
+        background: linear-gradient(to right, #ffca28, #ff8f00);
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        font-size: 1rem;
+        color: #212121;
+        text-decoration: none;
+        transition: transform 0.3s ease, background 0.3s ease;
+      }
+
+      .link:hover {
+        transform: scale(1.1);
+      }
+
+      .venue-container {
+        margin: 2rem 0;
+      }
+
+      .venue-container img {
+        max-width: 80%;
+        border-radius: 15px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      footer {
+        margin-top: 2rem;
+        font-size: 0.9rem;
+        color: #cfd8dc;
       }
     </style>
   </head>
+  <body>
+    <div>
+      <a href="./users.html" class="w-full sm:w-auto block">
+        <button
+          class="items-center absolute top-1 left-1 z-50 w-16 sm:w-20 bg-gradient-to-br from-fuchsia-500/80 to-sky-600/80 text-white text-xs sm:text-sm font-medium py-1.5 sm:py-2 px-3 sm:px-4 rounded-md border-0 transition-all duration-300 transform hover:scale-105 hover:shadow-sm active:scale-95 focus:outline-none focus:ring-1 focus:ring-orange-300/30 shadow-sm"
+        >
+          Users
+        </button>
+      </a>
+    </div>
 
-  <body
-    class="bg-gradient-to-br from-fuchsia-700 via-sky-600 to-indigo-900 min-h-screen text-gray-100"
-  >
+    <header>
+      <h1>Dombroski Family Reunion 2025</h1>
+      <h2>
+        Welcome to the home of the Dombroski family reunion! Thanks for
+        visiting!
+      </h2>
+    </header>
 
-  <div>
-    <a href="./users.html" class="w-full sm:w-auto block">
-      <button
-        class="items-center absolute top-2 left-2 z-50 w-28 sm:w-28 bg-gradient-to-br from-fuchsia-500 to-sky-600 via-blue-500 hover:from-fuchsia-300   hover:via-orange-700 hover:to-fuchsia-500 text-white font-bold py-4 px-8 rounded-lg border-2 border-slate-200 transition-all duration-300 transform hover:scale-105 hover:shadow-xl active:scale-95 focus:outline-none focus:ring-4 focus:ring-orange-300/50 shadow-md wiggle-on-hover"
-      >
-        Users
+    <!-- Buttons -->
+    <div class="btn-container">
+      <a href="./logIn.html" class="btn btn-login">Log In</a>
+      <a href="./signUp.html" class="btn btn-signup">Sign Up</a>
+      <button id="logoutButton" class="btn btn-logout">Log Out</button>
+      <button id="deleteAccountButton" class="btn btn-delete">
+        Delete Account
       </button>
-    </a>
-  
-  </div>
-  
+    </div>
 
-
-    <canvas id="fireworksCanvas"></canvas>
-    <h1
-      class="font-exo text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-slate-200 
-      bg-gradient-to-br from-slate-400 via-slate-600 to-indigo-500 text-center py-8 rounded-lg 
-      mt-8 mb-10 shadow-2xl shadow-slate-600 border-b-4 border-slate-100 w-3/4 mx-auto"
-    >
-      Dombroski Family Reunion 2025
-    </h1>
-      <!-- Existing content here -->  <!-- Header Section -->
-      <h2
-      class="text-xl sm:text-2xl md:text-3xl font-bold text-white bg-gradient-to-r from-slate-600 via-indigo-700 to-slate-600 
-      max-w-3xl mx-auto text-center rounded-xl mt-8 sm:mt-12 border-y-rose-400 border-b-4  p-4 shadow-lg shadow-indigo-500/50"
-    >
-      Welcome to the home of the Dombroski family reunion! Thanks for visiting!
-    </h2>
-  
-    <h3
-      class="text-lg sm:text-xl md:text-2xl font-bold text-white text-center mt-8 sm:mt-10"
-    >
-      Click on the links below to get started!
-    </h3>
-  
     <!-- Navigation Links -->
-    <div class="flex flex-wrap justify-center mt-10 sm:mt-12 gap-6">
-      <a
-        href="./logIn.html"
-        class="w-3/4 sm:w-48 
-        bg-gradient-to-br 
-        from-emerald-400 
-        via-green-600 
-        to-slate-300 
-        hover:from-emerald-500 
-        hover:via-green-700 
-        hover:to-slate-400 
-        text-white 
-        font-bold 
-        py-4 
-        px-8 
-        rounded-lg 
-        border-2 
-        border-slate-200 
-        transition-all 
-        duration-300 
-        transform 
-        hover:scale-105 
-        hover:shadow-xl 
-        active:scale-95 
-        focus:outline-none 
-        focus:ring-4 
-        focus:ring-green-300/50 
-        shadow-md
-        text-center
-        relative
-        overflow-hidden
-        group"
-      >
-        <span class="relative z-10">Log In</span>
-        <span class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
-      </a>
-      <a
-        href="./signUp.html"
-        class="w-3/4 sm:w-48 
-        bg-gradient-to-br 
-        from-sky-400 
-        via-sky-600 
-        to-slate-400 
-        hover:from-sky-500 
-        hover:via-sky-700 
-        hover:to-slate-500 
-        text-white 
-        font-bold 
-        py-4 
-        px-8 
-        rounded-lg 
-        border-2 
-        border-slate-200 
-        transition-all 
-        duration-300 
-        transform 
-        hover:scale-105 
-        hover:shadow-xl 
-        active:scale-95 
-        focus:outline-none 
-        focus:ring-4 
-        focus:ring-sky-300/50 
-        shadow-md
-        text-center
-        relative
-        overflow-hidden
-        group"
-      >
-        <span class="relative z-10">Sign Up</span>
-        <span class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
-      </a>
+    <div class="links-container">
+      <a href="./food.html" class="link">Food List</a>
+      <a href="./photos.html" class="link">Photos</a>
+      <a href="./2025_reunion.html" class="link">Home</a>
     </div>
-    
-    <!-- Action Buttons -->
-    <div class="flex flex-wrap justify-center mt-10 sm:mt-12 gap-6">
-      <button
-        id="logoutButton"
-        class="w-3/4 sm:w-48 
-        bg-gradient-to-br 
-        from-rose-400 
-        via-orange-600 
-        to-red-400 
-        hover:from-rose-500 
-        hover:via-orange-700 
-        hover:to-red-500 
-        text-white 
-        font-bold 
-        py-4 
-        px-8 
-        rounded-lg 
-        border-2 
-        border-slate-200 
-        transition-all 
-        duration-300 
-        transform 
-        hover:scale-105 
-        hover:shadow-xl 
-        active:scale-95 
-        focus:outline-none 
-        focus:ring-4 
-        focus:ring-orange-300/50 
-        shadow-md
-        relative
-        overflow-hidden
-        group"
-      >
-        <span class="relative z-10">Log Out</span>
-        <span class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
-      </button>
-      <button
-        id="deleteAccountButton"
-        class="w-3/4 sm:w-48 
-        bg-gradient-to-br 
-        from-rose-500 
-        via-orange-700 
-        to-red-500 
-        hover:from-rose-600 
-        hover:via-orange-800 
-        hover:to-red-600 
-        text-white 
-        font-bold 
-        py-4 
-        px-8 
-        rounded-lg 
-        border-2 
-        border-slate-200 
-        transition-all 
-        duration-300 
-        transform 
-        hover:scale-105 
-        hover:shadow-xl 
-        active:scale-95 
-        focus:outline-none 
-        focus:ring-4 
-        focus:ring-red-300/50 
-        shadow-md
-        relative
-        overflow-hidden
-        group"
-      >
-        <span class="relative z-10">Delete Account</span>
-        <span class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
-      </button>
-    </div>
-    <div class="flex items-center justify-center ">
-      <div class="mt-6 bg-gradient-to-br from-rose-500 via-orange-600 to-red-500 border-2 border-orange-300 p-2 w-1/3 rounded-lg text-center text-slate-950">
-        You can only access the food and photos pages while you are logged in!
-      </div>
-    </div>
-          
-<!-- Additional Links -->
-<div class="flex flex-wrap justify-center mt-6 gap-4">
-  <a
-    href="./food.html"
-    class="text-sm sm:text-md md:text-lg font-semibold text-white bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-lg border-2 border-purple-400 px-6 py-2 shadow-md hover:shadow-lg hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 transition-all duration-300 transform hover:scale-105"
-  >
-    Food List
-  </a>
-  <a
-    href="./photos.html"
-    class="text-sm sm:text-md md:text-lg font-semibold text-white bg-gradient-to-r from-green-400 via-teal-500 to-blue-500 rounded-lg border-2 border-teal-400 px-6 py-2 shadow-md hover:shadow-lg hover:from-green-500 hover:via-teal-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105"
-  >
-    Photos
-  </a>
-  <a
-    href="./2025_reunion.html"
-    class="text-sm sm:text-md md:text-lg font-semibold text-white bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 rounded-lg border-2 border-orange-400 px-6 py-2 shadow-md hover:shadow-lg hover:from-yellow-500 hover:via-orange-600 hover:to-red-600 transition-all duration-300 transform hover:scale-105"
-  >
-    Home
-  </a>
-</div>
-  
+
     <!-- Venue Section -->
-    <div
-      class="mx-auto text-center text-white text-2xl font-semibold mb-4 mt-10 bg-gradient-to-br from-slate-400 via-slate-600 to-rose-400 hover:from-purple-900 hover:to-indigo-900 rounded-3xl w-48 shadow-2xl shadow-purple-500/50 border-2 border-slate-600 p-2"
-    >
-      The Venue!
-    </div>
-  
-    <!-- Venue Image -->
-    <div class="flex justify-center mb-8">
+    <div class="venue-container text-center my-8 flex flex-col items-center">
+      <h2 class="text-2xl font-bold mb-4">The Venue!</h2>
       <img
         src="./img/clubhouse.jpeg"
-        alt="the clubhouse"
-        class="w-3/4 max-w-8xl rounded-2xl shadow-xl hover:scale-[1.02] transition-transform duration-300"
+        alt="The Clubhouse"
+        class="max-w-[80%] rounded-lg shadow-lg"
       />
     </div>
 
-    </main>
+    <footer>
+      <p>You can only access the food and photos pages while logged in!</p>
+    </footer>
+
     <script type="module" src="./firebase.js"></script>
-
-
-    <script>
-      // Fireworks Animation Script
-      const canvas = document.getElementById("fireworksCanvas");
-      const ctx = canvas.getContext("2d");
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-
-      let particles = [];
-      class Particle {
-        constructor(x, y, color) {
-          this.x = x;
-          this.y = y;
-          this.radius = Math.random() * 3 + 1;
-          this.color = color;
-          this.speedX = Math.random() * 6 - 3;
-          this.speedY = Math.random() * 6 - 3;
-          this.opacity = 1;
-        }
-        draw() {
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
-          ctx.fill();
-          ctx.closePath();
-        }
-        update() {
-          this.x += this.speedX;
-          this.y += this.speedY;
-          this.opacity -= 0.02;
-        }
-      }
-
-      function createFireworks() {
-        const colors = ["255, 99, 71", "255, 255, 0", "173, 216, 230"];
-        const x = Math.random() * canvas.width;
-        const y = Math.random() * canvas.height * 0.5;
-        const color = colors[Math.floor(Math.random() * colors.length)];
-
-        for (let i = 0; i < 100; i++) {
-          particles.push(new Particle(x, y, color));
-        }
-      }
-
-      function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach((particle, index) => {
-          particle.update();
-          particle.draw();
-          if (particle.opacity <= 0) {
-            particles.splice(index, 1);
-          }
-        });
-        requestAnimationFrame(animate);
-      }
-
-      setInterval(createFireworks, 1000);
-      animate();
-
-      window.addEventListener("resize", () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      });
-    </script>
-
   </body>
 </html>

@@ -38,27 +38,25 @@ const foodSuggestions = [
   'Fried Chicken',
   'Potato Salad',
   'Macaroni and Cheese',
+  'Casserole',
   'Hamburgers',
   'HotDogs',
   'Hamburger/Hotdog buns',
+  'Crock Pot Dish',
   'Fruit Salad',
   'Pasta Salad',
   'Deviled Eggs',
-  'Chocolate Cake',
-  'Apple Pie',
+  'Dessert',
   'Iced Tea',
   'Lemonade',
   'Water',
   'Soda',
   'Chips',
   'Dip',
-  'Cookies',
-  'Brownies',
-  'Cupcakes',
-  'Ice Cream',
-  'Cannolis',
+  'Candy',
+  'Popcorn',
+  'Pizza',
 ];
-
 // DOM elements
 const foodList = document.getElementById('foodList');
 const foodForm = document.getElementById('foodForm');
