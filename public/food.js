@@ -14,19 +14,11 @@ import {
   query,
   orderByChild,
   equalTo,
+  off,
 } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js';
 
 // Firebase configuration
-const firebaseConfig = {
-  apiKey: 'AIzaSyDmEgdwk52vVjkm3HnjtDUYBb7hKfOavK4',
-  authDomain: 'family-reunion-c8ae6.firebaseapp.com',
-  databaseURL: 'https://family-reunion-c8ae6-default-rtdb.firebaseio.com',
-  projectId: 'family-reunion-c8ae6',
-  storageBucket: 'family-reunion-c8ae6.appspot.com',
-  messagingSenderId: '1001898930959',
-  appId: '1:1001898930959:web:999f1f873967f528fe447a',
-  measurementId: 'G-469H11YLQ9',
-};
+import firebaseConfig from './firebaseConfig.js';
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -57,11 +49,102 @@ const foodSuggestions = [
   'Popcorn',
   'Pizza',
 ];
+
 // DOM elements
 const foodList = document.getElementById('foodList');
 const foodForm = document.getElementById('foodForm');
 const pickedItemsList = document.getElementById('pickedItems');
-const clearButton = document.getElementById('clearButton');
+
+// Initialize page styling
+document.addEventListener('DOMContentLoaded', () => {
+  // Style the main container
+  const mainContainer = document.querySelector('main');
+  if (mainContainer) {
+    mainContainer.classList.add(
+      'container',
+      'mx-auto',
+      'px-4',
+      'md:px-6',
+      'py-6',
+      'max-w-4xl'
+    );
+  }
+
+  // Style the form
+  if (foodForm) {
+    foodForm.classList.add(
+      'bg-slate-800',
+      'rounded-xl',
+      'p-4',
+      'md:p-6',
+      'shadow-lg',
+      'mb-8',
+      'space-y-4',
+      'border-2',
+      'border-slate-600'
+    );
+
+    // Style form inputs
+    const inputs = foodForm.querySelectorAll(
+      'input[type="text"], input[type="tel"], input[type="number"]'
+    );
+    inputs.forEach((input) => {
+      input.classList.add(
+        'w-full',
+        'px-3',
+        'py-2',
+        'text-sm',
+        'md:text-base',
+        'rounded-lg',
+        'border-2',
+        'border-slate-300',
+        'focus:border-blue-500',
+        'focus:ring-blue-500',
+        'bg-slate-700',
+        'text-white',
+        'placeholder-slate-400'
+      );
+    });
+
+    // Style form labels
+    const labels = foodForm.querySelectorAll('label');
+    labels.forEach((label) => {
+      label.classList.add(
+        'block',
+        'text-sm',
+        'md:text-base',
+        'font-medium',
+        'text-slate-100',
+        'mb-1',
+        'bg-gradient-to-br',
+        'from-cyan-500',
+        'via-red-400',
+        'to-rose-900',
+        'p-2',
+        'rounded-2xl',
+        'shadow-lg',
+        'hover:shadow-xl'
+      );
+    });
+  }
+
+  // Style the food list container
+  if (foodList) {
+    foodList.classList.add(
+      'grid',
+      'grid-cols-1',
+      'md:grid-cols-2',
+      'lg:grid-cols-3',
+      'gap-4',
+      'mb-8'
+    );
+  }
+
+  // Style the picked items list
+  if (pickedItemsList) {
+    pickedItemsList.classList.add('space-y-4', 'mt-8');
+  }
+});
 
 // Populate the food checklist
 function populateFoodList() {
@@ -78,6 +161,7 @@ function createFoodCheckboxItem(food) {
     'items-center',
     'space-x-3',
     'p-2',
+    'md:p-3',
     'rounded-lg',
     'bg-gradient-to-br',
     'from-rose-800',
@@ -86,12 +170,13 @@ function createFoodCheckboxItem(food) {
     'border-2',
     'border-slate-300',
     'shadow-sm',
-    'mb-2',
-    'w-full'
+    'hover:shadow-md',
+    'transition-all',
+    'duration-200'
   );
   div.innerHTML = `
-    <input type="checkbox" id="${food}" value="${food}" class="food-checkbox w-5 h-5 text-blue-500 rounded border-slate-300 focus:ring-blue-700">
-    <label for="${food}" class="text-lg font-semibold text-slate-100">${food}</label>
+    <input type="checkbox" id="${food}" value="${food}" class="food-checkbox w-4 h-4 md:w-5 md:h-5 text-blue-500 rounded border-slate-300 focus:ring-blue-700">
+    <label for="${food}" class="text-base md:text-lg font-medium text-slate-100 cursor-pointer">${food}</label>
   `;
   return div;
 }
@@ -154,10 +239,11 @@ function saveSelectionToFirebase(formData, userId) {
     });
 }
 
-// Display picked items from Firebase
 function displayFoodSelections() {
   pickedItemsList.innerHTML = '';
   const foodSelectionsRef = ref(db, 'foodSelections');
+
+  off(foodSelectionsRef);
 
   onValue(foodSelectionsRef, (snapshot) => {
     const data = snapshot.val();
@@ -167,7 +253,16 @@ function displayFoodSelections() {
         pickedItemsList.appendChild(li);
       });
     } else {
-      pickedItemsList.textContent = 'No selections found.';
+      const emptyMessage = document.createElement('p');
+      emptyMessage.classList.add(
+        'text-center',
+        'text-slate-400',
+        'text-lg',
+        'italic',
+        'py-4'
+      );
+      emptyMessage.textContent = 'No selections found.';
+      pickedItemsList.appendChild(emptyMessage);
     }
   });
 }
@@ -175,78 +270,105 @@ function displayFoodSelections() {
 function createSelectionListItem(entry, key) {
   const li = document.createElement('li');
   li.classList.add(
-    'text-lg',
+    'text-sm',
+    'md:text-base',
     'font-medium',
     'text-slate-100',
     'flex',
+    'flex-col',
     'justify-between',
-    'items-center',
-    'mb-4',
-    'p-4',
+    'items-start',
+    'gap-4',
+    'p-3',
+    'md:p-4',
     'bg-gradient-to-br',
     'from-slate-900',
     'via-slate-700',
     'to-slate-600',
-    'rounded-3xl',
-    'shadow-2xl',
-    'shadow-gray-600',
-    'hover:scale-105',
-    'transition-transform',
+    'rounded-xl',
+    'md:rounded-2xl',
+    'shadow-lg',
+    'hover:shadow-xl',
+    'transition-all',
     'duration-300',
-    'border-2',
-    'border-slate-200'
+    'border',
+    'border-slate-600',
+    'hover:border-slate-500'
   );
 
-  // Add error checking for items
-  const itemsText =
-    entry.items && entry.items.length
-      ? entry.items.join(', ')
-      : 'No items selected';
+  // Container for all content
+  const contentContainer = document.createElement('div');
+  contentContainer.classList.add('space-y-2', 'w-full');
 
-  const selectionText = document.createElement('span');
-  selectionText.innerHTML = `
-    <strong>${entry.name || 'Unknown Name'}</strong> -- phone: ${
-    entry.phone || 'N/A'
-  } -- # Attendees: ${entry.attendees || 'N/A'} <br>
-    <span class="inline-flex items-center">
-      <span class="font-bold text-orange-600 border-b-2 border-red-600">Bringing --></span>
-      <span class="ml-2">${itemsText}</span>
-    </span>
+  // User info section
+  const userInfo = document.createElement('div');
+  userInfo.classList.add(
+    'flex',
+    'flex-col',
+    'sm:flex-row',
+    'gap-2',
+    'sm:gap-4',
+    'flex-wrap'
+  );
+  userInfo.innerHTML = `
+    <span class="font-semibold text-slate-100">${
+      entry.name || 'Unknown Name'
+    }</span>
+    <span class="text-slate-300">📱 ${entry.phone || 'N/A'}</span>
+    <span class="text-slate-300">👥 ${entry.attendees || 'N/A'} attending</span>
   `;
 
+  // Items section
+  const itemsSection = document.createElement('div');
+  itemsSection.classList.add('mt-2');
+  itemsSection.innerHTML = `
+  <span class="font-bold text-orange-600 text-xl underline underline-offset-3">Bringing:</span>
+  <span class="ml-2 text-slate-200 break-words">${
+    entry.items && entry.items.length
+      ? entry.items.join(', ')
+      : 'No items selected'
+  }</span>
+`;
+  // Remove button
   const removeButton = document.createElement('button');
   removeButton.innerHTML = '🗑️ Remove';
   removeButton.classList.add(
     'bg-red-600',
     'hover:bg-red-700',
     'text-white',
-    'px-2',
-    'py-1',
-    'rounded',
-    'ml-4',
-    'flex-shrink-0',
-    'transition-colors'
+    'px-3',
+    'py-1.5',
+    'rounded-lg',
+    'text-sm',
+    'font-medium',
+    'transition-colors',
+    'w-full',
+    'md:w-auto',
+    'mt-2',
+    'flex',
+    'items-center',
+    'justify-center',
+    'gap-2',
+    'h-10'
   );
 
   const currentUser = auth.currentUser;
   if (currentUser && currentUser.uid === entry.userId) {
-    removeButton.style.display = 'inline-block';
-    removeButton.addEventListener('click', () => {
-      remove(ref(db, `foodSelections/${key}`))
-        .then(() => displayFoodSelections())
-        .catch((error) => {
-          console.error('Error removing selection:', error);
-          alert('Failed to remove selection. Please try again.');
-        });
-    });
+    removeButton.style.display = 'inline-flex';
+    removeButton.addEventListener('click', () => removeSelection(key));
   } else {
     removeButton.style.display = 'none';
   }
 
-  li.appendChild(selectionText);
+  // Assemble all pieces
+  contentContainer.appendChild(userInfo);
+  contentContainer.appendChild(itemsSection);
+  li.appendChild(contentContainer);
   li.appendChild(removeButton);
+
   return li;
 }
+
 function removeSelection(key) {
   remove(ref(db, `foodSelections/${key}`))
     .then(() => displayFoodSelections())
@@ -256,58 +378,29 @@ function removeSelection(key) {
     });
 }
 
-// Clear user's food selection
-clearButton.addEventListener('click', clearFoodSelection);
-
-function clearFoodSelection() {
-  const currentUser = auth.currentUser;
-  if (!currentUser) {
-    alert('You must be signed in to clear your selection.');
-    return;
-  }
-
-  const foodSelectionsRef = ref(db, 'foodSelections');
-  const foodQuery = query(
-    foodSelectionsRef,
-    orderByChild('userId'),
-    equalTo(currentUser.uid)
-  );
-
-  onValue(
-    foodQuery,
-    (snapshot) => {
-      const updates = {};
-      snapshot.forEach((childSnapshot) => {
-        updates[childSnapshot.key] = null;
-      });
-
-      set(foodSelectionsRef, updates)
-        .then(() => {
-          foodForm.reset();
-          displayFoodSelections();
-          console.log('Food selections removed for user:', currentUser.uid);
-        })
-        .catch((error) => {
-          console.error('Error removing food selections:', error);
-          alert('Failed to clear your selections. Please try again.');
-        });
-    },
-    {
-      onlyOnce: true,
-    }
-  );
-}
-
 // Handle authentication state changes
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    clearButton.style.display = 'inline-block';
     foodForm.style.display = 'block';
     displayFoodSelections();
   } else {
-    clearButton.style.display = 'none';
     foodForm.style.display = 'none';
-    pickedItemsList.innerHTML = 'Please sign in to view and manage selections.';
+
+    const signInMessage = document.createElement('div');
+    signInMessage.classList.add(
+      'text-center',
+      'p-6',
+      'bg-slate-800',
+      'rounded-xl',
+      'shadow-lg',
+      'text-slate-200'
+    );
+    signInMessage.innerHTML = `
+      <p class="text-lg font-medium mb-2">Please sign in</p>
+      <p class="text-sm text-slate-400">Sign in to view and manage food selections</p>
+    `;
+    pickedItemsList.innerHTML = '';
+    pickedItemsList.appendChild(signInMessage);
   }
 });
 

@@ -5,19 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Reunion Food List</title>
     <link rel="stylesheet" href="./styles.css" />
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-    <script type="module" src="food.js"></script>
-
     <style>
       @keyframes wiggle {
         0%,
         100% {
           transform: rotate(0deg);
         }
+
         25% {
           transform: rotate(-5deg);
         }
+
         75% {
           transform: rotate(5deg);
         }
@@ -28,6 +26,7 @@
         100% {
           transform: translateY(0);
         }
+
         50% {
           transform: translateY(-10px);
         }
@@ -38,6 +37,7 @@
         100% {
           transform: scale(1);
         }
+
         50% {
           transform: scale(1.05);
         }
@@ -125,7 +125,6 @@
         input.value = value;
       }
 
-      // Add some fun interactions after page load
       document.addEventListener('DOMContentLoaded', () => {
         const inputs = document.querySelectorAll('input');
         inputs.forEach((input) => {
@@ -139,6 +138,7 @@
       });
     </script>
   </head>
+
   <body
     class="bg-gradient-to-br from-fuchsia-700 via-sky-700 to-indigo-900 flex items-center justify-center min-h-screen p-4"
   >
@@ -168,9 +168,9 @@
 
       <form id="foodForm" class="space-y-6">
         <!-- Food Image Section -->
-        <div>
+        <div class="flex justify-center">
           <img
-            class="h-96 w-3/4 mx-auto rounded-lg mb-2 burger-image"
+            class="h-auto w-full sm:w-3/4 md:h-96 mx-auto rounded-lg mb-2 burger-image"
             src="./img/burger-with-melted-cheese.webp"
             alt="burger"
           />
@@ -253,12 +253,12 @@
         <div class="flex justify-center mt-6">
           <button
             type="submit"
-            class="w-1/2 bg-gradient-to-br from-yellow-400 to-red-500 text-slate-900 py-2 px-6 rounded-2xl shadow-lg hover:from-yellow-500 hover:to-yellow-600 transition-all duration-300 transform hover:scale-110 focus:ring-4 focus:ring-yellow-300 focus:outline-none active:scale-95"
+            class="w-1/2 bg-gradient-to-br from-yellow-400 to-red-500 text-slate-900 py-2 px-6 rounded-2xl shadow-lg hover:shadow-xl hover:bg-gradient-to-br hover:from-orange-500 hover:to-red-800 transition-all duration-300 transform hover:scale-110 focus:ring-4 focus:ring-yellow-300 focus:outline-none active:scale-95"
           >
             Submit
           </button>
         </div>
-              </form>
+      </form>
 
       <div id="foodSelectionContainer">
         <div id="foodList">
@@ -272,18 +272,15 @@
     </div>
 
     <script>
-      // Additional fun interactions for food selection
       document.addEventListener('DOMContentLoaded', () => {
         const foodList = document.getElementById('foodList');
 
-        // If food list exists and is populated dynamically
         if (foodList) {
           foodList.addEventListener('click', (event) => {
             const foodItem = event.target.closest('.food-item');
             if (foodItem) {
               foodItem.classList.toggle('selected');
 
-              // Add a fun sound effect (if you want to include sounds)
               const audio = new Audio(
                 'data:audio/wav;base64,UklGRgAAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAAAAAA=='
               );
@@ -293,5 +290,7 @@
         }
       });
     </script>
+    <script type="module" src="./food.js"></script>
+    <script type="module" src="./firebase.js"></script>
   </body>
 </html>
