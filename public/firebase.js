@@ -260,7 +260,7 @@ export const handleUpload = async (event) => {
 export const fetchImages = async () => {
   const user = auth.currentUser;
   if (!user) {
-    console.log('User not logged in, cannot fetch images');
+    alert('Please log in to view images.');
     return;
   }
 

@@ -38,12 +38,26 @@
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 2px;
-        padding: 1rem 1.5rem;
-        background: linear-gradient(45deg, #ff6f61, #42a5f5, #ab47bc);
+        padding: 0.3rem 1.5rem; /* Reduced top and bottom padding */
+        background: linear-gradient(
+          45deg,
+          #ff0898,
+          #00bfff,
+          #ff7cf4
+        ); /* Brighter colors */
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
         border-radius: 12px;
         box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-        margin: 1rem 0;
+        margin: 0.1rem 0; /* Reduced margin for closeness to top */
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.15
+        ); /* Slightly more visible transparent background */
       }
 
       header h1:hover {
@@ -112,10 +126,10 @@
       }
 
       .link {
-        background: linear-gradient(to right, #ffca28, #ff8f00);
+        background: linear-gradient(to right, #f72165, #f1ee2f);
         padding: 0.6rem 1.2rem;
         border-radius: 8px;
-        font-size: 1rem;
+        font-size: 1.2rem;
         color: #212121;
         text-decoration: none;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -154,13 +168,16 @@
 
       footer {
         margin-top: 2.5rem;
+        margin-bottom: 0.5rem;
         padding: 1rem 0;
-        background: linear-gradient(to right, #424242, #1b5e20);
+        background: linear-gradient(to right, #ab3333, #792171);
         color: #cfd8dc;
         font-size: 0.9rem;
-        width: 100%;
+        width: 95%;
         position: relative;
         z-index: 1;
+        border-radius: 12px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
       }
 
       /* Fireworks Styles */
