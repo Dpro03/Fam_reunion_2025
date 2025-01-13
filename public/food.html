@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reunion Food List</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <style>
+      @keyframes wiggle {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+
+        25% {
+          transform: rotate(-5deg);
+        }
+
+        75% {
+          transform: rotate(5deg);
+        }
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+
+        50% {
+          transform: scale(1.05);
+        }
+      }
+
+      .food-item {
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .food-item:hover {
+        animation: wiggle 0.3s ease-in-out;
+        transform: scale(1.05);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      }
+
+      .food-item.selected {
+        background-color: rgba(255, 255, 255, 0.2);
+        border: 2px solid #fbbf24;
+        animation: pulse 0.5s infinite;
+      }
+
+      #foodForm button {
+        position: relative;
+        overflow: hidden;
+      }
+
+      #foodForm button::after {
+        content: '🍽️';
+        position: absolute;
+        top: -100%;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: all 0.3s ease;
+        opacity: 0;
+      }
+
+      #foodForm button:hover::after {
+        top: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 1;
+      }
+
+      .warning-banner {
+        animation: bounce 0.5s infinite alternate;
+      }
+
+      #pickedItems li {
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      #pickedItems li:hover {
+        transform: translateX(10px);
+        color: #fbbf24;
+      }
+
+      .burger-image {
+        transition: transform 0.3s ease;
+      }
+
+      .burger-image:hover {
+        transform: rotate(5deg) scale(1.05);
+      }
+
+      input:focus {
+        box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.5);
+      }
+    </style>
+
+    <script>
+      function formatPhoneNumber(input) {
+        let value = input.value.replace(/\D/g, '');
+        value = value.substring(0, 10);
+        if (value.length >= 3) {
+          value =
+            '(' +
+            value.substring(0, 3) +
+            ')' +
+            (value.length > 3 ? ' ' + value.substring(3) : '');
+        }
+        if (value.length >= 9) {
+          value = value.substring(0, 9) + '-' + value.substring(9);
+        }
+        input.value = value;
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach((input) => {
+          input.addEventListener('focus', () => {
+            input.classList.add('animate-pulse');
+          });
+          input.addEventListener('blur', () => {
+            input.classList.remove('animate-pulse');
+          });
+        });
+      });
+    </script>
+  </head>
+
+  <body
+    class="bg-gradient-to-br from-fuchsia-700 via-sky-700 to-indigo-900 flex items-center justify-center min-h-screen p-4"
+  >
+    <div>
+      <a href="./2025_reunion.html" class="w-full sm:w-auto block">
+        <button
+          class="items-center absolute top-0 left-0 z-50 w-20 sm:w-24 bg-gradient-to-br from-fuchsia-500 to-sky-600 via-blue-500 hover:from-fuchsia-300 hover:via-orange-700 hover:to-fuchsia-500 text-white text-sm sm:text-base font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-lg border border-slate-200 transition-all duration-300 transform hover:scale-105 hover:shadow-xl active:scale-95 focus:outline-none focus:ring-2 focus:ring-orange-300/50 shadow-md wiggle-on-hover"
+        >
+          Home
+        </button>
+      </a>
+    </div>
+
+    <div
+      class="bg-gradient-to-br from-slate-700 via-sky-800 to-indigo-700 p-8 rounded-lg shadow-xl border border-indigo-400 w-full max-w-xl md:max-w-3xl"
+    >
+      <h1
+        class="text-3xl font-bold mb-6 text-center text-white bg-slate-600 p-2 rounded-lg shadow-lg border-2 border-slate-100 w-3/4 mx-auto border-b-4 hover:rotate-2 transition-transform"
+      >
+        Reunion Food List 🎉
+      </h1>
+      <h2
+        class="text-2xl font-bold text-center bg-orange-500 text-black p-2 mb-3 rounded-lg shadow-lg border-2 border-red-700 animate-pulse w-3/4 mx-auto"
+      >
+        ⚠️ Please be sure to select all fields below!
+      </h2>
+
+      <form id="foodForm" class="space-y-6">
+        <!-- Food Image Section -->
+        <div class="flex justify-center">
+          <img
+            class="h-auto w-full sm:w-3/4 md:h-96 mx-auto rounded-lg mb-2 burger-image"
+            src="./img/burger-with-melted-cheese.webp"
+            alt="burger"
+          />
+        </div>
+
+        <!-- Contact Information Section -->
+        <div class="space-y-4 mb-6">
+          <div>
+            <label
+              for="name"
+              class="block text-sm font-medium text-slate-200 mb-2"
+              >Your Name:</label
+            >
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Enter your name... 👤"
+              class="w-full p-3 bg-slate-200 border border-indigo-400 rounded-lg text-gray-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-800 focus:border-transparent"
+              required
+            />
+          </div>
+
+          <div>
+            <label for="phone" class="block text-sm font-medium text-gray-200"
+              >Phone Number:</label
+            >
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder="Enter numbers only 📱"
+              maxlength="14"
+              oninput="formatPhoneNumber(this)"
+              class="w-full p-3 bg-slate-200 border border-indigo-400 rounded-lg text-gray-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-800 focus:border-transparent"
+              required
+            />
+            <p class="text-sm text-gray-300 mt-1">
+              Just enter the numbers - formatting will be added automatically 🪄
+            </p>
+          </div>
+
+          <div>
+            <label
+              for="attendees"
+              class="block text-sm font-medium text-gray-200"
+              >Number of People Attending:</label
+            >
+            <input
+              type="number"
+              id="attendees"
+              name="attendees"
+              placeholder="Enter the number of people attending... 👥"
+              min="1"
+              class="w-full p-3 bg-slate-200 border border-indigo-400 rounded-lg text-gray-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-800 focus:border-transparent"
+              required
+            />
+          </div>
+        </div>
+
+        <h2 class="text-2xl font-semibold mb-4 text-gray-200">
+          Select Items: 🍔🍕
+        </h2>
+        <h3
+          class="text-xl font-semibold text-black p-4 mb-4 bg-orange-500 rounded-md border-2 border-red-900 shadow-lg shadow-red-500/50"
+        >
+          ⚠️ Before submitting, please look below for items already picked!<br />
+          And don't worry...you can always change your mind! You are given a
+          remove button!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Free of
+          charge! 😂
+        </h3>
+        <div
+          id="foodList"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6"
+        >
+          <!-- Food items will be dynamically populated here -->
+        </div>
+
+        <!-- Center the submit button -->
+        <div class="flex justify-center mt-6">
+          <button
+            type="submit"
+            class="w-1/2 bg-gradient-to-br from-yellow-400 to-red-500 text-slate-900 py-2 px-6 rounded-2xl shadow-lg hover:shadow-xl hover:bg-gradient-to-br hover:from-orange-500 hover:to-red-800 transition-all duration-300 transform hover:scale-110 focus:ring-4 focus:ring-yellow-300 focus:outline-none active:scale-95"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+
+      <div id="foodSelectionContainer">
+        <div id="foodList">
+          <!-- Dynamically generated list of food items will go here -->
+        </div>
+        <button id="clearButton" style="display: none"></button>
+      </div>
+
+      <h2 class="text-2xl text-gray-200 font-semibold">Picked Items: 🍽️</h2>
+      <ul id="pickedItems" class="mt-4 space-y-2"></ul>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const foodList = document.getElementById('foodList');
+
+        if (foodList) {
+          foodList.addEventListener('click', (event) => {
+            const foodItem = event.target.closest('.food-item');
+            if (foodItem) {
+              foodItem.classList.toggle('selected');
+
+              // const audio = new Audio(
+              //   'data:audio/wav;base64,UklGRgAAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAAAAAA=='
+              // );
+              // audio.play();
+            }
+          });
+        }
+      });
+    </script>
+    <script type="module" src="./food.js"></script>
+    <script type="module" src="./firebase.js"></script>
+  </body>
+</html>

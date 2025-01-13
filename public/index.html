@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Family Reunion</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+
+    <style>
+      body {
+        font-family: 'Exo 2', sans-serif;
+        background: linear-gradient(to bottom, #4a148c, #1565c0, #1b5e20);
+        color: #ffffff;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        overflow-x: hidden;
+        min-height: 100vh;
+        position: relative;
+      }
+
+      header {
+        margin: 2rem 0;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      header h1 {
+        font-size: 2.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        padding: 0.3rem 1.5rem; /* Reduced top and bottom padding */
+        background: linear-gradient(
+          45deg,
+          #ff0898,
+          #00bfff,
+          #ff7cf4
+        ); /* Brighter colors */
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        border-radius: 12px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+        margin: 0.1rem 0; /* Reduced margin for closeness to top */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.15
+        ); /* Slightly more visible transparent background */
+      }
+
+      header h1:hover {
+        transform: scale(1.05);
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
+      }
+
+      header h2 {
+        margin-top: 1rem;
+        font-size: 1.3rem;
+        color: #cfd8dc;
+      }
+
+      .btn-container {
+        margin: 2rem 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.2rem;
+        justify-content: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .btn {
+        padding: 0.8rem 1.8rem;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #ffffff;
+        cursor: pointer;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+      }
+
+      .btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
+      }
+
+      .btn-login {
+        background: linear-gradient(to right, #66bb6a, #43a047);
+      }
+
+      .btn-signup {
+        background: linear-gradient(to right, #29b6f6, #0288d1);
+      }
+
+      .btn-logout {
+        background: linear-gradient(to right, #ef5350, #c62828);
+      }
+
+      .btn-delete {
+        background: linear-gradient(to right, #ff7043, #d84315);
+      }
+
+      .links-container {
+        margin-top: 2rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .link {
+        background: linear-gradient(to right, #f72165, #f1ee2f);
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        font-size: 1.2rem;
+        color: #212121;
+        text-decoration: none;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .link:hover {
+        transform: scale(1.1);
+        box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.3);
+      }
+
+      .venue-container {
+        margin: 2.5rem 0;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .venue-container h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #ffee58;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        margin-bottom: 1rem;
+      }
+
+      .venue-container img {
+        max-width: 80%;
+        border-radius: 15px;
+        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.4);
+        transition: transform 0.3s ease;
+      }
+
+      .venue-container img:hover {
+        transform: scale(1.05);
+      }
+
+      footer {
+        margin-top: 2.5rem;
+        margin-bottom: 0.5rem;
+        padding: 1rem 0;
+        background: linear-gradient(to right, #ab3333, #792171);
+        color: #cfd8dc;
+        font-size: 0.9rem;
+        width: 95%;
+        position: relative;
+        z-index: 1;
+        border-radius: 12px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Fireworks Styles */
+      .firework {
+        position: fixed;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .spark {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: #fff;
+        border-radius: 50%;
+        pointer-events: none;
+        mix-blend-mode: screen;
+      }
+
+      #fireworks-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Fireworks container -->
+    <div id="fireworks-container"></div>
+
+    <div>
+      <a href="./users.html" class="w-full sm:w-auto block">
+        <button
+          class="items-center absolute top-2 left-2 z-50 w-16 sm:w-20 bg-gradient-to-br from-fuchsia-500 via-blue-500 to-indigo-700 text-white text-xs sm:text-sm font-medium py-1.5 sm:py-2 px-3 sm:px-4 rounded-md border-1 transition-all duration-300 transform hover:scale-105 hover:shadow-sm active:scale-95 focus:outline-none focus:ring-1 focus:ring-orange-300/30 shadow-sm"
+        >
+          Users
+        </button>
+      </a>
+    </div>
+
+    <header>
+      <h1>Dombroski Family Reunion 2025</h1>
+      <h2>
+        Welcome to the home of the Dombroski family reunion! Thanks for
+        visiting! Click anywhere on the screen for more fireworks!
+      </h2>
+    </header>
+
+    <!-- Buttons -->
+    <div class="btn-container">
+      <a href="./logIn.html" class="btn btn-login">Log In</a>
+      <a href="./signUp.html" class="btn btn-signup">Sign Up</a>
+      <button id="logoutButton" class="btn btn-logout">Log Out</button>
+      <button id="deleteAccountButton" class="btn btn-delete">
+        Delete Account
+      </button>
+    </div>
+
+    <!-- Navigation Links -->
+    <div class="links-container">
+      <a href="./food.html" class="link">Food List</a>
+      <a href="./photos.html" class="link">Photos</a>
+      <a href="./2025_reunion.html" class="link">Home</a>
+    </div>
+
+    <!-- Venue Section -->
+    <div class="venue-container text-center my-8 flex flex-col items-center">
+      <h2 class="text-2xl font-bold mb-4">The Venue!</h2>
+      <img
+        src="./img/clubhouse.jpeg"
+        alt="The Clubhouse"
+        class="max-w-[80%] rounded-lg shadow-lg"
+      />
+    </div>
+
+    <footer>
+      <p>You can only access the food and photos pages while logged in!</p>
+    </footer>
+
+    <script type="module" src="./firebase.js"></script>
+
+    <script>
+      // Create a dedicated container for fireworks
+      const fireworksContainer = document.getElementById('fireworks-container');
+
+      function createFirework(x, y) {
+        const colors = ['#ff0', '#f0f', '#0ff', '#f00', '#0f0', '#ff5722'];
+
+        const firework = document.createElement('div');
+        firework.className = 'firework';
+        firework.style.left = x + 'px';
+        firework.style.top = y + 'px';
+        fireworksContainer.appendChild(firework);
+
+        // Create sparks
+        const sparkCount = 50;
+        for (let i = 0; i < sparkCount; i++) {
+          const spark = document.createElement('div');
+          spark.className = 'spark';
+
+          // Random color for each spark
+          const color = colors[Math.floor(Math.random() * colors.length)];
+          spark.style.backgroundColor = color;
+          spark.style.boxShadow = `0 0 6px ${color}`; // Increased glow effect
+
+          // Calculate the angle and distance
+          const angle = (Math.PI * 2 * i) / sparkCount;
+          const velocity = 2 + Math.random() * 3;
+
+          firework.appendChild(spark);
+
+          // Animate each spark
+          const startTime = Date.now();
+          const duration = 1000 + Math.random() * 500;
+
+          function animateSpark() {
+            const elapsed = Date.now() - startTime;
+            const progress = elapsed / duration;
+
+            if (progress < 1) {
+              const moveX = Math.cos(angle) * (velocity * elapsed * 0.1);
+              const moveY =
+                Math.sin(angle) * (velocity * elapsed * 0.1) +
+                progress * progress * 200;
+              const scale = 1 - progress;
+
+              spark.style.transform = `translate(${moveX}px, ${moveY}px) scale(${scale})`;
+              spark.style.opacity = 1 - progress;
+              requestAnimationFrame(animateSpark);
+            }
+          }
+
+          requestAnimationFrame(animateSpark);
+        }
+
+        // Remove firework after animation
+        setTimeout(() => {
+          firework.remove();
+        }, 2000);
+      }
+
+      // Create fireworks randomly
+      function randomFirework() {
+        const margin = 100; // Keep away from edges
+        const x = margin + Math.random() * (window.innerWidth - 2 * margin);
+        const y = window.innerHeight * 0.3; // Keep in upper third
+        createFirework(x, y);
+      }
+
+      // Create fireworks periodically
+      setInterval(randomFirework, 1000);
+
+      // Create fireworks on click
+      document.addEventListener('click', (e) => {
+        createFirework(e.clientX, e.clientY);
+      });
+    </script>
+  </body>
+</html>
