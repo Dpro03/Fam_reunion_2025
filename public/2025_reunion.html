@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> bf943e28e8742d3108d2549439e00bf9726bbecf
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,6 +12,7 @@
       href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap"
       rel="stylesheet"
     />
+<<<<<<< HEAD
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body
@@ -97,6 +101,209 @@
           alt="Family Reunion"
           class="w-full max-w-4xl rounded-xl shadow-lg hover:shadow-2xl transition"
         />
+=======
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com;"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+
+    <style>
+      .hover-transform {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .hover-transform:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      }
+
+      .glow-effect {
+        transition: all 0.3s ease;
+      }
+
+      .glow-effect:hover {
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+      }
+
+      .pulse-effect {
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(255, 165, 0, 0.4);
+        }
+        70% {
+          box-shadow: 0 0 0 10px rgba(255, 165, 0, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(255, 165, 0, 0);
+        }
+      }
+
+      .shine-effect {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .shine-effect::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          45deg,
+          transparent 0%,
+          rgba(255, 255, 255, 0.1) 50%,
+          transparent 100%
+        );
+        transform: rotate(45deg);
+        transition: all 0.3s;
+        opacity: 0;
+      }
+
+      .shine-effect:hover::after {
+        opacity: 1;
+        transform: rotate(45deg) translate(50%, 50%);
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gradient-to-br from-fuchsia-700 via-sky-600 to-indigo-700 flex items-center justify-center min-h-screen"
+  >
+    <main class="animate__animated animate__fadeInLeft">
+      <div class="container mx-auto px-4">
+        <h1
+          id="typed-title"
+          class="font-exo text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-slate-300 bg-gradient-to-br from-slate-400 via-slate-600 to-indigo-500 text-center py-8 rounded-lg mt-8 mb-10 shadow-2xl shadow-slate-600 border-b-4 border-slate-100 hover-transform glow-effect"
+        >
+          Welcome to the Dombroski Family Reunion!
+        </h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          <div
+            class="bg-gradient-to-br from-indigo-500 via-sky-600 to-fuchsia-500 rounded-3xl shadow-2xl shadow-cyan-600/50 text-lg sm:text-2xl md:text-3xl text-white text-center flex justify-center items-center border-cyan-300/50 border-2 hover-transform shine-effect p-6"
+          >
+            <p>
+              The address:<br />
+              42 Center Court<br />
+              Colchester, CT, 06415
+            </p>
+          </div>
+          <div
+            class="bg-gradient-to-br from-indigo-500 via-sky-600 to-fuchsia-500 rounded-3xl shadow-2xl shadow-cyan-600/50 text-md sm:text-xl md:text-2xl text-white text-center flex justify-center items-center border-cyan-300/50 border-2 hover-transform shine-effect p-6"
+          >
+            <p>
+              Our venue features a full kitchen, 2 floors, indoor and outdoor
+              seating, billiards, ping pong table, television, and board games!
+            </p>
+          </div>
+          <div
+            class="bg-gradient-to-br from-indigo-500 via-sky-600 to-fuchsia-500 rounded-3xl shadow-2xl shadow-cyan-600/50 text-md sm:text-xl md:text-2xl text-white text-center flex justify-center items-center border-cyan-300/50 border-2 hover-transform shine-effect p-6"
+          >
+            <p>
+              The date:<br />
+              August 10, 2025<br />
+              10:00 AM to 5:00 PM
+            </p>
+          </div>
+        </div>
+        <div
+          id="volunteer-alert"
+          class="mb-12 text-center text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-br from-orange-600 via-orange-700 to-orange-600 py-4 rounded-lg text-gray-200 pulse-effect hover-transform"
+        >
+          ⚠️ We will need volunteers to help with set up and clean up!<br />Set
+          up will start at 9:30 AM and clean up starts at 4:00 PM
+        </div>
+        <!-- Header Section -->
+        <div class="flex items-center justify-center mb-8">
+          <div class="relative group cursor-pointer">
+            <div
+              class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"
+            ></div>
+            <div
+              class="relative px-8 py-4 bg-black ring-1 ring-gray-900/5 rounded-lg leading-none flex items-center"
+            >
+              <span class="text-gray-100 text-xl font-semibold"
+                >Cool Links below ✨</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Links Grid -->
+        <div
+          class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto px-4"
+        >
+          <a href="./photos.html" class="group relative block">
+            <div
+              class="absolute -inset-1 bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-200"
+            ></div>
+            <div
+              class="relative transform transition-all duration-200 hover:-translate-y-1"
+            >
+              <button
+                class="w-full bg-gray-900 px-6 py-4 rounded-lg border border-purple-500/20 text-gray-100 font-medium shadow-xl flex items-center justify-center space-x-2 group-hover:bg-gray-800 transition-all duration-200"
+              >
+                <span class="text-lg">📸</span>
+                <span>Photo Gallery</span>
+              </button>
+            </div>
+          </a>
+
+          <a href="./food.html" class="group relative block">
+            <div
+              class="absolute -inset-1 bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-200"
+            ></div>
+            <div
+              class="relative transform transition-all duration-200 hover:-translate-y-1"
+            >
+              <button
+                class="w-full bg-gray-900 px-6 py-4 rounded-lg border border-purple-500/20 text-gray-100 font-medium shadow-xl flex items-center justify-center space-x-2 group-hover:bg-gray-800 transition-all duration-200"
+              >
+                <span class="text-lg">🍽️</span>
+                <span>Food List</span>
+              </button>
+            </div>
+          </a>
+
+          <a href="./connecticut.html" class="group relative block">
+            <div
+              class="absolute -inset-1 bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-200"
+            ></div>
+            <div
+              class="relative transform transition-all duration-200 hover:-translate-y-1"
+            >
+              <button
+                class="w-full bg-gray-900 px-6 py-4 rounded-lg border border-purple-500/20 text-gray-100 font-medium shadow-xl flex items-center justify-center space-x-2 group-hover:bg-gray-800 transition-all duration-200"
+              >
+                <span class="text-lg">🌟</span>
+                <span>Check this out!</span>
+              </button>
+            </div>
+          </a>
+        </div>
+
+        <style>
+          /* Optional: Add this if you want a smooth transition when hovering over links */
+          .hover\:transform {
+            transition: transform 0.2s ease-in-out;
+          }
+          .hover\:transform:hover {
+            transform: translateY(-4px);
+          }
+        </style>
+        <div class="flex justify-center mt-6">
+          <img
+            src="./img/reunion.jpg"
+            alt="family reunion"
+            class="w-full max-w-8xl h-auto rounded-3xl shadow-2xl hover-transform"
+          />
+        </div>
+>>>>>>> bf943e28e8742d3108d2549439e00bf9726bbecf
       </div>
     </main>
   </body>
