@@ -53,7 +53,7 @@ const foodSuggestions = [
   'Candy',
   'Popcorn',
   'Pizza',
-  'other'
+  'Other'
 ];
 
 // Form handling functions
