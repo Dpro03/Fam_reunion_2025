@@ -53,27 +53,29 @@ const foodSuggestions = [
   'Candy',
   'Popcorn',
   'Pizza',
-  'other'
+  'other',
 ];
 
 // Form handling functions
 function getFormData() {
-  const checkedBoxes = Array.from(document.querySelectorAll('.food-checkbox:checked'));
+  const checkedBoxes = Array.from(
+    document.querySelectorAll('.food-checkbox:checked')
+  );
   const otherInput = document.getElementById('otherInput');
   let items = checkedBoxes
-    .map(checkbox => {
+    .map((checkbox) => {
       if (checkbox.value === 'other' && otherInput.value.trim()) {
         return otherInput.value.trim();
       }
       return checkbox.value === 'other' ? null : checkbox.value;
     })
-    .filter(item => item !== null);
+    .filter((item) => item !== null);
 
   return {
     name: document.getElementById('name').value,
     phone: document.getElementById('phone').value,
     attendees: document.getElementById('attendees').value,
-    items: items
+    items: items,
   };
 }
 
@@ -166,11 +168,11 @@ function createFoodCheckboxItem(food) {
 function setupFoodForm() {
   const otherInputContainer = document.getElementById('otherInputContainer');
   const otherInput = document.createElement('input');
-  
+
   // Create and style the other input
   otherInput.type = 'text';
   otherInput.id = 'otherInput';
-  otherInput.placeholder = 'Enter your food item';
+  otherInput.placeholder = 'Please enter your food item';
   otherInput.classList.add(
     'w-full',
     'px-3',
@@ -185,9 +187,10 @@ function setupFoodForm() {
     'bg-slate-700',
     'text-white',
     'placeholder-slate-400',
-    'mt-2'
+    'mt-1',
+    'mb-2'
   );
-  
+
   // Initially hide the other input
   otherInput.style.display = 'none';
   otherInputContainer.appendChild(otherInput);
@@ -448,7 +451,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.error('Required DOM elements not found');
     return;
   }
-  
+
   setupFoodForm();
   foodForm.addEventListener('submit', handleFormSubmission);
 });

@@ -4,73 +4,94 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dombroski Family Reunion Extravaganza!</title>
-
-    <link rel="stylesheet" href="./styles.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      rel="preconnect"
-      href="https://fonts.gstatic.com"
-      crossorigin="anonymous"
-    />
     <link
       href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com;"
     />
+    <link rel="stylesheet" href="./styles.css" />
+
     <style>
-      @keyframes wiggle {
-        0%,
+      .hover-transform {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .hover-transform:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      }
+
+      .glow-effect {
+        transition: all 0.3s ease;
+      }
+
+      .glow-effect:hover {
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+      }
+
+      .pulse-effect {
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(255, 165, 0, 0.4);
+        }
+        70% {
+          box-shadow: 0 0 0 10px rgba(255, 165, 0, 0);
+        }
         100% {
-          transform: rotate(0deg);
-        }
-        25% {
-          transform: rotate(-5deg);
-        }
-        75% {
-          transform: rotate(5deg);
+          box-shadow: 0 0 0 0 rgba(255, 165, 0, 0);
         }
       }
-      .wiggle-on-hover:hover {
-        animation: wiggle 0.3s ease-in-out;
-      }
-      .confetti-burst {
+
+      .shine-effect {
         position: relative;
         overflow: hidden;
       }
-      .confetti-burst::before {
-        content: '🎉';
+
+      .shine-effect::after {
+        content: '';
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0);
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          45deg,
+          transparent 0%,
+          rgba(255, 255, 255, 0.1) 50%,
+          transparent 100%
+        );
+        transform: rotate(45deg);
+        transition: all 0.3s;
         opacity: 0;
-        transition: all 0.5s ease;
       }
-      .confetti-burst:hover::before {
-        transform: translate(-50%, -50%) scale(3);
+
+      .shine-effect:hover::after {
         opacity: 1;
+        transform: rotate(45deg) translate(50%, 50%);
       }
     </style>
   </head>
   <body
-    class="bg-gradient-to-br from-fuchsia-700 via-sky-600 to-indigo-400 flex items-center justify-center min-h-screen"
+    class="bg-gradient-to-br from-fuchsia-700 via-sky-600 to-indigo-700 flex items-center justify-center min-h-screen"
   >
     <main class="animate__animated animate__fadeInLeft">
       <div class="container mx-auto px-4">
         <h1
           id="typed-title"
-          class="font-exo text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-slate-300 bg-gradient-to-br from-slate-400 via-slate-600 to-indigo-500 text-center py-8 rounded-lg mt-8 mb-10 shadow-2xl shadow-slate-600 border-b-4 border-slate-100 wiggle-on-hover"
+          class="font-exo text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-slate-300 bg-gradient-to-br from-slate-400 via-slate-600 to-indigo-500 text-center py-8 rounded-lg mt-8 mb-10 shadow-2xl shadow-slate-600 border-b-4 border-slate-100 hover-transform glow-effect"
         >
           Welcome to the Dombroski Family Reunion!
         </h1>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           <div
-            class="bg-gradient-to-br from-indigo-500 via-sky-600 to-fuchsia-500 rounded-3xl shadow-2xl shadow-cyan-600/50 text-lg sm:text-2xl md:text-3xl text-white text-center flex justify-center items-center border-cyan-300/50 border-2 hover:scale-105 transition-transform duration-300 confetti-burst"
+            class="bg-gradient-to-br from-indigo-500 via-sky-600 to-fuchsia-500 rounded-3xl shadow-2xl shadow-cyan-600/50 text-lg sm:text-2xl md:text-3xl text-white text-center flex justify-center items-center border-cyan-300/50 border-2 hover-transform shine-effect p-6"
           >
             <p>
               The address:<br />
@@ -79,7 +100,7 @@
             </p>
           </div>
           <div
-            class="bg-gradient-to-br from-indigo-500 via-sky-600 to-fuchsia-500 rounded-3xl shadow-2xl shadow-cyan-600/50 text-md sm:text-xl md:text-2xl text-white text-center flex justify-center items-center border-cyan-300/50 border-2 hover:scale-105 transition-transform duration-300 p-4 wiggle-on-hover"
+            class="bg-gradient-to-br from-indigo-500 via-sky-600 to-fuchsia-500 rounded-3xl shadow-2xl shadow-cyan-600/50 text-md sm:text-xl md:text-2xl text-white text-center flex justify-center items-center border-cyan-300/50 border-2 hover-transform shine-effect p-6"
           >
             <p>
               Our venue features a full kitchen, 2 floors, indoor and outdoor
@@ -87,124 +108,108 @@
             </p>
           </div>
           <div
-            class="bg-gradient-to-br from-indigo-500 via-sky-600 to-fuchsia-500 rounded-3xl shadow-2xl shadow-cyan-600/50 text-lg sm:text-2xl md:text-3xl text-white text-center flex justify-center items-center border-cyan-300/50 border-2 hover:scale-105 transition-transform duration-300 confetti-burst"
+            class="bg-gradient-to-br from-indigo-500 via-sky-600 to-fuchsia-500 rounded-3xl shadow-2xl shadow-cyan-600/50 text-md sm:text-xl md:text-2xl text-white text-center flex justify-center items-center border-cyan-300/50 border-2 hover-transform shine-effect p-6"
           >
             <p>
               The date:<br />
-              August 4, 2025<br />
+              August 10, 2025<br />
               10:00 AM to 5:00 PM
             </p>
           </div>
         </div>
         <div
           id="volunteer-alert"
-          class="mb-12 text-center text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-br from-orange-600 via-orange-700 to-orange-600 py-4 rounded-lg text-gray-200 wiggle-on-hover"
+          class="mb-12 text-center text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-br from-orange-600 via-orange-700 to-orange-600 py-4 rounded-lg text-gray-200 pulse-effect hover-transform"
         >
           ⚠️ We will need volunteers to help with set up and clean up!<br />Set
-          up will start at 9:30 AM and clean up commences at 5:00 PM
+          up will start at 9:30 AM and clean up starts at 4:00 PM
         </div>
-        <div class="flex items-center justify-center mb-6">
-          <div
-            class="bg-gradient-to-br from-fuchsia-500 via-sky-600 to-fuchsia-500 border-cyan-700/50 border-2 rounded-3xl shadow-2xl shadow-cyan-800/50 text-center text-xl text-slate-200 w-48 py-4"
-          >
-            Super Cool Links ↓
+        <!-- Header Section -->
+        <div class="flex items-center justify-center mb-8">
+          <div class="relative group cursor-pointer">
+            <div
+              class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"
+            ></div>
+            <div
+              class="relative px-8 py-4 bg-black ring-1 ring-gray-900/5 rounded-lg leading-none flex items-center"
+            >
+              <span class="text-gray-100 text-xl font-semibold"
+                >Cool Links below ✨</span
+              >
+            </div>
           </div>
         </div>
+
+        <!-- Links Grid -->
         <div
-          class="flex flex-col sm:flex-row justify-center space-y-6 sm:space-y-0 sm:space-x-8 mb-12"
+          class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto px-4"
         >
-          <a href="./photos.html" class="w-full sm:w-auto block">
-            <button
-              class="w-full sm:w-48 bg-gradient-to-br from-rose-300 via-orange-600 to-fuchsia-400 hover:from-rose-400 hover:via-orange-700 hover:to-fuchsia-500 text-white font-bold py-4 px-8 rounded-lg border-2 border-slate-200 transition-all duration-300 transform hover:scale-105 hover:shadow-xl active:scale-95 focus:outline-none focus:ring-4 focus:ring-orange-300/50 shadow-md wiggle-on-hover"
+          <a href="./photos.html" class="group relative block">
+            <div
+              class="absolute -inset-1 bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-200"
+            ></div>
+            <div
+              class="relative transform transition-all duration-200 hover:-translate-y-1"
             >
-              Photos
-            </button>
-          </a>
-          <a href="./food.html" class="w-full sm:w-auto block">
-            <button
-              class="w-full sm:w-48 bg-gradient-to-br from-rose-300 via-orange-600 to-fuchsia-400 hover:from-rose-400 hover:via-orange-600 hover:to-fuchsia-500 text-white font-bold py-4 px-8 rounded-lg border-2 border-slate-200 transition-all duration-300 transform hover:scale-105 hover:shadow-xl active:scale-95 focus:outline-none focus:ring-4 focus:ring-orange-300/50 shadow-md wiggle-on-hover"
-            >
-              Food List
-            </button>
-          </a>
-
-          <a href="./connecticut.html" class="w-full sm:w-auto block">
-            <button
-              class="w-full sm:w-48 bg-gradient-to-br from-rose-300 via-orange-600 to-fuchsia-400 hover:from-rose-400 hover:via-orange-700 hover:to-fuchsia-500 text-white font-bold py-4 px-8 rounded-lg border-2 border-slate-200 transition-all duration-300 transform hover:scale-110 hover:rotate-6 hover:shadow-xl active:scale-95 focus:outline-none focus:ring-4 focus:ring-orange-300/50 shadow-md wiggle-on-hover"
-            >
-              ✓ this out!🙂
-            </button>
+              <button
+                class="w-full bg-gray-900 px-6 py-4 rounded-lg border border-purple-500/20 text-gray-100 font-medium shadow-xl flex items-center justify-center space-x-2 group-hover:bg-gray-800 transition-all duration-200"
+              >
+                <span class="text-lg">📸</span>
+                <span>Photo Gallery</span>
+              </button>
+            </div>
           </a>
 
-          <style>
-            /* Adding some fun wiggle animation for hover effect */
-            .wiggle-on-hover:hover {
-              animation: wiggle 0.5s ease-in-out infinite;
-            }
+          <a href="./food.html" class="group relative block">
+            <div
+              class="absolute -inset-1 bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-200"
+            ></div>
+            <div
+              class="relative transform transition-all duration-200 hover:-translate-y-1"
+            >
+              <button
+                class="w-full bg-gray-900 px-6 py-4 rounded-lg border border-purple-500/20 text-gray-100 font-medium shadow-xl flex items-center justify-center space-x-2 group-hover:bg-gray-800 transition-all duration-200"
+              >
+                <span class="text-lg">🍽️</span>
+                <span>Food List</span>
+              </button>
+            </div>
+          </a>
 
-            /* Define the wiggle animation */
-            @keyframes wiggle {
-              0% {
-                transform: rotate(-3deg);
-              }
-              25% {
-                transform: rotate(3deg);
-              }
-              50% {
-                transform: rotate(-3deg);
-              }
-              75% {
-                transform: rotate(3deg);
-              }
-              100% {
-                transform: rotate(0deg);
-              }
-            }
-          </style>
+          <a href="./connecticut.html" class="group relative block">
+            <div
+              class="absolute -inset-1 bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-200"
+            ></div>
+            <div
+              class="relative transform transition-all duration-200 hover:-translate-y-1"
+            >
+              <button
+                class="w-full bg-gray-900 px-6 py-4 rounded-lg border border-purple-500/20 text-gray-100 font-medium shadow-xl flex items-center justify-center space-x-2 group-hover:bg-gray-800 transition-all duration-200"
+              >
+                <span class="text-lg">🌟</span>
+                <span>Check this out!</span>
+              </button>
+            </div>
+          </a>
         </div>
 
-        <div class="flex justify-center mb-12">
+        <style>
+          /* Optional: Add this if you want a smooth transition when hovering over links */
+          .hover\:transform {
+            transition: transform 0.2s ease-in-out;
+          }
+          .hover\:transform:hover {
+            transform: translateY(-4px);
+          }
+        </style>
+        <div class="flex justify-center mt-6">
           <img
             src="./img/reunion.jpg"
             alt="family reunion"
-            class="w-full max-w-8xl h-auto rounded-3xl shadow-2xl hover:scale-105 transition-transform wiggle-on-hover"
+            class="w-full max-w-8xl h-auto rounded-3xl shadow-2xl hover-transform"
           />
         </div>
       </div>
-
-      <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-          // Typed.js for dynamic title
-          var typed = new Typed('#typed-title', {
-            strings: [
-              'Welcome to the Dombroski Family Reunion!',
-              'Get Ready for some Fun!',
-              'Reunion 2025 - Good Times!',
-              "Potato Salad? 🥔 Your web developer's Fav!",
-              'Did you catch the hint??',
-            ],
-            typeSpeed: 50,
-            backSpeed: 30,
-            loop: true,
-          });
-
-          // Random fun facts popup
-          const funFacts = [
-            'Did you know? The Dombroskis have the BEST family reunions!',
-            'Ping pong tournament, anyone?',
-            'Who makes the best potato salad? Family vote incoming!',
-            'Board games and billiards - competition starts here!',
-          ];
-
-          const randomFunFact =
-            funFacts[Math.floor(Math.random() * funFacts.length)];
-
-          const volunteerAlert = document.getElementById('volunteer-alert');
-          volunteerAlert.addEventListener('click', () => {
-            alert(funFacts[Math.floor(Math.random() * funFacts.length)]);
-          });
-        });
-      </script>
     </main>
   </body>
 </html>

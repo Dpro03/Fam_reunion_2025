@@ -94,6 +94,20 @@
             />
           </div>
 
+          <!-- Confirm Password -->
+          <div class="flex flex-col space-y-2">
+            <label for="confirmPassword" class="text-sm font-medium text-gray-200">
+              Confirm Password:
+            </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              placeholder="Confirm Password"
+              class="w-full p-3 bg-slate-800 border border-indigo-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-700 focus:border-transparent"
+              required
+            />
+          </div>
+
           <!-- Phone -->
           <div class="flex flex-col space-y-2">
             <label for="phone" class="text-sm font-medium text-gray-200">
@@ -143,6 +157,17 @@
         }
         input.value = value;
       }
+
+      // Password confirmation check
+      document.getElementById('signUpForm').addEventListener('submit', function(event) {
+        var password = document.getElementById('password').value;
+        var confirmPassword = document.getElementById('confirmPassword').value;
+        
+        if (password !== confirmPassword) {
+          event.preventDefault();
+          alert('Passwords do not match');
+        }
+      });
     </script>
   </body>
 </html>
