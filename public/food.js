@@ -25,6 +25,11 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth(app);
 
+// DOM elements
+const foodForm = document.getElementById('foodForm');
+const foodList = document.getElementById('foodList');
+const pickedItemsList = document.getElementById('pickedItems');
+
 // Food suggestions
 const foodSuggestions = [
   'Fried Chicken',
@@ -48,112 +53,89 @@ const foodSuggestions = [
   'Candy',
   'Popcorn',
   'Pizza',
+  'other'
 ];
 
-// DOM elements
-const foodList = document.getElementById('foodList');
-const foodForm = document.getElementById('foodForm');
-const pickedItemsList = document.getElementById('pickedItems');
+// Form handling functions
+function getFormData() {
+  const checkedBoxes = Array.from(document.querySelectorAll('.food-checkbox:checked'));
+  const otherInput = document.getElementById('otherInput');
+  let items = checkedBoxes
+    .map(checkbox => {
+      if (checkbox.value === 'other' && otherInput.value.trim()) {
+        return otherInput.value.trim();
+      }
+      return checkbox.value === 'other' ? null : checkbox.value;
+    })
+    .filter(item => item !== null);
 
-// Initialize page styling
-document.addEventListener('DOMContentLoaded', () => {
-  // Style the main container
-  const mainContainer = document.querySelector('main');
-  if (mainContainer) {
-    mainContainer.classList.add(
-      'container',
-      'mx-auto',
-      'px-4',
-      'md:px-6',
-      'py-6',
-      'max-w-4xl'
-    );
-  }
-
-  // Style the form
-  if (foodForm) {
-    foodForm.classList.add(
-      'bg-slate-800',
-      'rounded-xl',
-      'p-4',
-      'md:p-6',
-      'shadow-lg',
-      'mb-8',
-      'space-y-4',
-      'border-2',
-      'border-slate-600'
-    );
-
-    // Style form inputs
-    const inputs = foodForm.querySelectorAll(
-      'input[type="text"], input[type="tel"], input[type="number"]'
-    );
-    inputs.forEach((input) => {
-      input.classList.add(
-        'w-full',
-        'px-3',
-        'py-2',
-        'text-sm',
-        'md:text-base',
-        'rounded-lg',
-        'border-2',
-        'border-slate-300',
-        'focus:border-blue-500',
-        'focus:ring-blue-500',
-        'bg-slate-700',
-        'text-white',
-        'placeholder-slate-400'
-      );
-    });
-
-    // Style form labels
-    const labels = foodForm.querySelectorAll('label');
-    labels.forEach((label) => {
-      label.classList.add(
-        'block',
-        'text-sm',
-        'md:text-base',
-        'font-medium',
-        'text-slate-100',
-        'mb-1',
-        'bg-gradient-to-br',
-        'from-cyan-500',
-        'via-red-400',
-        'to-rose-900',
-        'p-2',
-        'rounded-2xl',
-        'shadow-lg',
-        'hover:shadow-xl'
-      );
-    });
-  }
-
-  // Style the food list container
-  if (foodList) {
-    foodList.classList.add(
-      'grid',
-      'grid-cols-1',
-      'md:grid-cols-2',
-      'lg:grid-cols-3',
-      'gap-4',
-      'mb-8'
-    );
-  }
-
-  // Style the picked items list
-  if (pickedItemsList) {
-    pickedItemsList.classList.add('space-y-4', 'mt-8');
-  }
-});
-
-// Populate the food checklist
-function populateFoodList() {
-  foodSuggestions.forEach((food) => {
-    const div = createFoodCheckboxItem(food);
-    foodList.appendChild(div);
-  });
+  return {
+    name: document.getElementById('name').value,
+    phone: document.getElementById('phone').value,
+    attendees: document.getElementById('attendees').value,
+    items: items
+  };
 }
 
+function validateFormData(formData) {
+  const otherCheckbox = document.querySelector('input[value="other"]:checked');
+  const otherInput = document.getElementById('otherInput');
+
+  if (!formData.name || !formData.phone || !formData.attendees) {
+    alert('Please fill in all required fields.');
+    return false;
+  }
+
+  if (formData.items.length === 0) {
+    alert('Please select at least one item to bring.');
+    return false;
+  }
+
+  if (otherCheckbox && !otherInput.value.trim()) {
+    alert('Please enter your other food item.');
+    return false;
+  }
+
+  return true;
+}
+
+function handleFormSubmission(e) {
+  e.preventDefault();
+  const formData = getFormData();
+  if (!validateFormData(formData)) return;
+
+  const currentUser = auth.currentUser;
+  if (!currentUser) {
+    alert('You must be signed in to submit a selection.');
+    return;
+  }
+
+  saveSelectionToFirebase(formData, currentUser.uid);
+}
+
+function saveSelectionToFirebase(formData, userId) {
+  const newEntryRef = push(ref(db, 'foodSelections'));
+  set(newEntryRef, {
+    ...formData,
+    attendees: parseInt(formData.attendees),
+    userId: userId,
+  })
+    .then(() => {
+      foodForm.reset();
+      const otherInput = document.getElementById('otherInput');
+      if (otherInput) {
+        otherInput.style.display = 'none';
+        otherInput.value = '';
+      }
+      displayFoodSelections();
+    })
+    .catch((error) => {
+      console.error('Error saving to Firebase:', error);
+      alert('Failed to save your selection. Please try again.');
+    });
+}
+
+// Food list functions
 function createFoodCheckboxItem(food) {
   const div = document.createElement('div');
   div.classList.add(
@@ -181,64 +163,54 @@ function createFoodCheckboxItem(food) {
   return div;
 }
 
-// Handle form submission
-foodForm.addEventListener('submit', handleFormSubmission);
+function setupFoodForm() {
+  const otherInputContainer = document.getElementById('otherInputContainer');
+  const otherInput = document.createElement('input');
+  
+  // Create and style the other input
+  otherInput.type = 'text';
+  otherInput.id = 'otherInput';
+  otherInput.placeholder = 'Enter your food item';
+  otherInput.classList.add(
+    'w-full',
+    'px-3',
+    'py-2',
+    'text-sm',
+    'md:text-base',
+    'rounded-lg',
+    'border-2',
+    'border-slate-300',
+    'focus:border-blue-500',
+    'focus:ring-blue-500',
+    'bg-slate-700',
+    'text-white',
+    'placeholder-slate-400',
+    'mt-2'
+  );
+  
+  // Initially hide the other input
+  otherInput.style.display = 'none';
+  otherInputContainer.appendChild(otherInput);
 
-function handleFormSubmission(e) {
-  e.preventDefault();
-  const formData = getFormData();
-  if (!validateFormData(formData)) return;
+  // Populate checkboxes
+  foodSuggestions.forEach((food) => {
+    const div = createFoodCheckboxItem(food);
+    foodList.appendChild(div);
+  });
 
-  const currentUser = auth.currentUser;
-  if (!currentUser) {
-    alert('You must be signed in to submit a selection.');
-    return;
-  }
-
-  saveSelectionToFirebase(formData, currentUser.uid);
-}
-
-function getFormData() {
-  return {
-    name: document.getElementById('name').value,
-    phone: document.getElementById('phone').value,
-    attendees: document.getElementById('attendees').value,
-    items: Array.from(document.querySelectorAll('.food-checkbox:checked')).map(
-      (checkbox) => checkbox.value
-    ),
-  };
-}
-
-function validateFormData(formData) {
-  if (
-    !formData.name ||
-    !formData.phone ||
-    !formData.attendees ||
-    formData.items.length === 0
-  ) {
-    alert('Please fill in all fields and select at least one item.');
-    return false;
-  }
-  return true;
-}
-
-function saveSelectionToFirebase(formData, userId) {
-  const newEntryRef = push(ref(db, 'foodSelections'));
-  set(newEntryRef, {
-    ...formData,
-    attendees: parseInt(formData.attendees),
-    userId: userId,
-  })
-    .then(() => {
-      foodForm.reset();
-      displayFoodSelections();
-    })
-    .catch((error) => {
-      console.error('Error saving to Firebase:', error);
-      alert('Failed to save your selection. Please try again.');
+  // Add event listener for the "other" checkbox
+  const otherCheckbox = document.querySelector('input[value="other"]');
+  if (otherCheckbox) {
+    otherCheckbox.addEventListener('change', (e) => {
+      otherInput.style.display = e.target.checked ? 'block' : 'none';
+      if (!e.target.checked) {
+        otherInput.value = ''; // Clear the input when unchecked
+      }
     });
+  }
 }
 
+// Display functions
 function displayFoodSelections() {
   pickedItemsList.innerHTML = '';
   const foodSelectionsRef = ref(db, 'foodSelections');
@@ -322,13 +294,14 @@ function createSelectionListItem(entry, key) {
   const itemsSection = document.createElement('div');
   itemsSection.classList.add('mt-2');
   itemsSection.innerHTML = `
-  <span class="font-bold text-orange-600 text-xl underline underline-offset-3">Bringing:</span>
-  <span class="ml-2 text-slate-200 break-words">${
-    entry.items && entry.items.length
-      ? entry.items.join(', ')
-      : 'No items selected'
-  }</span>
-`;
+    <span class="font-bold text-orange-600 text-xl underline underline-offset-3">Bringing:</span>
+    <span class="ml-2 text-slate-200 break-words">${
+      entry.items && entry.items.length
+        ? entry.items.join(', ')
+        : 'No items selected'
+    }</span>
+  `;
+
   // Remove button
   const removeButton = document.createElement('button');
   removeButton.innerHTML = '🗑️ Remove';
@@ -378,6 +351,108 @@ function removeSelection(key) {
     });
 }
 
+// Initialize page styling
+document.addEventListener('DOMContentLoaded', () => {
+  // Style the main container
+  const mainContainer = document.querySelector('main');
+  if (mainContainer) {
+    mainContainer.classList.add(
+      'container',
+      'mx-auto',
+      'px-4',
+      'md:px-6',
+      'py-6',
+      'max-w-4xl'
+    );
+  }
+
+  // Style the form
+  if (foodForm) {
+    foodForm.classList.add(
+      'bg-slate-800',
+      'rounded-xl',
+      'p-4',
+      'md:p-6',
+      'shadow-lg',
+      'mb-8',
+      'space-y-4',
+      'border-2',
+      'border-slate-600'
+    );
+
+    // Style form inputs
+    const inputs = foodForm.querySelectorAll(
+      'input[type="text"], input[type="tel"], input[type="number"]'
+    );
+    inputs.forEach((input) => {
+      input.classList.add(
+        'w-full',
+        'px-3',
+        'py-2',
+        'text-sm',
+        'md:text-base',
+        'rounded-lg',
+        'border-2',
+        'border-slate-300',
+        'focus:border-blue-500',
+        'focus:ring-blue-500',
+        'bg-slate-700',
+        'text-white',
+        'placeholder-slate-400'
+      );
+    });
+
+    // Style form labels
+    const labels = foodForm.querySelectorAll('label');
+    labels.forEach((label) => {
+      label.classList.add(
+        'block',
+        'text-sm',
+        'md:text-base',
+        'font-medium',
+        'text-slate-100',
+        'mb-1',
+        'bg-gradient-to-br',
+        'from-cyan-500',
+        'via-red-400',
+        'to-rose-900',
+        'p-2',
+        'rounded-2xl',
+        'shadow-lg',
+        'hover:shadow-xl'
+      );
+    });
+  }
+
+  // Style the food list
+  if (foodList) {
+    foodList.classList.add(
+      'grid',
+      'grid-cols-1',
+      'md:grid-cols-2',
+      'lg:grid-cols-3',
+      'gap-4',
+      'mb-8'
+    );
+  }
+
+  // Style the picked items list
+  if (pickedItemsList) {
+    pickedItemsList.classList.add('space-y-4', 'mt-8');
+  }
+});
+
+// Event listeners
+document.addEventListener('DOMContentLoaded', () => {
+  if (!foodForm || !foodList || !pickedItemsList) {
+    console.error('Required DOM elements not found');
+    return;
+  }
+  
+  setupFoodForm();
+  foodForm.addEventListener('submit', handleFormSubmission);
+});
+
 // Handle authentication state changes
 onAuthStateChanged(auth, (user) => {
   if (user) {
@@ -403,6 +478,3 @@ onAuthStateChanged(auth, (user) => {
     pickedItemsList.appendChild(signInMessage);
   }
 });
-
-// Initialize the page
-populateFoodList();

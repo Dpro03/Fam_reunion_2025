@@ -239,8 +239,8 @@
         >
           ⚠️ Before submitting, please look below for items already picked!<br />
           And don't worry...you can always change your mind! You are given a
-          remove button!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Free of
-          charge! 😂
+          remove button! You can also click 'other' and enter your own item!  Look for the text box 
+          under the submit button.
         </h3>
         <div
           id="foodList"
@@ -263,6 +263,28 @@
       <div id="foodSelectionContainer">
         <div id="foodList">
           <!-- Dynamically generated list of food items will go here -->
+
+          <div class="food-form">
+            </label>
+            <select
+              id="foodSelect"
+            >
+              <!-- Options will be dynamically added here -->
+            </select>
+          
+            <div id="otherInputContainer" class="mt-4">
+              <!-- The "other" input box will appear here -->
+            </div>
+          </div>
+          <style>
+            #foodSelect {
+  display: none;
+}
+
+          </style>
+          
+
+
         </div>
         <button id="clearButton" style="display: none"></button>
       </div>
@@ -273,24 +295,37 @@
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        const foodList = document.getElementById('foodList');
-
-        if (foodList) {
-          foodList.addEventListener('click', (event) => {
-            const foodItem = event.target.closest('.food-item');
-            if (foodItem) {
-              foodItem.classList.toggle('selected');
-
-              // const audio = new Audio(
-              //   'data:audio/wav;base64,UklGRgAAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAAAAAA=='
-              // );
-              // audio.play();
-            }
-          });
-        }
+        const foodSelect = document.getElementById('foodSelect');
+        const otherInputContainer = document.getElementById('otherInputContainer');
+    
+        // Function to toggle the "Other" input visibility
+        function toggleOtherInput() {
+  if (foodSelect.value === 'Other') {
+    otherInputContainer.innerHTML = `
+      <div class="flex items-center mt-2">
+        <label for="otherInput" class="mr-2 text-sm font-medium text-gray-200">
+          Please specify:
+        </label>
+        <input
+          type="text"
+          id="otherInput"
+          name="otherInput"
+          placeholder="Enter your item..."
+          class="flex-grow p-2 bg-slate-200 border border-indigo-400 rounded-lg text-gray-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-800 focus:border-transparent"
+          required
+        />
+      </div>
+    `;
+  } else {
+    otherInputContainer.innerHTML = '';
+  }
+}
+    
+        // Event listener for dropdown change
+        foodSelect.addEventListener('change', toggleOtherInput);
       });
     </script>
-    <script type="module" src="./food.js"></script>
+        <script type="module" src="./food.js" defer></script>
     <script type="module" src="./firebase.js"></script>
   </body>
 </html>
