@@ -10,9 +10,11 @@ import {
   signOut,
   onAuthStateChanged,
   updateProfile,
+  sendEmailVerification,
   reauthenticateWithCredential,
   EmailAuthProvider,
   deleteUser,
+  sendPasswordResetEmail,
 } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
 import {
   getFirestore,
@@ -64,7 +66,6 @@ storage = getStorage(app);
 // Export initialized services
 export { auth, db, storage };
 
-// Signup function
 document.addEventListener('DOMContentLoaded', function () {
   const signUpForm = document.getElementById('signUpForm');
 
@@ -106,6 +107,9 @@ document.addEventListener('DOMContentLoaded', function () {
       );
       const user = userCredential.user;
 
+      // Send email verification
+      await sendEmailVerification(user);
+
       await updateProfile(user, {
         displayName: `${firstName} ${lastName} ${phoneNumber}`,
       });
@@ -118,9 +122,16 @@ document.addEventListener('DOMContentLoaded', function () {
         phoneNumber: phoneNumber || null,
         createdAt: new Date(),
         lastLogin: new Date(),
-        accountStatus: 'active',
+        accountStatus: 'pending', // Changed to pending until email is verified
+        emailVerified: false
       });
 
+      // Show verification message and redirect
+      alert('Please check your email to verify your account before proceeding.');
+      
+      // Optional: Sign out until email is verified
+      await signOut(auth);
+      
       window.location.href = './2025_reunion.html';
     } catch (error) {
       console.error('Error during signup:', error);
@@ -374,3 +385,26 @@ document.addEventListener('DOMContentLoaded', () => {
     .getElementById('uploadForm')
     ?.addEventListener('submit', handleUpload);
 });
+
+async function resetPassword(email) {
+  const auth = getAuth();
+  try {
+    await sendPasswordResetEmail(auth, email);
+    console.log("Password reset email sent successfully");
+    alert("Password reset email sent. Check your inbox.");
+  } catch (error) {
+    console.error("Password reset error:", error);
+    
+    // Specific error handling
+    switch (error.code) {
+      case 'auth/invalid-email':
+        alert("Invalid email address.");
+        break;
+      case 'auth/user-not-found':
+        alert("No user found with this email address.");
+        break;
+      default:
+        alert("Password reset failed. Please try again.");
+    }
+  }
+}

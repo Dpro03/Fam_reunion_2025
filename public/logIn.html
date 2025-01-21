@@ -75,6 +75,11 @@
             Log In
           </button>
         </div>
+
+        <!-- Forgot Password Link -->
+        <div class="text-center mt-4">
+          <a href="#" id="forgotPasswordLink" class="text-blue-400 hover:text-blue-300">Forgot Password?</a>
+        </div>
       </form>
 
       <!-- Error Message -->
@@ -82,6 +87,36 @@
         id="error-message"
         class="hidden text-red-500 mt-4 text-center font-medium"
       ></div>
+
+      <!-- Forgot Password Form (Initially Hidden) -->
+      <form id="forgotPasswordForm" class="hidden space-y-6 mt-6">
+        <div class="space-y-4">
+          <div class="flex flex-col space-y-2">
+            <label for="forgotEmail" class="text-sm font-medium text-gray-200">
+              Email:
+            </label>
+            <input
+              type="email"
+              id="forgotEmail"
+              aria-label="Email Address for Password Reset"
+              placeholder="Enter your email"
+              class="w-full p-3 bg-slate-800 border border-indigo-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-700 focus:border-transparent"
+              required
+            />
+          </div>
+        </div>
+        <div class="pt-4">
+          <button
+            type="submit"
+            class="w-full bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200"
+          >
+            Reset Password
+          </button>
+        </div>
+        <div class="text-center mt-4">
+          <a href="#" id="backToLoginLink" class="text-blue-400 hover:text-blue-300">Back to Login</a>
+        </div>
+      </form>
     </div>
 
     <script type="module" src="./firebase.js"></script>
@@ -91,6 +126,27 @@
         const passwordInput = document.getElementById('loginPassword');
         passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
       }
+
+      // Forgot password functionality
+      document.getElementById('forgotPasswordLink').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('loginForm').classList.add('hidden');
+        document.getElementById('forgotPasswordForm').classList.remove('hidden');
+      });
+
+      document.getElementById('backToLoginLink').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('forgotPasswordForm').classList.add('hidden');
+        document.getElementById('loginForm').classList.remove('hidden');
+      });
+
+      document.getElementById('forgotPasswordForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = document.getElementById('forgotEmail').value;
+        // Here you would typically call a function to handle the password reset
+        // For example: sendPasswordResetEmail(email);
+        alert('Password reset email sent to ' + email);
+      });
     </script>
   </body>
 </html>
