@@ -110,6 +110,13 @@ document.addEventListener('DOMContentLoaded', function () {
       // Send email verification
       await sendEmailVerification(user);
 
+      // Force the user to verify by signing them out
+      await signOut(auth);
+      alert(
+        'Please check your email to verify your account before logging in.'
+      );
+      window.location.href = './login.html'; // Redirect to login instead of reunion page
+
       await updateProfile(user, {
         displayName: `${firstName} ${lastName} ${phoneNumber}`,
       });
@@ -123,15 +130,17 @@ document.addEventListener('DOMContentLoaded', function () {
         createdAt: new Date(),
         lastLogin: new Date(),
         accountStatus: 'pending', // Changed to pending until email is verified
-        emailVerified: false
+        emailVerified: false,
       });
 
       // Show verification message and redirect
-      alert('Please check your email to verify your account before proceeding.');
-      
+      alert(
+        'Please check your email to verify your account before proceeding.'
+      );
+
       // Optional: Sign out until email is verified
       await signOut(auth);
-      
+
       window.location.href = './2025_reunion.html';
     } catch (error) {
       console.error('Error during signup:', error);
@@ -149,14 +158,28 @@ function handleError(error) {
   alert('An error occurred: ' + error.message);
 }
 
-// Login handler
 const handleLogin = async (event) => {
   event.preventDefault();
   const email = document.getElementById('loginEmail').value;
   const password = document.getElementById('loginPassword').value;
 
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
+
+    if (!user.emailVerified) {
+      await signOut(auth);
+      alert(
+        'Please verify your email before logging in. Check your inbox for the verification link.'
+      );
+      return;
+    }
+
+    // Only redirect if email is verified
     window.location.href = './2025_reunion.html';
   } catch (error) {
     handleError(error);
@@ -390,21 +413,21 @@ async function resetPassword(email) {
   const auth = getAuth();
   try {
     await sendPasswordResetEmail(auth, email);
-    console.log("Password reset email sent successfully");
-    alert("Password reset email sent. Check your inbox.");
+    console.log('Password reset email sent successfully');
+    alert('Password reset email sent. Check your inbox.');
   } catch (error) {
-    console.error("Password reset error:", error);
-    
+    console.error('Password reset error:', error);
+
     // Specific error handling
     switch (error.code) {
       case 'auth/invalid-email':
-        alert("Invalid email address.");
+        alert('Invalid email address.');
         break;
       case 'auth/user-not-found':
-        alert("No user found with this email address.");
+        alert('No user found with this email address.');
         break;
       default:
-        alert("Password reset failed. Please try again.");
+        alert('Password reset failed. Please try again.');
     }
   }
 }
