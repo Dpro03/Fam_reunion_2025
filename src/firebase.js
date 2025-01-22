@@ -63,16 +63,25 @@ document.addEventListener('DOMContentLoaded', function () {
   signUpForm.dataset.listenerAdded = 'true';
 
   signUpForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default submission
 
+    // Get form values
     const firstName = document.getElementById('firstName')?.value.trim();
     const lastName = document.getElementById('lastName')?.value.trim();
     const email = document.getElementById('email')?.value.trim();
     const password = document.getElementById('password')?.value;
+    const confirmPassword = document.getElementById('confirmPassword')?.value; // Added confirmPassword check
     const phoneNumber = document.getElementById('phone')?.value.trim();
 
+    // Check for empty fields
     if (!firstName || !lastName || !email || !password || !phoneNumber) {
       alert('Please fill in all fields.');
+      return;
+    }
+
+    // Check for password mismatch
+    if (password !== confirmPassword) {
+      alert('Passwords do not match. Please try again.');
       return;
     }
 
@@ -105,7 +114,8 @@ document.addEventListener('DOMContentLoaded', function () {
         lastLogin: new Date(),
         accountStatus: 'active',
       });
-      // alert('Signup successful!');
+
+      // Redirect after successful signup
       window.location.href = './2025_reunion.html';
     } catch (error) {
       console.error('Error during signup:', error);
