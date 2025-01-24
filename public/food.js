@@ -257,7 +257,7 @@ function createSelectionListItem(entry, key) {
     'p-3',
     'md:p-4',
     'bg-gradient-to-br',
-    'from-slate-900',
+    'from--900',
     'via-slate-700',
     'to-slate-600',
     'rounded-xl',
@@ -319,13 +319,12 @@ function createSelectionListItem(entry, key) {
     'font-medium',
     'transition-colors',
     'w-full',
-    'md:w-auto',
     'mt-2',
     'flex',
     'items-center',
     'justify-center',
     'gap-2',
-    'h-10'
+    'h-6'
   );
 
   const currentUser = auth.currentUser;

@@ -2,7 +2,7 @@
 module.exports = {
   content: [
     './src/**/*.html', // For development files
-    './public/**/*.html', // For deployment files
+    './public/**/*.{html, js}', // For deployment files
     './src/**/*.js',
     './src/**/*.jsx',
     './src/**/*.ts',

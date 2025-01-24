@@ -10,6 +10,7 @@ import {
   reauthenticateWithCredential,
   EmailAuthProvider,
   deleteUser,
+  sendPasswordResetEmail,
 } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
 import {
   getFirestore,
@@ -397,3 +398,27 @@ document
   .getElementById('deleteAccountButton')
   ?.addEventListener('click', handleDeleteAccount);
 document.getElementById('uploadForm')?.addEventListener('submit', handleUpload);
+
+function resetPassword(email) {
+  return sendPasswordResetEmail(auth, email, {
+    handleCodeInApp: true,
+    url: window.location.origin, // or your specific redirect URL
+  });
+}
+
+document
+  .getElementById('forgotPasswordForm')
+  .addEventListener('submit', function (e) {
+    e.preventDefault();
+    const email = document.getElementById('forgotEmail').value;
+    resetPassword(email)
+      .then(() => {
+        alert('Password reset email sent. Please check your inbox.');
+        document.getElementById('forgotPasswordForm').classList.add('hidden');
+        document.getElementById('loginForm').classList.remove('hidden');
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert('Error: ' + error.message);
+      });
+  });
