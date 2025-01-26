@@ -406,19 +406,27 @@ function resetPassword(email) {
   });
 }
 
-document
-  .getElementById('forgotPasswordForm')
-  .addEventListener('submit', function (e) {
-    e.preventDefault();
-    const email = document.getElementById('forgotEmail').value;
-    resetPassword(email)
-      .then(() => {
-        alert('Password reset email sent. Please check your inbox.');
-        document.getElementById('forgotPasswordForm').classList.add('hidden');
-        document.getElementById('loginForm').classList.remove('hidden');
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        alert('Error: ' + error.message);
-      });
-  });
+document.addEventListener('DOMContentLoaded', function () {
+  document
+    .getElementById('forgotPasswordForm')
+    .addEventListener('submit', function (e) {
+      e.preventDefault();
+      const email = document.getElementById('forgotEmail').value;
+
+      if (!email) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+
+      resetPassword(email)
+        .then(() => {
+          alert('Password reset email sent. Please check your inbox.');
+          document.getElementById('forgotPasswordForm').classList.add('hidden');
+          document.getElementById('loginForm').classList.remove('hidden');
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          alert('Error: ' + error.message);
+        });
+    });
+});

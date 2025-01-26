@@ -96,7 +96,10 @@
 
           <!-- Confirm Password -->
           <div class="flex flex-col space-y-2">
-            <label for="confirmPassword" class="text-sm font-medium text-gray-200">
+            <label
+              for="confirmPassword"
+              class="text-sm font-medium text-gray-200"
+            >
               Confirm Password:
             </label>
             <input
@@ -139,7 +142,6 @@
       </form>
     </div>
 
-    <script type="module" src="./firebase.js" defer></script>
     <script>
       // Phone number formatting
       function formatPhoneNumber(input) {
@@ -157,26 +159,30 @@
         }
         input.value = value;
       }
-    
+
       // Password confirmation check
-      document.getElementById('signUpForm').addEventListener('submit', function (event) {
-    // Retrieve password and confirmation values
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
+      document
+        .getElementById('signUpForm')
+        .addEventListener('submit', function (event) {
+          // Retrieve password and confirmation values
+          const password = document.getElementById('password').value;
+          const confirmPassword =
+            document.getElementById('confirmPassword').value;
 
-    // Validate passwords
-    if (password.trim() === '' || confirmPassword.trim() === '') {
-      alert('Password fields cannot be empty.');
-      event.preventDefault(); // Prevent form submission
-      return false; // Explicitly stop the function
-    }
+          // Validate passwords
+          if (password.trim() === '' || confirmPassword.trim() === '') {
+            alert('Password fields cannot be empty.');
+            event.preventDefault(); // Prevent form submission
+            return false; // Explicitly stop the function
+          }
 
-    if (password !== confirmPassword) {
-      alert('Passwords do not match. Please try again.');
-      event.preventDefault(); // Prevent form submission
-      return false; // Explicitly stop the function
-    }
-  });
-      </script>
-      </body>
+          if (password !== confirmPassword) {
+            alert('Passwords do not match. Please try again.');
+            event.preventDefault(); // Prevent form submission
+            return false; // Explicitly stop the function
+          }
+        });
+    </script>
+    <script type="module" src="./firebase.js" defer></script>
+  </body>
 </html>

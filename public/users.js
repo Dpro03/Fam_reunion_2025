@@ -21,7 +21,7 @@ async function fetchAndDisplayUsers() {
       const phoneNumber = userData.phoneNumber || 'N/A';
       const userElement = document.createElement('div');
       userElement.className =
-      "bg-gradient-to-br from-slate-600 via-fuchsia-800 to-slate-600 p-8 rounded-lg shadow-xl border-2 border-slate-200 w-full max-w-md"
+        'bg-gradient-to-br from-slate-600 via-fuchsia-800 to-slate-600 p-8 rounded-lg shadow-xl border-2 border-slate-200 w-full max-w-md';
 
       userElement.innerHTML = `
         <h3 class="p-2 rounded-lg text-xl font-bold text-gray-200 w-auto">${
