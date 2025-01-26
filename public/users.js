@@ -18,24 +18,59 @@ async function fetchAndDisplayUsers() {
       const userData = doc.data();
       console.log('User data:', userData); // Log the entire user data object
 
-      const phoneNumber = userData.phoneNumber || 'N/A';
-      const userElement = document.createElement('div');
-      userElement.className =
-        'bg-gradient-to-br from-slate-600 via-fuchsia-800 to-slate-600 p-8 rounded-lg shadow-xl border-2 border-slate-200 w-full max-w-md';
+      // Check if the user has all required details (not just photo)
+      if (userData.firstName && userData.lastName && userData.email) {
+        const photoURL = userData.photoURL || ''; // If no photoURL, set to empty string
+        const firstName = userData.firstName || '';
+        const lastName = userData.lastName || '';
+        const email = userData.email || '';
+        const phoneNumber = userData.phone || userData.phoneNumber || '';
+        const createdAt = userData.createdAt
+          ? formatDate(userData.createdAt)
+          : '';
 
-      userElement.innerHTML = `
-        <h3 class="p-2 rounded-lg text-xl font-bold text-gray-200 w-auto">${
-          userData.firstName || 'N/A'
-        } ${userData.lastName || 'N/A'}</h3>
-        <p class="text-gray-200 text-xl">Email: ${userData.email || 'N/A'}</p>
-        <p class="text-gray-200 text-xl">Phone: ${
-          userData.phone || userData.phoneNumber || 'N/A'
-        }</p>
-        <p class="text-gray-200 text-lg">Signed up: ${formatDate(
-          userData.createdAt
-        )}</p>
-      `;
-      usersContainer.appendChild(userElement);
+        const userElement = document.createElement('div');
+        userElement.className =
+          'bg-gradient-to-br from-slate-600 via-fuchsia-800 to-slate-600 p-8 rounded-lg shadow-xl border-2 border-slate-200 w-full max-w-md';
+
+        let innerHTML = '';
+
+        // Only add image if photoURL exists
+        if (photoURL) {
+          innerHTML += `
+            <img src="${photoURL}" alt="${firstName} ${lastName}" class="w-24 h-24 rounded-full object-cover mb-4" />
+          `;
+        }
+
+        // Add user name and other fields only if they exist (no 'N/A' text)
+        if (firstName || lastName) {
+          innerHTML += `
+            <h3 class="p-2 rounded-lg text-xl font-bold text-gray-200 w-auto">${firstName} ${lastName}</h3>
+          `;
+        }
+
+        if (email) {
+          innerHTML += `
+            <p class="text-gray-200 text-xl">Email: ${email}</p>
+          `;
+        }
+
+        if (phoneNumber) {
+          innerHTML += `
+            <p class="text-gray-200 text-xl">Phone: ${phoneNumber}</p>
+          `;
+        }
+
+        if (createdAt) {
+          innerHTML += `
+            <p class="text-gray-200 text-lg">Signed up: ${createdAt}</p>
+          `;
+        }
+
+        // Assign innerHTML to userElement and append it to the container
+        userElement.innerHTML = innerHTML;
+        usersContainer.appendChild(userElement);
+      }
     });
 
     if (querySnapshot.empty) {
@@ -57,4 +92,5 @@ function formatDate(timestamp) {
     return 'Date not available';
   }
 }
+
 document.addEventListener('DOMContentLoaded', fetchAndDisplayUsers);
