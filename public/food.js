@@ -415,7 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'text-slate-100',
         'mb-1',
         'bg-gradient-to-br',
-        'from-cyan-500',
+        'from-slate-900',
         'via-red-400',
         'to-rose-900',
         'p-2',
