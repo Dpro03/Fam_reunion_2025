@@ -22,6 +22,8 @@ import {
   collection,
   updateDoc,
   deleteDoc,
+  addDoc,
+  Timestamp,
 } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
 import {
   getStorage,
@@ -29,7 +31,6 @@ import {
   uploadBytes,
   getDownloadURL,
   listAll,
-  deleteObject,
 } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js';
 // import { auth, db } from './firebaseConfig.js';
 
@@ -48,84 +49,94 @@ export const db = getFirestore();
 // Signup function
 
 document.addEventListener('DOMContentLoaded', function () {
-  const signUpForm = document.getElementById('signUpForm');
+  const maxAttempts = 50; // 5 seconds at 100ms intervals
+  let attempts = 0;
 
-  if (!signUpForm) {
-    console.error('SignUp form not found in the DOM');
-    return;
-  }
+  const checkForForm = setInterval(() => {
+    attempts++;
+    const signUpForm = document.getElementById('signUpForm');
 
-  // Prevent adding duplicate event listeners
-  if (signUpForm.dataset.listenerAdded === 'true') {
-    console.warn('SignUp form event listener already initialized');
-    return;
-  }
+    if (signUpForm) {
+      clearInterval(checkForForm);
 
-  signUpForm.dataset.listenerAdded = 'true';
+      // Prevent adding duplicate event listeners
+      if (signUpForm.dataset.listenerAdded === 'true') {
+        console.warn('SignUp form event listener already initialized');
+        return;
+      }
 
-  signUpForm.addEventListener('submit', async (e) => {
-    e.preventDefault(); // Prevent default submission
+      signUpForm.dataset.listenerAdded = 'true';
 
-    // Get form values
-    const firstName = document.getElementById('firstName')?.value.trim();
-    const lastName = document.getElementById('lastName')?.value.trim();
-    const email = document.getElementById('email')?.value.trim();
-    const password = document.getElementById('password')?.value;
-    const confirmPassword = document.getElementById('confirmPassword')?.value; // Added confirmPassword check
-    const phoneNumber = document.getElementById('phone')?.value.trim();
+      signUpForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Prevent default submission
+        // Get form values
+        const firstName = document.getElementById('firstName')?.value.trim();
+        const lastName = document.getElementById('lastName')?.value.trim();
+        const email = document.getElementById('email')?.value.trim();
+        const password = document.getElementById('password')?.value;
+        const confirmPassword =
+          document.getElementById('confirmPassword')?.value; // Added confirmPassword check
+        const phoneNumber = document.getElementById('phone')?.value.trim();
 
-    // Check for empty fields
-    if (!firstName || !lastName || !email || !password || !phoneNumber) {
-      alert('Please fill in all fields.');
-      return;
-    }
+        // Check for empty fields
+        if (!firstName || !lastName || !email || !password || !phoneNumber) {
+          alert('Please fill in all fields.');
+          return;
+        }
 
-    // Check for password mismatch
-    if (password !== confirmPassword) {
-      alert('Passwords do not match. Please try again.');
-      return;
-    }
+        // Check for password mismatch
+        if (password !== confirmPassword) {
+          alert('Passwords do not match. Please try again.');
+          return;
+        }
 
-    try {
-      // Disable button to prevent duplicate submissions
-      const signUpButton = document.getElementById('signUpButton');
-      if (signUpButton) signUpButton.disabled = true;
+        try {
+          // Disable button to prevent duplicate submissions
+          const signUpButton = document.getElementById('signUpButton');
+          if (signUpButton) signUpButton.disabled = true;
 
-      // Firebase Authentication logic
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
+          // Firebase Authentication logic
+          const userCredential = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+          const user = userCredential.user;
 
-      // Update profile in Firebase Authentication
-      await updateProfile(user, {
-        displayName: `${firstName} ${lastName} ${phoneNumber}`,
+          // Update profile in Firebase Authentication
+          await updateProfile(user, {
+            displayName: `${firstName} ${lastName}`,
+          });
+
+          // Add user data to Firestore
+          const userDoc = doc(db, 'users', user.uid);
+          await setDoc(userDoc, {
+            firstName,
+            lastName,
+            email: email.toLowerCase(),
+            phoneNumber: phoneNumber || null, // Add phone number
+            createdAt: new Date(),
+            lastLogin: new Date(),
+            accountStatus: 'active',
+          });
+
+          // Redirect after successful signup
+          window.location.href = './2025_reunion.html';
+        } catch (error) {
+          console.error('Error during signup:', error);
+          alert(error.message || 'Signup failed. Please try again.');
+        } finally {
+          const signUpButton = document.getElementById('signUpButton');
+          if (signUpButton) signUpButton.disabled = false;
+        }
       });
 
-      // Add user data to Firestore
-      const userDoc = doc(db, 'users', user.uid);
-      await setDoc(userDoc, {
-        firstName,
-        lastName,
-        email: email.toLowerCase(),
-        phoneNumber: phoneNumber || null, // Add phone number
-        createdAt: new Date(),
-        lastLogin: new Date(),
-        accountStatus: 'active',
-      });
-
-      // Redirect after successful signup
-      window.location.href = './2025_reunion.html';
-    } catch (error) {
-      console.error('Error during signup:', error);
-      alert(error.message || 'Signup failed. Please try again.');
-    } finally {
-      const signUpButton = document.getElementById('signUpButton');
-      if (signUpButton) signUpButton.disabled = false;
+      console.log('SignUp form event listener initialized successfully');
+    } else if (attempts >= maxAttempts) {
+      clearInterval(checkForForm);
+      console.error('SignUp form not found in the DOM after 5 seconds');
     }
-  });
+  }, 100);
 });
 
 function handleError(error) {
@@ -223,19 +234,33 @@ export const handleUpload = async (event) => {
     const fileInput = document.getElementById('fileInput');
     const descriptionInput = document.getElementById('descriptionInput');
     const file = fileInput?.files?.[0];
-    const userId = auth.currentUser?.uid; // Use dynamic user ID
+    const user = auth.currentUser;
+    let userDisplayName = user?.displayName;
+
+    if (!userDisplayName && user?.email) {
+      userDisplayName = user.email.split('@')[0];
+      try {
+        await updateProfile(user, {
+          displayName: userDisplayName,
+        });
+      } catch (error) {
+        console.error('Error updating display name:', error);
+      }
+    }
 
     if (!file) {
       console.error('No file selected');
       return;
     }
 
-    if (!userId) {
-      console.error('User ID is undefined');
+    if (!user) {
+      console.error('User is undefined');
       return;
     }
 
-    const filePath = `images/${file.name}`;
+    // Include timestamp in file path to avoid name conflicts
+    const timestamp = Date.now();
+    const filePath = `images/${timestamp}_${file.name}`;
     const storageRef = ref(storage, filePath);
     await uploadBytes(storageRef, file);
     console.log('File uploaded to Firebase Storage');
@@ -243,26 +268,21 @@ export const handleUpload = async (event) => {
     const imageUrl = await getDownloadURL(storageRef);
     console.log('File URL:', imageUrl);
 
-    const userDocRef = doc(db, 'users', userId);
-    const userDoc = await getDoc(userDocRef);
+    // Store image data in Firestore
+    const imagesCollectionRef = collection(db, 'images');
+    await addDoc(imagesCollectionRef, {
+      url: imageUrl,
+      description: descriptionInput.value,
+      displayName: userDisplayName || 'Anonymous',
+      uploadedAt: new Date().toISOString(),
+      userId: user.uid,
+      fileName: file.name,
+      storagePath: filePath,
+    });
 
-    if (userDoc.exists()) {
-      await updateDoc(userDocRef, {
-        images: arrayUnion({
-          url: imageUrl,
-          description: descriptionInput.value,
-        }),
-      });
-    } else {
-      await setDoc(userDocRef, {
-        images: [
-          {
-            url: imageUrl,
-            description: descriptionInput.value,
-          },
-        ],
-      });
-    }
+    // Clear input fields
+    fileInput.value = '';
+    descriptionInput.value = '';
 
     // Refetch images after uploading
     fetchImages();
@@ -274,118 +294,136 @@ export const handleUpload = async (event) => {
   }
 };
 
-// Check user authentication state
+export const fetchImages = async () => {
+  try {
+    const user = auth.currentUser;
+    if (!user) {
+      console.log('User not logged in, cannot fetch images');
+      return;
+    }
+
+    const photoGallery = document.getElementById('photoGallery');
+    if (!photoGallery) return;
+
+    photoGallery.innerHTML = '';
+
+    // Get all images from Firestore collection
+    const imagesCollectionRef = collection(db, 'images');
+    const imagesSnapshot = await getDocs(imagesCollectionRef);
+
+    if (imagesSnapshot.empty) {
+      photoGallery.innerHTML =
+        '<p class="text-center text-slate-300">No images available</p>';
+      return;
+    }
+
+    // Sort images by upload date (newest first)
+    const images = imagesSnapshot.docs
+      .map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }))
+      .sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
+
+    for (const imageData of images) {
+      const imageDiv = document.createElement('div');
+      imageDiv.classList.add('relative', 'mb-4');
+
+      const img = document.createElement('img');
+      img.src = imageData.url;
+      img.alt = imageData.fileName || 'Uploaded image';
+      img.classList.add('w-full', 'h-auto', 'rounded', 'cursor-pointer');
+      img.style.maxHeight = '300px';
+      img.style.objectFit = 'cover';
+
+      // Click event listener for enlarging image
+      img.addEventListener('click', () => {
+        const overlay = document.createElement('div');
+        overlay.classList.add(
+          'fixed',
+          'top-0',
+          'left-0',
+          'w-full',
+          'h-full',
+          'bg-black',
+          'bg-opacity-85',
+          'flex',
+          'items-center',
+          'justify-center',
+          'z-50'
+        );
+
+        const enlargedImg = document.createElement('img');
+        enlargedImg.src = imageData.url;
+        enlargedImg.alt = imageData.fileName || 'Enlarged image';
+        enlargedImg.classList.add('max-w-full', 'max-h-full', 'rounded');
+
+        overlay.addEventListener('click', () => {
+          overlay.remove();
+        });
+
+        overlay.appendChild(enlargedImg);
+        document.body.appendChild(overlay);
+      });
+
+      // Create image info container
+      const infoContainer = document.createElement('div');
+      infoContainer.classList.add('mt-2', 'text-center');
+
+      // Add display name
+      const uploaderInfo = document.createElement('p');
+
+      // Ensure displayName exists, then format it
+      let displayName = imageData.displayName || 'Unknown User';
+      console.log('Original displayName:', imageData.displayName);
+
+      // Add a space between first and last name if it's camelCase (e.g., "JohnDoe" -> "John Doe")
+      displayName = displayName.replace(/([a-z])([A-Z])/g, '$1 $2');
+
+      uploaderInfo.innerHTML = `Uploaded by: <span class="font-bold text-xl text-slate-100">
+      ${displayName}</span>`;
+      uploaderInfo.classList.add('text-slate-300', 'text-md');
+
+      // Add description
+      const description = document.createElement('p');
+      description.innerHTML = `#<span class="font-bold text-xl text-white">${imageData.description}</span>`;
+      description.classList.add('text-slate-100', 'text-xl', 'font-bold');
+
+      // Add upload date
+      const dateInfo = document.createElement('p');
+      dateInfo.textContent = new Date(
+        imageData.uploadedAt
+      ).toLocaleDateString();
+      dateInfo.classList.add('text-slate-300', 'text-sm');
+
+      // Append all elements
+      infoContainer.appendChild(uploaderInfo);
+      infoContainer.appendChild(description);
+      infoContainer.appendChild(dateInfo);
+
+      imageDiv.appendChild(img);
+      imageDiv.appendChild(infoContainer);
+      photoGallery.appendChild(imageDiv);
+    }
+  } catch (error) {
+    console.error('Fetch Images Error:', error);
+  }
+};
+
+// Auth state observer
 onAuthStateChanged(auth, (user) => {
   if (user) {
     console.log('User is logged in:', user);
-    fetchImages(); // Call fetchImages to display images when user is authenticated
+    fetchImages(); // Fetch images when user is authenticated
   } else {
     console.log('User is not logged in');
+    const photoGallery = document.getElementById('photoGallery');
+    if (photoGallery) {
+      photoGallery.innerHTML =
+        '<p class="text-center text-slate-300">Please log in to view images</p>';
+    }
   }
 });
-
-// Fetch and display images from Firebase Storage
-export const fetchImages = async () => {
-  const user = auth.currentUser;
-  if (user) {
-    try {
-      const storage = getStorage();
-      const storageRef = ref(storage, 'images'); // Reference to the images folder
-      const result = await listAll(storageRef); // List all images in storage
-      const photoGallery = document.getElementById('photoGallery');
-
-      if (photoGallery) {
-        photoGallery.innerHTML = ''; // Clear previous images
-
-        if (result.items.length === 0) {
-          photoGallery.innerHTML = '<p>No images available</p>';
-          return;
-        }
-
-        // Fetch all users to get their image descriptions
-        const usersSnapshot = await getDocs(collection(db, 'users'));
-        const usersData = usersSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        for (const item of result.items) {
-          const downloadURL = await getDownloadURL(item); // Get download URL for each image
-          const imageDiv = document.createElement('div');
-          imageDiv.classList.add('relative', 'mb-4');
-
-          const img = document.createElement('img');
-          img.src = downloadURL;
-          img.alt = item.name;
-          img.classList.add('w-full', 'h-auto', 'rounded', 'cursor-pointer');
-          img.style.maxHeight = '300px'; // Initial thumbnail size
-          img.style.objectFit = 'cover';
-
-          // Add click event listener to enlarge image
-          img.addEventListener('click', () => {
-            const overlay = document.createElement('div');
-            overlay.classList.add(
-              'fixed',
-              'top-0',
-              'left-0',
-              'w-full',
-              'h-full',
-              'bg-black',
-              'bg-opacity-85',
-              'flex',
-              'items-center',
-              'justify-center',
-              'z-50'
-            );
-
-            const enlargedImg = document.createElement('img');
-            enlargedImg.src = downloadURL;
-            enlargedImg.alt = item.name;
-            enlargedImg.classList.add('max-w-full', 'max-h-full', 'rounded');
-
-            // Add click listener to close overlay
-            overlay.addEventListener('click', () => {
-              overlay.remove();
-            });
-
-            overlay.appendChild(enlargedImg);
-            document.body.appendChild(overlay);
-          });
-
-          // Find description from any user's images
-          let descriptionText = 'No description available';
-          for (const userData of usersData) {
-            const images = userData.images || [];
-            const image = images.find((img) => img.url === downloadURL);
-            if (image) {
-              descriptionText = image.description || 'No description available';
-              break; // Stop searching once we find a match
-            }
-          }
-
-          const description = document.createElement('p');
-          description.innerHTML = `#<span class="font-bold text-xl text-slate-100">${descriptionText}</span>`;
-          description.classList.add(
-            'mt-2', // Margin top for spacing
-            'text-center',
-            'text-slate-100',
-            'text-xl',
-            'font-bold'
-          );
-
-          // Append image and description to the gallery
-          imageDiv.appendChild(img);
-          imageDiv.appendChild(description);
-          photoGallery.appendChild(imageDiv);
-        }
-      }
-    } catch (error) {
-      console.error('Fetch Images Error:', error.message);
-    }
-  } else {
-    console.log('User not logged in, cannot fetch images');
-  }
-};
 
 // Add event listeners for forms and buttons
 document.addEventListener('DOMContentLoaded', () => {});
@@ -407,9 +445,9 @@ function resetPassword(email) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  document
-    .getElementById('forgotPasswordForm')
-    .addEventListener('submit', function (e) {
+  const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+  if (forgotPasswordForm) {
+    forgotPasswordForm.addEventListener('submit', function (e) {
       e.preventDefault();
       const email = document.getElementById('forgotEmail').value;
 
@@ -429,4 +467,22 @@ document.addEventListener('DOMContentLoaded', function () {
           alert('Error: ' + error.message);
         });
     });
+  } // This closing brace was missing
 });
+
+const updateUserDisplayName = async (newDisplayName) => {
+  try {
+    const user = auth.currentUser;
+    if (user) {
+      await updateProfile(user, {
+        displayName: newDisplayName,
+      });
+      console.log('Display name updated successfully to:', newDisplayName);
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error('Error updating display name:', error);
+    return false;
+  }
+};

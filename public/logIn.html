@@ -139,45 +139,36 @@
     </div>
 
     <script>
-      // Password visibility toggle functionality
-      document.addEventListener('DOMContentLoaded', function () {
-        function togglePasswordVisibility() {
-          const passwordInput = document.getElementById('loginPassword');
-          passwordInput.type =
-            passwordInput.type === 'password' ? 'text' : 'password';
-        }
+// Password visibility toggle functionality
+function togglePasswordVisibility() {
+  const passwordInput = document.getElementById('loginPassword');
+  passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+}
 
-        // Forgot password functionality
-        document
-          .getElementById('forgotPasswordLink')
-          .addEventListener('click', function (e) {
-            e.preventDefault();
-            document.getElementById('loginForm').classList.add('hidden');
-            document
-              .getElementById('forgotPasswordForm')
-              .classList.remove('hidden');
-          });
+document.addEventListener('DOMContentLoaded', function () {
+  // Forgot password functionality
+  document.getElementById('forgotPasswordLink').addEventListener('click', function (e) {
+    e.preventDefault();
+    document.getElementById('loginForm').classList.add('hidden');
+    document.getElementById('forgotPasswordForm').classList.remove('hidden');
+  });
 
-        document
-          .getElementById('backToLoginLink')
-          .addEventListener('click', function (e) {
-            e.preventDefault();
-            document
-              .getElementById('forgotPasswordForm')
-              .classList.add('hidden');
-            document.getElementById('loginForm').classList.remove('hidden');
-          });
+  document.getElementById('backToLoginLink').addEventListener('click', function (e) {
+    e.preventDefault();
+    document.getElementById('forgotPasswordForm').classList.add('hidden');
+    document.getElementById('loginForm').classList.remove('hidden');
+  });
 
-        document
-          .getElementById('forgotPasswordForm')
-          .addEventListener('submit', function (e) {
-            e.preventDefault();
-            const email = document.getElementById('forgotEmail').value;
-            // Here you would typically call a function to handle the password reset
-            // For example: sendPasswordResetEmail(email);
-            alert('Password reset email sent to ' + email);
-          });
-      });
+  document.getElementById('forgotPasswordForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const email = document.getElementById('forgotEmail').value;
+    // Here you would typically call a function to handle the password reset
+    // For example: sendPasswordResetEmail(email);
+    alert('Password reset email sent to ' + email);
+  });
+});
+
+
     </script>
     <script type="module" src="./firebase.js"></script>
   </body>
