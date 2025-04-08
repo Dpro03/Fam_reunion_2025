@@ -333,7 +333,7 @@ export const fetchImages = async () => {
       img.src = imageData.url;
       img.alt = imageData.fileName || 'Uploaded image';
       img.classList.add('w-full', 'h-auto', 'rounded', 'cursor-pointer');
-      img.style.maxHeight = '300px';
+      img.style.maxHeight = '600px';
       img.style.objectFit = 'cover';
 
       // Click event listener for enlarging image
@@ -386,15 +386,25 @@ export const fetchImages = async () => {
 
       // Add description
       const description = document.createElement('p');
-      description.innerHTML = `#<span class="font-bold text-xl text-white">${imageData.description}</span>`;
-      description.classList.add('text-slate-100', 'text-xl', 'font-bold');
+      description.innerHTML = `#<span class="font-bold text-2xl text-black">${imageData.description}</span>`;
+      description.classList.add(
+        'text-slate-900',
+        'font-bold',
+        'bg-slate-200',
+        'p-2',
+        'rounded-lg',
+        'mt-2',
+        'mb-2'
+      );
 
       // Add upload date
       const dateInfo = document.createElement('p');
       dateInfo.textContent = new Date(
         imageData.uploadedAt
       ).toLocaleDateString();
-      dateInfo.classList.add('text-slate-300', 'text-sm');
+      dateInfo.classList.add('text-slate-300');
+      dateInfo.style.fontStyle = 'italic';
+      dateInfo.innerHTML = `Uploaded on: <span class="font-bold text-slate-300">${dateInfo.textContent}</span>`;
 
       // Append all elements
       infoContainer.appendChild(uploaderInfo);
